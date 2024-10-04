@@ -1,0 +1,39 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Teste de DATABASE e API em DEPLOY",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsup src --out-dir build",
+    "start": "node build/server.js",
+    "migrate-dev": "knex migrate:latest --env development",
+    "migrate-dev:rollback": "knex migrate:rollback --env development",
+    "seed-dev": "knex seed:run --env development"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "knex": "^3.1.0",
+    "pg": "^8.13.0",
+    "sqlite3": "^5.1.7",
+    "tsup": "^8.3.0",
+    "uuid": "^10.0.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@babel/preset-typescript": "^7.24.7",
+    "@babel/register": "^7.24.6",
+    "@eslint/js": "^9.11.1",
+    "@rocketseat/eslint-config": "^2.2.2",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.14.12",
+    "eslint": "^8.57.1",
+    "globals": "^15.10.0",
+    "tsx": "^4.16.2",
+    "typescript": "^5.6.2",
+    "typescript-eslint": "^8.8.0"
+  }
+}

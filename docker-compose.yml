@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  backend-sales-system:
+    build: 
+      context: .
+      dockerfile: dockerfile
+    image: nodejs-sales-system
+    container_name: backend-sales-system
+    ports:
+      - "3333:3333"
+    depends_on:
+      - database-postgres-sales-system
+  
+  database-postgres-sales-system:
+    image: "bitnami/postgresql:latest"
+    container_name: database-postgres-sales-system
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: db-postgres-sales-system
+    volumes:
+      - database-volume:/var/lib/postgresql/data
+
+volumes:
+  database-volume:

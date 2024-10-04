@@ -1,0 +1,12 @@
+node_modules
+
+build
+tmp
+
+dockerfile
+docker-compose.yml
+
+.git
+.dockerignore
+.eslintrc.json
+eslint.config.mjs
