@@ -4,6 +4,8 @@ import { NextFunction, Request, Response } from "express"
 
 import { ICreateProductDTO } from "@/dtos/products/create-products-dto"
 import { ISimpleProductDTO } from "@/dtos/products/simple-products-dto"
+import { IProductUpdateResponseBody } from "./products-controller-interface"
+import { ResponseError } from "@/utils/ResponseError"
 
 
 class ProductController {
@@ -42,7 +44,19 @@ class ProductController {
 
       const updatedEntity = await knex<ProductRepository>("products").where({ uuid }).first()
 
-      return response.status(200).json(updatedEntity)
+      if (updatedEntity) {
+        const responseBody: IProductUpdateResponseBody = {
+          uuid: updatedEntity.uuid,
+          name: updatedEntity.name,
+          price: Number(updatedEntity.price),
+          created_at: new Date(updatedEntity.created_at),
+          updated_at: new Date(updatedEntity.updated_at)
+        }
+        
+        return response.status(200).json(responseBody)
+
+      } else throw new ResponseError()
+
     } catch (error) {
       next(error)
     }

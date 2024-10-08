@@ -1,1 +1,13 @@
+# Dependencies 
 node_modules
+migrations
+seeds
+
+# Database 
+prisma/migrations
+prisma/seed.ts
+
+# Environment
+.env
+.env.test
+.env.dev

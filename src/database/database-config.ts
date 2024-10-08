@@ -1,28 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { knex as setupKnex } from "knex";
+import { knex as setupKnex, Knex } from "knex"
+import { Database } from "./types/knex-tables-types"
+import { env } from "../env"
 
 /* export const config = {
-  client: 'sqlite3',
-  useNullAsDefault: true,
-  pool: {
-    afterCreate: (connection: any, done: any) => {
-      connection.run("PRAGMA foreign_keys = ON");
-      done();
-    }
-  },
-  connection: {
-    filename: "./tmp/database.db"
-  },
-  migrations: {
-    extensions: "ts",
-    directory: "./migrations"
-  },
-  seeds: {
-    directory: "./seeds"
-  }
-} */
-
-export const config = {
   client: 'pg',
   connection: {
     host: 'localhost',
@@ -39,6 +20,25 @@ export const config = {
   seeds: {
     directory: './seeds'
   }
+} */
+
+export const config = {
+  client: 'pg',
+  connection: {
+    host: env.DB_HOST,
+    port: env.DB_PORT,
+    user: env.DB_USER,
+    password: env.DB_PASSWORD,
+    database: env.DB_NAME,
+  },
+  useNullAsDefault: true,
+  migrations: {
+    extensions: 'ts',
+    directory: './migrations'
+  },
+  seeds: {
+    directory: './seeds'
+  }
 };
 
-export const knex = setupKnex(config)
+export const knex = setupKnex(config) as Knex<Database>
