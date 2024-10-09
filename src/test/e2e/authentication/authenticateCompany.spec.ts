@@ -18,7 +18,7 @@ describe('Authentication - (e2e)', () => {
       .send({ emailConfirmationCode: null })
 
     expect(sendCompanyEmailResponse.statusCode).toEqual(401)
-    expect(sendCompanyEmailResponse.body).toContain({
+    expect(sendCompanyEmailResponse.body).toEqual({
       message: 'Token missing!',
     })
   })
@@ -30,7 +30,7 @@ describe('Authentication - (e2e)', () => {
       .send({ emailConfirmationCode: null })
 
     expect(sendCompanyEmailResponse.statusCode).toEqual(401)
-    expect(sendCompanyEmailResponse.body).toContain({
+    expect(sendCompanyEmailResponse.body).toEqual({
       message: 'Invalid token!',
     })
   })

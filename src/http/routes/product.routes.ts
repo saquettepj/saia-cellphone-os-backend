@@ -37,8 +37,8 @@ async function productRoutes(app: FastifyInstance) {
     {
       preHandler: [
         companyAuthenticatorMiddleware,
-        emailConfirmationCheckerMiddleware,
         productOwnerCheckerMiddleware,
+        emailConfirmationCheckerMiddleware,
       ],
     },
     updateProductController,
@@ -49,8 +49,8 @@ async function productRoutes(app: FastifyInstance) {
     {
       preHandler: [
         companyAuthenticatorMiddleware,
-        emailConfirmationCheckerMiddleware,
         productOwnerCheckerMiddleware,
+        emailConfirmationCheckerMiddleware,
       ],
     },
     deleteProductController,

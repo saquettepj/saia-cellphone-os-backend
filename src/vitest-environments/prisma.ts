@@ -8,11 +8,11 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 function generateDatabaseURL(schema: string) {
-  if (!process.env.DATABASE_URL) {
+  if (!process.env.DATABASE_TEST_URL) {
     throw new Error('Please provide a DATABASE_URL environment variable!')
   }
 
-  const url = new URL(process.env.DATABASE_URL)
+  const url = new URL(process.env.DATABASE_TEST_URL)
 
   url.searchParams.set('schema', schema)
 
@@ -27,8 +27,8 @@ export default <Environment>{
     const schema = randomUUID()
     generateDatabaseURL(schema)
 
-    execSync('npx prisma migrate deploy')
-    execSync('npx prisma db seed')
+    execSync('dotenv -e .env.test -- npx prisma migrate deploy')
+    execSync('dotenv -e .env.test -- npx prisma db seed')
 
     console.log('🟨 Setup test environment! 🟨')
 

@@ -2,10 +2,7 @@ import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 import { app } from '@/app'
-import {
-  createNewCompanyTestObject,
-  createNewProductTestObject,
-} from '@/test/testObjects/testObjects'
+import { createNewCompanyTestObject } from '@/test/testObjects/testObjects'
 import { getCompanyEmailConfirmationCode } from '@/test/utils/getCompanyEmailConfirmationCode'
 
 describe('Create product - (e2e)', () => {
@@ -30,8 +27,8 @@ describe('Create product - (e2e)', () => {
     const authenticateCompanyResponse = await request(app.server)
       .post('/company/authenticate')
       .send({
-        CNPJ: newCompanyObject.CNPJ,
-        password: newCompanyObject.password,
+        CNPJ: '12323123000000',
+        password: 'pass',
       })
 
     const newCompanyToken = authenticateCompanyResponse.body.token

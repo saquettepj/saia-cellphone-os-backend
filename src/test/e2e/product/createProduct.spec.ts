@@ -51,5 +51,13 @@ describe('Create product - (e2e)', () => {
       .send(newProductObject)
 
     expect(createProductResponse.statusCode).toEqual(201)
+    expect(createProductResponse.body).toEqual({
+      id: createProductResponse.body.id,
+      companyId: newCompanyId,
+      manufactureBy: newProductObject.manufactureBy,
+      model: newProductObject.model,
+      condition: newProductObject.condition,
+      description: newProductObject.description,
+    })
   })
 })

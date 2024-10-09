@@ -63,6 +63,7 @@ describe('Delete product - (e2e)', () => {
   it('It should not be able to delete a product if the requester is not the owner', async () => {
     const newCompanyObject = createNewCompanyTestObject()
     const newProductObject = createNewProductTestObject()
+
     const newCompanyObject2 = createNewCompanyTestObject({
       CNPJ: '11111111111112',
       email: 'teste@email2.com',
@@ -129,7 +130,7 @@ describe('Delete product - (e2e)', () => {
       .send()
 
     expect(deleteProductResponse.statusCode).toEqual(401)
-    expect(deleteProductResponse.body).toContain({
+    expect(deleteProductResponse.body).toEqual({
       message: 'Request not allowed!',
     })
   })

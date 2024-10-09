@@ -21,5 +21,13 @@ describe('Create company - (e2e)', () => {
       .send(newCompanyObject)
 
     expect(createCompanyResponse.statusCode).toEqual(201)
+    expect(createCompanyResponse.body).toEqual({
+      CNPJ: newCompanyObject.CNPJ,
+      email: newCompanyObject.email,
+      emailChecked: false,
+      name: newCompanyObject.name,
+      CEP: newCompanyObject.CEP,
+      companyImageUrl: null,
+    })
   })
 })

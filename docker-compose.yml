@@ -21,3 +21,13 @@ services:
       AWS_BUCKET_REGION: ${AWS_BUCKET_REGION}
       AWS_BUCKET_ACCESS_USER_KEY: ${AWS_BUCKET_ACCESS_USER_KEY}
       AWS_BUCKET_ACCESS_USER_PASS: ${AWS_BUCKET_ACCESS_USER_PASS}
+
+  database-postgres-sales-system-test:
+    image: "bitnami/postgresql:latest"
+    container_name: database-postgres-sales-system
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: db-postgres-sales-system
