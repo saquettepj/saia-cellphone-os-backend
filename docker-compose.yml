@@ -8,11 +8,16 @@ services:
     image: nodejs-sales-system
     container_name: backend-sales-system
     ports:
-      - "3333:3333"
+      - "3000:3000"
     environment:
       NODE_ENV: ${NODE_ENV}
-      DB_HOST: ${DB_HOST}
-      DB_PORT: ${DB_PORT}
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
-      DB_NAME: ${DB_NAME}
+      DATABASE_URL: ${DATABASE_URL}
+      PORT: ${PORT}
+      SESSION_TOKEN: ${SESSION_TOKEN}
+      AUTOMATIC_EMAIL_USER: ${AUTOMATIC_EMAIL_USER}
+      AUTOMATIC_EMAIL_PASS: ${AUTOMATIC_EMAIL_PASS}
+      SUPPORT_EMAIL_USER: ${SUPPORT_EMAIL_USER}
+      AWS_BUCKET_NAME: ${AWS_BUCKET_NAME}
+      AWS_BUCKET_REGION: ${AWS_BUCKET_REGION}
+      AWS_BUCKET_ACCESS_USER_KEY: ${AWS_BUCKET_ACCESS_USER_KEY}
+      AWS_BUCKET_ACCESS_USER_PASS: ${AWS_BUCKET_ACCESS_USER_PASS}

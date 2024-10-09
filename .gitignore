@@ -2,6 +2,7 @@
 node_modules
 
 # Database 
+prisma/*.db
 prisma/migrations
 prisma/seed.ts
 
@@ -9,3 +10,12 @@ prisma/seed.ts
 .env
 .env.test
 .env.dev
+.env.prod
+
+# Build
+build
+
+# Tools
+
+#Directories
+coverage
