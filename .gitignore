@@ -16,6 +16,7 @@ prisma/seed.ts
 build
 
 # Tools
+debug.log
 
 #Directories
 coverage

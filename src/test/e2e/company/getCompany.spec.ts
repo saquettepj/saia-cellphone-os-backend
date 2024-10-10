@@ -3,7 +3,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 import { app } from '@/app'
 import { createNewCompanyTestObject } from '@/test/testObjects/testObjects'
-import { getCompanyEmailConfirmationCode } from '@/test/utils/getCompanyEmailConfirmationCode'
+import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
 
 describe('Create product - (e2e)', () => {
   beforeAll(async () => {
@@ -15,14 +15,14 @@ describe('Create product - (e2e)', () => {
   })
 
   it('It should be able list companies', async () => {
+    const companyJokerRepository = setupCompanyJokerRepository()
+
     const newCompanyObject = createNewCompanyTestObject({
       CNPJ: '11111111111112',
       email: 'teste@email2.com',
     })
 
-    const createCompanyReturn = await request(app.server)
-      .post('/company')
-      .send(newCompanyObject)
+    await request(app.server).post('/company').send(newCompanyObject)
 
     const authenticateCompanyResponse = await request(app.server)
       .post('/company/authenticate')
@@ -31,28 +31,36 @@ describe('Create product - (e2e)', () => {
         password: 'pass',
       })
 
-    const newCompanyToken = authenticateCompanyResponse.body.token
-
-    const companyEmailConfirmationCode = await getCompanyEmailConfirmationCode(
-      createCompanyReturn.body.id,
+    const adminToken = authenticateCompanyResponse.body.token
+    const newCompanyJoker = await companyJokerRepository.findByCNPJ(
+      newCompanyObject.CNPJ,
     )
-
-    await request(app.server)
-      .patch(`/email/confirm`)
-      .set('Authorization', `Bearer ${newCompanyToken}`)
-      .send({
-        emailConfirmationCode: companyEmailConfirmationCode,
-      })
 
     const getCompanyResponse = await request(app.server)
       .get(`/company`)
-      .set('Authorization', `Bearer ${newCompanyToken}`)
+      .set('Authorization', `Bearer ${adminToken}`)
       .send()
 
     expect(getCompanyResponse.statusCode).toEqual(200)
+    expect(getCompanyResponse.body).toEqual({
+      companies: [
+        {
+          id: newCompanyJoker?.id,
+          accountType: 'NORMAL',
+          CNPJ: newCompanyObject.CNPJ,
+          email: newCompanyObject.email,
+          emailChecked: false,
+          name: newCompanyObject.name,
+          CEP: newCompanyObject.CEP,
+          createdAt: newCompanyJoker?.createdAt.toISOString(),
+          companyImageUrl: null,
+          products: [],
+        },
+      ],
+    })
   })
 
-  it('It should not be able list companies without confirm company email', async () => {
+  it('It should not be able list companies without admin account', async () => {
     const newCompanyObject = createNewCompanyTestObject()
 
     await request(app.server).post('/company').send(newCompanyObject)
@@ -72,8 +80,8 @@ describe('Create product - (e2e)', () => {
       .send()
 
     expect(getCompanyResponse.statusCode).toEqual(401)
-    expect(getCompanyResponse.body).toContain({
-      message: 'Prerequisite for this action: email confirmation.',
+    expect(getCompanyResponse.body).toEqual({
+      message: 'Request not allowed!',
     })
   })
 })

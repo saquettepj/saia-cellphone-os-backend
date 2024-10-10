@@ -3,7 +3,8 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 import { app } from '@/app'
 import { createNewCompanyTestObject } from '@/test/testObjects/testObjects'
-import { getCompanyEmailConfirmationCode } from '@/test/utils/getCompanyEmailConfirmationCode'
+import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
+import { getCompanyIdByToken } from '@/test/utils/getCompanyIdByToken'
 
 describe('Upload on company - (e2e)', () => {
   beforeAll(async () => {
@@ -15,11 +16,10 @@ describe('Upload on company - (e2e)', () => {
   })
 
   it('It should be able to upload image on company', async () => {
+    const companyJokerRepository = setupCompanyJokerRepository()
     const newCompanyObject = createNewCompanyTestObject()
 
-    const createCompanyResponse = await request(app.server)
-      .post('/company')
-      .send(newCompanyObject)
+    await request(app.server).post('/company').send(newCompanyObject)
 
     const authenticateCompanyResponse = await request(app.server)
       .post('/company/authenticate')
@@ -28,11 +28,15 @@ describe('Upload on company - (e2e)', () => {
         password: newCompanyObject.password,
       })
 
-    const newCompanyId = createCompanyResponse.body.id
     const newCompanyToken = authenticateCompanyResponse.body.token
+    const newCompanyId = getCompanyIdByToken(newCompanyToken)
+
+    const newCompanyJoker = await companyJokerRepository.findByCNPJ(
+      newCompanyObject.CNPJ,
+    )
 
     const companyEmailConfirmationCode =
-      await getCompanyEmailConfirmationCode(newCompanyId)
+      await companyJokerRepository.findById(newCompanyId)
 
     await request(app.server)
       .patch(`/email/confirm`)
@@ -50,11 +54,10 @@ describe('Upload on company - (e2e)', () => {
   })
 
   it('It should be able to remove image on company', async () => {
+    const companyJokerRepository = setupCompanyJokerRepository()
     const newCompanyObject = createNewCompanyTestObject()
 
-    const createCompanyResponse = await request(app.server)
-      .post('/company')
-      .send(newCompanyObject)
+    await request(app.server).post('/company').send(newCompanyObject)
 
     const authenticateCompanyResponse = await request(app.server)
       .post('/company/authenticate')
@@ -63,11 +66,11 @@ describe('Upload on company - (e2e)', () => {
         password: newCompanyObject.password,
       })
 
-    const newCompanyId = createCompanyResponse.body.id
     const newCompanyToken = authenticateCompanyResponse.body.token
+    const newCompanyId = getCompanyIdByToken(newCompanyToken)
 
     const companyEmailConfirmationCode =
-      await getCompanyEmailConfirmationCode(newCompanyId)
+      await companyJokerRepository.findById(newCompanyId)
 
     await request(app.server)
       .patch(`/email/confirm`)

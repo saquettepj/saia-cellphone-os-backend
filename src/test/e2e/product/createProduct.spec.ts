@@ -6,7 +6,8 @@ import {
   createNewCompanyTestObject,
   createNewProductTestObject,
 } from '@/test/testObjects/testObjects'
-import { getCompanyEmailConfirmationCode } from '@/test/utils/getCompanyEmailConfirmationCode'
+import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
+import { getCompanyIdByToken } from '@/test/utils/getCompanyIdByToken'
 
 describe('Create product - (e2e)', () => {
   beforeAll(async () => {
@@ -20,10 +21,9 @@ describe('Create product - (e2e)', () => {
   it('It should be able create a product', async () => {
     const newCompanyObject = createNewCompanyTestObject()
     const newProductObject = createNewProductTestObject()
+    const companyJokerRepository = setupCompanyJokerRepository()
 
-    const createCompanyResponse = await request(app.server)
-      .post('/company')
-      .send(newCompanyObject)
+    await request(app.server).post('/company').send(newCompanyObject)
 
     const authenticateCompanyResponse = await request(app.server)
       .post('/company/authenticate')
@@ -32,17 +32,18 @@ describe('Create product - (e2e)', () => {
         password: newCompanyObject.password,
       })
 
-    const newCompanyId = createCompanyResponse.body.id
     const newCompanyToken = authenticateCompanyResponse.body.token
+    const newCompanyId = getCompanyIdByToken(newCompanyToken)
 
-    const companyEmailConfirmationCode =
-      await getCompanyEmailConfirmationCode(newCompanyId)
+    const newCompanyJoker = await companyJokerRepository.findByCNPJ(
+      newCompanyObject.CNPJ,
+    )
 
     await request(app.server)
       .patch(`/email/confirm`)
       .set('Authorization', `Bearer ${newCompanyToken}`)
       .send({
-        emailConfirmationCode: companyEmailConfirmationCode,
+        emailConfirmationCode: newCompanyJoker?.emailConfirmationCode,
       })
 
     const createProductResponse = await request(app.server)

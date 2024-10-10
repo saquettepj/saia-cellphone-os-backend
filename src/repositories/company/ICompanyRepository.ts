@@ -16,4 +16,4 @@ interface ICompanyRepository {
   create(data: Prisma.CompanyCreateInput): Promise<ICompany>
 }
 
-export { ICompanyRepository }
+export { ICompanyRepository, ICompany }
