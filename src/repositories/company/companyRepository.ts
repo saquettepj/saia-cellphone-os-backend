@@ -73,7 +73,7 @@ class CompanyRepository implements ICompanyRepository {
     return deletedCompany
   }
 
-  async create(data: Prisma.CompanyCreateInput) {
+  async create(data: Prisma.CompanyUncheckedCreateInput) {
     const createdCompany = await prisma.company.create({
       data,
     })

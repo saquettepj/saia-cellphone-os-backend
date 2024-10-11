@@ -5,36 +5,156 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator erd {
+  provider = "prisma-erd-generator"
+  output   = "./ERD.svg"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model Company {
-  id                    String    @id @default(uuid())
-  accountType           String    @default("NORMAL")
-  CNPJ                  String    @unique
-  email                 String    @unique
+  id                    String       @id @default(uuid())
+  accountType           String       @default("NORMAL")
+  CNPJ                  String       @unique
+  email                 String       @unique
   emailConfirmationCode Int?
-  emailChecked          Boolean   @default(false)
+  emailChecked          Boolean      @default(false)
   name                  String
   CEP                   String
   passwordHash          String
   products              Product[]
-  createdAt             DateTime  @default(now())
-  companyImageUrl       String?
+  createdAt             DateTime     @default(now())
+  order                 Order[]
+  clients               Client[]
+  employes              Employee[]
+  token                 AccessToken?
+  NfeDataTable          NfeData?
 
   @@map("company")
 }
 
+model AccessToken {
+  code      String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  companyId String   @unique
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+}
+
+model Employee {
+  id        String  @id @default(uuid())
+  name      String
+  CPF       String  @unique
+  phone     String?
+  role      String
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  orders    Order[]
+
+  @@map("employee")
+}
+
+model Client {
+  id        String     @id @default(uuid())
+  name      String
+  CPF       String     @unique
+  email     String     @unique
+  phone     String?
+  companyId String?
+  company   Company?   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  orders    Order[]
+  protocols Protocol[]
+  address   Address?
+
+  @@map("client")
+}
+
+model Address {
+  id           String  @id @default(uuid())
+  city         String
+  state        String
+  neighborhood String
+  street       String
+  streetNumber String
+  zipCode      String
+  NfeDataId    String  @unique
+  clientId     String  @unique
+  client       Client  @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  nfeDataId    String  @unique
+  nfeData      NfeData @relation(fields: [nfeDataId], references: [id], onDelete: Cascade)
+
+  @@map("address")
+}
+
+model NfeData {
+  id                     String   @id @default(uuid())
+  certificateKey         String
+  serializedCertificate  String
+  companyId              String   @unique
+  company                Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  inscricaoEstadual      String
+  regimeTributario       String // Pode ser Simples Nacional, Lucro Presumido, etc.
+  codigoRegimeTributario String // Código do regime tributário
+  cnae                   String // Código Nacional de Atividade Econômica
+  certificadoDigital     String? // Caminho ou ID do certificado digital
+  senhaCertificado       String?
+  address                Address?
+
+  @@map("nfe_data_table")
+}
+
+model Protocol {
+  id        String   @id @default(uuid())
+  clientId  String
+  client    Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  protocol  String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("protocol")
+}
+
 model Product {
-  id            String  @id @default(uuid())
-  companyId     String
-  company       Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  manufactureBy String
-  model         String
-  condition     String
-  description   String?
+  id          String      @id @default(uuid())
+  companyId   String
+  company     Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  type        String
+  price       Float
+  condition   String
+  description String
+  serviceId   String?
+  orders      OrderItem[]
 
   @@map("product")
+}
+
+model Order {
+  id          String      @id @default(uuid())
+  companyId   String
+  company     Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  clientId    String
+  client      Client      @relation(fields: [clientId], references: [id])
+  employeeId  String
+  employee    Employee    @relation(fields: [employeeId], references: [id])
+  number      Int
+  type        String
+  price       Float
+  description String?
+  items       OrderItem[]
+  createdAt   DateTime    @default(now())
+
+  @@map("order")
+}
+
+model OrderItem {
+  id        String  @id @default(uuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity  Int
+
+  @@map("order_item")
 }

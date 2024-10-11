@@ -6,8 +6,8 @@ import { IEmailConfig } from '@/emails/IEmailConfig'
 import { sendEmail } from '@/emails/sendEmail'
 import { ICompanyRepository } from '@/repositories/company/ICompanyRepository'
 import { CompanyCNPJAlreadyExistsError } from '@/errors/companyCNPJAlreadyExistsError'
-import { CompanyEmailAlreadyExistsError } from '@/errors/companyEmailAlreadyExistsError'
 import { PasswordConfirmationIsDifferentError } from '@/errors/passwordConfirmationIsDifferentError'
+import { EmailAlreadyExistsError } from '@/errors/emailAlreadyExistsError'
 
 interface ICreateCompanyUseCaseRequest {
   CNPJ: string
@@ -42,7 +42,7 @@ class CreateCompanyUseCase {
     const searchedEmail = await this.companyRepository.findByEmail(email)
 
     if (searchedEmail) {
-      throw new CompanyEmailAlreadyExistsError()
+      throw new EmailAlreadyExistsError()
     }
 
     const emailConfirmationCode = generateRandomNumber(6)

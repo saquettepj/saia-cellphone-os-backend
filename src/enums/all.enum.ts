@@ -6,7 +6,11 @@ export enum AccountTypeEnum {
 }
 
 export enum ProductConditionEnum {
-  BAD = 'BAD',
-  GOOD = 'GOOD',
+  USED = 'USED',
   NEW = 'NEW',
+}
+
+export enum ProductTypeEnum {
+  PRODUCT = 'PRODUCT',
+  SERVICE = 'SERVICE',
 }

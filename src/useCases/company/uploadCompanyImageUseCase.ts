@@ -14,7 +14,6 @@ interface IUploadCompanyImageUseCaseRequest {
   id: string
   buffer?: Buffer
   contentType: string
-  url: string
 }
 
 interface IUploadCompanyImageUseCaseReturn {
@@ -31,7 +30,6 @@ class UploadCompanyImageUseCase {
     id,
     buffer,
     contentType,
-    url,
   }: IUploadCompanyImageUseCaseRequest) {
     if (!buffer) {
       throw new UploadedContentEmptyError()

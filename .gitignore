@@ -4,6 +4,7 @@ node_modules
 # Database 
 prisma/*.db
 prisma/migrations
+prisma/ERD.svg
 prisma/seed.ts
 
 # Environment

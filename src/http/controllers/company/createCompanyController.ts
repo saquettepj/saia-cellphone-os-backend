@@ -2,8 +2,8 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 
 import { ICreateCompanyDTO } from '@/dtos/company/ICreateCompanyDTO'
 import { CompanyCNPJAlreadyExistsError } from '@/errors/companyCNPJAlreadyExistsError'
-import { CompanyEmailAlreadyExistsError } from '@/errors/companyEmailAlreadyExistsError'
 import { setupCreateCompanyUseCase } from '@/useCases/company/factory/setupCreateCompanyUseCase'
+import { EmailAlreadyExistsError } from '@/errors/emailAlreadyExistsError'
 
 interface ICreateCompanyControllerResponse {
   CNPJ: string
@@ -47,7 +47,7 @@ async function createCompanyController(
     if (error instanceof CompanyCNPJAlreadyExistsError) {
       return reply.status(409).send({ message: error.message })
     }
-    if (error instanceof CompanyEmailAlreadyExistsError) {
+    if (error instanceof EmailAlreadyExistsError) {
       return reply.status(409).send({ message: error.message })
     }
   }

@@ -6,10 +6,10 @@ import { setupCreateProductUseCase } from '@/useCases/product/factory/setupCreat
 interface ICreateProductControllerResponse {
   id: string
   companyId: string
-  manufactureBy: string
-  model: string
+  type: string
   condition: string
-  description?: string | null
+  description: string
+  price: number
 }
 
 async function createProductController(
@@ -18,27 +18,28 @@ async function createProductController(
 ) {
   const { id: companyId } = request.company
 
-  const { manufactureBy, model, condition, description } =
-    ICreateProductDTO.parse(request.body)
+  const { type, condition, description, price } = ICreateProductDTO.parse(
+    request.body,
+  )
 
   try {
     const createProductUseCase = setupCreateProductUseCase()
 
     const createProductUseCaseResult = await createProductUseCase.execute({
       companyId,
-      manufactureBy,
-      model,
+      type,
       condition,
       description,
+      price,
     })
 
     const responseBody: ICreateProductControllerResponse = {
       id: createProductUseCaseResult.id,
       companyId: createProductUseCaseResult.companyId,
-      manufactureBy: createProductUseCaseResult.manufactureBy,
-      model: createProductUseCaseResult.model,
+      type: createProductUseCaseResult.type,
       condition: createProductUseCaseResult.condition,
       description: createProductUseCaseResult.description,
+      price: createProductUseCaseResult.price,
     }
 
     return reply.status(201).send(responseBody)

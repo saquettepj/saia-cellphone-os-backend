@@ -9,18 +9,12 @@ interface IDeleteCompanyUseCaseRequest {
 
 interface IDeleteCompanyUseCaseReturn {
   productsIds: string[]
-  imageNames: string[]
 }
 
 class DeleteCompanyUseCase {
-  constructor(
-    private companyRepository: ICompanyRepository,
-    private bucketRepository: IBucketRepository,
-  ) {}
+  constructor(private companyRepository: ICompanyRepository) {}
 
   async execute({ id }: IDeleteCompanyUseCaseRequest) {
-    const allImageNames: string[] = []
-
     const searchedCompany = await this.companyRepository.findAllIncludeById(id)
 
     if (
@@ -32,21 +26,9 @@ class DeleteCompanyUseCase {
 
     await this.companyRepository.delete(id)
 
-    if (searchedCompany?.companyImageUrl) {
-      const imageName = searchedCompany.companyImageUrl.split('/').pop()
-      if (imageName) {
-        allImageNames.push(imageName)
-      }
-    }
-
-    if (allImageNames.length > 0) {
-      await this.bucketRepository.delete(allImageNames)
-    }
-
     const result: IDeleteCompanyUseCaseReturn = {
       productsIds:
         searchedCompany?.products?.map((product) => product.id) || [],
-      imageNames: allImageNames,
     }
 
     return result

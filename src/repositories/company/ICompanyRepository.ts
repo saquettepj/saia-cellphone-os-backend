@@ -13,7 +13,7 @@ interface ICompanyRepository {
   updateById(id: string, data: Prisma.CompanyUpdateInput): Promise<ICompany>
   updatePasswordById(id: string, passwordHash: string): Promise<ICompany>
   delete(id: string): Promise<ICompany | null>
-  create(data: Prisma.CompanyCreateInput): Promise<ICompany>
+  create(data: Prisma.CompanyUncheckedCreateInput): Promise<ICompany>
 }
 
 export { ICompanyRepository, ICompany }

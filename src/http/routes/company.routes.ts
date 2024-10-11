@@ -10,14 +10,8 @@ import { emailConfirmationCheckerMiddleware } from '../middlewares/emailConfirma
 import { getCompanyController } from '../controllers/company/getCompanyController'
 import { updateCompanyController } from '../controllers/company/updateCompanyController'
 import { updateCompanyPasswordController } from '../controllers/company/updateCompanyPasswordController'
-import { uploadCompanyImageController } from '../controllers/company/uploadCompanyImageController'
-import { removeUploadedCompanyImageController } from '../controllers/company/removeUploadedCompanyImageController'
-
-import { uploadConfig } from '@/config/upload'
 
 async function companyRoutes(app: FastifyInstance) {
-  const uploadImage = multer(uploadConfig)
-
   app.post('/company', createCompanyController)
 
   app.get(
@@ -65,29 +59,6 @@ async function companyRoutes(app: FastifyInstance) {
   )
 
   app.post('/company/authenticate', authenticateCompanyController)
-
-  app.patch(
-    '/company/upload-company-image',
-    {
-      preHandler: [
-        companyAuthenticatorMiddleware,
-        emailConfirmationCheckerMiddleware,
-        uploadImage.single('image'),
-      ],
-    },
-    uploadCompanyImageController,
-  )
-
-  app.patch(
-    '/company/remove-company-image',
-    {
-      preHandler: [
-        companyAuthenticatorMiddleware,
-        emailConfirmationCheckerMiddleware,
-      ],
-    },
-    removeUploadedCompanyImageController,
-  )
 }
 
 export { companyRoutes }

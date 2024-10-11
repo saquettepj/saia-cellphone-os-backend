@@ -1,10 +1,10 @@
 import { z } from 'zod'
 
-import { ProductConditionEnum } from '../../enums/all.enum'
+import { ProductConditionEnum, ProductTypeEnum } from '../../enums/all.enum'
 
 export const ICreateProductDTO = z.object({
-  manufactureBy: z.string().max(200),
-  model: z.string().max(200),
+  type: z.nativeEnum(ProductTypeEnum),
   condition: z.nativeEnum(ProductConditionEnum),
-  description: z.string().max(600).optional(),
+  description: z.string().max(200),
+  price: z.number(),
 })
