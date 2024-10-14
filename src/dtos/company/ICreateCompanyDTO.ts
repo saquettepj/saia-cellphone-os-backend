@@ -7,7 +7,6 @@ export const ICreateCompanyDTO = z.object({
     .regex(/^[0-9]+$/, { message: 'Must be only numbers on string!' }),
   email: z.string().email(),
   name: z.string(),
-  CEP: z.string(),
   password: z
     .string()
     .min(8)

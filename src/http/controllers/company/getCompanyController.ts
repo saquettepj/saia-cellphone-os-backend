@@ -4,7 +4,7 @@ import { Company } from '@prisma/client'
 import { setupGetCompanyUseCase } from '@/useCases/company/factory/setupGetCompanyUseCase'
 
 interface IGetCompanyControllerResponse {
-  companies: Partial<Company>[]
+  companies: Partial<Company>[] | null
 }
 
 async function getCompanyController(

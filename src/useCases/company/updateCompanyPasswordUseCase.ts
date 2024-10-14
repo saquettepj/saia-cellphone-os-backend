@@ -1,16 +1,14 @@
 import { compare, hash } from 'bcrypt'
 
-import { CompanyCredentialsError } from '@/errors/companyCredentialsError'
 import { ICompanyRepository } from '@/repositories/company/ICompanyRepository'
-import { CompanyUpdatePasswordError } from '@/errors/companyUpdatePasswordError'
-import { generateEmailUpdatePasswordObject } from '@/emails/emailStructures/generateEmailUpdatePasswordObject'
-import { IEmailConfig } from '@/emails/IEmailConfig'
-import { sendEmail } from '@/emails/sendEmail'
+import { PasswordConfirmationIsDifferentError } from '@/errors/passwordConfirmationIsDifferentError'
+import { CompanyCredentialsError } from '@/errors/companyCredentialsError'
 
 interface IUpdateCompanyPasswordUseCaseRequest {
   CNPJ: string
-  password: string
+  currentPassword: string
   newPassword: string
+  passwordConfirmation: string
 }
 
 class UpdateCompanyPasswordUseCase {
@@ -18,41 +16,34 @@ class UpdateCompanyPasswordUseCase {
 
   async execute({
     CNPJ,
-    password,
+    currentPassword,
     newPassword,
+    passwordConfirmation,
   }: IUpdateCompanyPasswordUseCaseRequest) {
     const searchedCompany = await this.companyRepository.findByCNPJ(CNPJ)
+
+    if (currentPassword !== passwordConfirmation) {
+      throw new PasswordConfirmationIsDifferentError()
+    }
 
     if (!searchedCompany) {
       throw new CompanyCredentialsError()
     }
 
-    const passwordMatch = await compare(password, searchedCompany.passwordHash)
+    const passwordMatch = await compare(
+      currentPassword.trim(),
+      searchedCompany.passwordHash,
+    )
 
     if (!passwordMatch) {
       throw new CompanyCredentialsError()
     }
 
-    const passwordHash = await hash(newPassword.trim(), 8)
+    const newPasswordHash = await hash(newPassword.trim(), 8)
 
-    await this.companyRepository.updatePasswordById(
-      searchedCompany.id,
-      passwordHash,
-    )
+    await this.companyRepository.updatePasswordByCNPJ(CNPJ, newPasswordHash)
 
-    const confirmationEmailObject = generateEmailUpdatePasswordObject()
-
-    const mailConfiguration: IEmailConfig = {
-      to: searchedCompany.email,
-      subject: confirmationEmailObject.subject,
-      html: confirmationEmailObject.html,
-    }
-
-    await sendEmail(mailConfiguration).then().catch()
-
-    if (searchedCompany.passwordHash === passwordHash) {
-      throw new CompanyUpdatePasswordError()
-    }
+    return searchedCompany
   }
 }
 

@@ -1,43 +1,35 @@
-import { compare } from 'bcrypt'
-
 import { CompanyCredentialsError } from '@/errors/companyCredentialsError'
+import { EmailAlreadyExistsError } from '@/errors/emailAlreadyExistsError'
 import { ICompanyRepository } from '@/repositories/company/ICompanyRepository'
 
 interface IUpdateCompanyUseCaseRequest {
-  CNPJ: string
+  id: string
   email?: string
   name?: string
-  CEP?: string
-  password: string
 }
 
 class UpdateCompanyUseCase {
   constructor(private companyRepository: ICompanyRepository) {}
 
-  async execute({
-    CNPJ,
-    email,
-    name,
-    CEP,
-    password,
-  }: IUpdateCompanyUseCaseRequest) {
-    const searchedCompany = await this.companyRepository.findByCNPJ(CNPJ)
+  async execute({ id, email, name }: IUpdateCompanyUseCaseRequest) {
+    const searchedCompany = await this.companyRepository.findById(id)
 
     if (!searchedCompany) {
       throw new CompanyCredentialsError()
     }
 
-    const passwordMatch = await compare(password, searchedCompany.passwordHash)
+    if (email) {
+      const searchedAnotherCompany =
+        await this.companyRepository.findByEmail(email)
 
-    if (!passwordMatch) {
-      throw new CompanyCredentialsError()
+      if (searchedAnotherCompany) {
+        throw new EmailAlreadyExistsError()
+      }
     }
 
     const result = await this.companyRepository.updateById(searchedCompany.id, {
-      CNPJ,
       email,
       name,
-      CEP,
     })
 
     return result

@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["omitApi"]
 }
 
 generator erd {
@@ -23,50 +24,54 @@ model Company {
   emailConfirmationCode Int?
   emailChecked          Boolean      @default(false)
   name                  String
-  CEP                   String
   passwordHash          String
   products              Product[]
-  createdAt             DateTime     @default(now())
-  order                 Order[]
+  orders                Order[]
   clients               Client[]
-  employes              Employee[]
-  token                 AccessToken?
+  employees             Employee[]
+  accessToken           AccessToken?
   NfeDataTable          NfeData?
+  addressId             String?
+  address               Address?
+  Nfes                  Nfe[]
+  createdAt             DateTime     @default(now())
 
   @@map("company")
 }
 
 model AccessToken {
   code      String   @id @default(uuid())
-  createdAt DateTime @default(now())
   companyId String   @unique
   company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
 }
 
 model Employee {
-  id        String  @id @default(uuid())
+  id        String   @id @default(uuid())
   name      String
-  CPF       String  @unique
+  CPF       String   @unique
   phone     String?
   role      String
   companyId String
-  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
   orders    Order[]
+  createdAt DateTime @default(now())
 
   @@map("employee")
 }
 
 model Client {
-  id        String     @id @default(uuid())
+  id        String   @id @default(uuid())
   name      String
-  CPF       String     @unique
-  email     String     @unique
+  CPF       String   @unique
+  email     String   @unique
   phone     String?
   companyId String?
-  company   Company?   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  company   Company? @relation(fields: [companyId], references: [id], onDelete: Cascade)
   orders    Order[]
-  protocols Protocol[]
+  Nfes      Nfe[]
   address   Address?
+  createdAt DateTime @default(now())
 
   @@map("client")
 }
@@ -82,38 +87,41 @@ model Address {
   NfeDataId    String  @unique
   clientId     String  @unique
   client       Client  @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  nfeDataId    String  @unique
-  nfeData      NfeData @relation(fields: [nfeDataId], references: [id], onDelete: Cascade)
+  companyId    String  @unique
+  company      Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
 
   @@map("address")
 }
 
 model NfeData {
-  id                     String   @id @default(uuid())
+  id                     String  @id @default(uuid())
   certificateKey         String
   serializedCertificate  String
-  companyId              String   @unique
-  company                Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId              String  @unique
+  company                Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
   inscricaoEstadual      String
   regimeTributario       String // Pode ser Simples Nacional, Lucro Presumido, etc.
   codigoRegimeTributario String // Código do regime tributário
   cnae                   String // Código Nacional de Atividade Econômica
   certificadoDigital     String? // Caminho ou ID do certificado digital
   senhaCertificado       String?
-  address                Address?
+  addressId              String?
 
   @@map("nfe_data_table")
 }
 
-model Protocol {
+model Nfe {
   id        String   @id @default(uuid())
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
   clientId  String
   client    Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
   protocol  String   @unique
+  key       String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("protocol")
+  @@map("nfe")
 }
 
 model Product {
@@ -124,26 +132,29 @@ model Product {
   price       Float
   condition   String
   description String
-  serviceId   String?
   orders      OrderItem[]
+  quantity    Int
 
   @@map("product")
 }
 
 model Order {
-  id          String      @id @default(uuid())
-  companyId   String
-  company     Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  clientId    String
-  client      Client      @relation(fields: [clientId], references: [id])
-  employeeId  String
-  employee    Employee    @relation(fields: [employeeId], references: [id])
-  number      Int
-  type        String
-  price       Float
-  description String?
-  items       OrderItem[]
-  createdAt   DateTime    @default(now())
+  id            String      @id @default(uuid())
+  companyId     String
+  company       Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  clientId      String
+  client        Client      @relation(fields: [clientId], references: [id])
+  employeeId    String
+  employee      Employee    @relation(fields: [employeeId], references: [id])
+  number        Int
+  type          String
+  items         OrderItem[]
+  status        String
+  payDate       DateTime
+  paymentMethod String
+  price         Float
+  description   String?
+  createdAt     DateTime    @default(now())
 
   @@map("order")
 }

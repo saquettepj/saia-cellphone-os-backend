@@ -1,7 +1,23 @@
-import { Company, Prisma, Product } from '@prisma/client'
+import {
+  AccessToken,
+  Address,
+  Client,
+  Company,
+  Employee,
+  Nfe,
+  Order,
+  Prisma,
+  Product,
+} from '@prisma/client'
 
 interface ICompany extends Company {
+  accessToken?: AccessToken | null
+  address?: Address | null
+  employees?: Employee[] | null
+  clients?: Client[] | null
   products?: Product[] | null
+  orders?: Order[] | null
+  Nfes?: Nfe[] | null
 }
 
 interface ICompanyRepository {
@@ -9,9 +25,9 @@ interface ICompanyRepository {
   findByEmail(email: string): Promise<ICompany | null>
   findById(id: string): Promise<ICompany | null>
   findAllIncludeById(id: string): Promise<ICompany | null>
-  findAllOrderByBusiness(): Promise<Partial<ICompany>[]>
+  findAllOrderByBusiness(): Promise<Partial<ICompany>[] | null>
   updateById(id: string, data: Prisma.CompanyUpdateInput): Promise<ICompany>
-  updatePasswordById(id: string, passwordHash: string): Promise<ICompany>
+  updatePasswordByCNPJ(CNPJ: string, passwordHash: string): Promise<ICompany>
   delete(id: string): Promise<ICompany | null>
   create(data: Prisma.CompanyUncheckedCreateInput): Promise<ICompany>
 }

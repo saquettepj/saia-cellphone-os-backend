@@ -1,5 +1,4 @@
 import { FastifyInstance } from 'fastify'
-import multer from 'fastify-multer'
 
 import { authenticateCompanyController } from '../controllers/company/authenticateCompanyController'
 import { createCompanyController } from '../controllers/company/createCompanyController'

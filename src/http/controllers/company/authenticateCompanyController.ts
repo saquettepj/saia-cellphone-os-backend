@@ -32,6 +32,8 @@ async function authenticateCompanyController(
     if (error instanceof CompanyCredentialsError) {
       return reply.status(401).send({ message: error.message })
     }
+
+    throw error
   }
 }
 

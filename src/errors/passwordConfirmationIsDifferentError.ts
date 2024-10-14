@@ -1,6 +1,6 @@
 class PasswordConfirmationIsDifferentError extends Error {
   constructor() {
-    super('Password is different of passwordConfirmation!')
+    super('Current password is different of password confirmation!')
   }
 }
 

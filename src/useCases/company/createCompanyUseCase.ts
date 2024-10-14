@@ -2,7 +2,6 @@ import { hash } from 'bcrypt'
 
 import { generateRandomNumber } from '@/utils/randomNumberGenerator'
 import { generateEmailSendCodeObject } from '@/emails/emailStructures/generateEmailSendCodeObject'
-import { IEmailConfig } from '@/emails/IEmailConfig'
 import { sendEmail } from '@/emails/sendEmail'
 import { ICompanyRepository } from '@/repositories/company/ICompanyRepository'
 import { CompanyCNPJAlreadyExistsError } from '@/errors/companyCNPJAlreadyExistsError'
@@ -13,7 +12,6 @@ interface ICreateCompanyUseCaseRequest {
   CNPJ: string
   email: string
   name: string
-  CEP: string
   password: string
   passwordConfirmation: string
 }
@@ -25,18 +23,17 @@ class CreateCompanyUseCase {
     CNPJ,
     email,
     name,
-    CEP,
     password,
     passwordConfirmation,
   }: ICreateCompanyUseCaseRequest) {
-    if (!(password === passwordConfirmation)) {
-      throw new PasswordConfirmationIsDifferentError()
+    const searchedCompany = await this.companyRepository.findByCNPJ(CNPJ)
+
+    if (searchedCompany !== null) {
+      throw new CompanyCNPJAlreadyExistsError()
     }
 
-    const searchedCNPJ = await this.companyRepository.findByCNPJ(CNPJ)
-
-    if (searchedCNPJ) {
-      throw new CompanyCNPJAlreadyExistsError()
+    if (password !== passwordConfirmation) {
+      throw new PasswordConfirmationIsDifferentError()
     }
 
     const searchedEmail = await this.companyRepository.findByEmail(email)
@@ -45,31 +42,28 @@ class CreateCompanyUseCase {
       throw new EmailAlreadyExistsError()
     }
 
-    const emailConfirmationCode = generateRandomNumber(6)
     const passwordHash = await hash(password.trim(), 8)
 
-    const result = await this.companyRepository.create({
+    const emailConfirmationCode = generateRandomNumber(6)
+
+    const createdCompany = await this.companyRepository.create({
       CNPJ,
       email,
-      emailConfirmationCode,
       name,
-      CEP,
       passwordHash,
+      emailConfirmationCode,
     })
 
-    const confirmationEmailObject = generateEmailSendCodeObject(
-      emailConfirmationCode,
-    )
+    const emailObject = generateEmailSendCodeObject(emailConfirmationCode)
 
-    const mailConfiguration: IEmailConfig = {
+    await sendEmail({
       to: email,
-      subject: confirmationEmailObject.subject,
-      html: confirmationEmailObject.html,
-    }
+      subject: 'Código de confirmação de email',
+      html: emailObject.html,
+      text: emailObject.text,
+    })
 
-    await sendEmail(mailConfiguration).then().catch()
-
-    return result
+    return createdCompany
   }
 }
 

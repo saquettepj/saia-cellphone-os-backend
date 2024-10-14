@@ -26,39 +26,44 @@ class CompanyRepository implements ICompanyRepository {
   async findAllIncludeById(id: string) {
     const searchedCompany = await prisma.company.findUnique({
       where: { id },
-      include: { products: { where: { companyId: id } } },
+      include: {
+        accessToken: { where: { companyId: id } },
+        address: { where: { companyId: id } },
+        employees: { where: { companyId: id } },
+        clients: { where: { companyId: id } },
+        products: { where: { companyId: id } },
+        orders: { where: { companyId: id } },
+        Nfes: { where: { companyId: id } },
+      },
     })
+
     return searchedCompany
   }
 
   async findAllOrderByBusiness() {
     const searchedCompanies = await prisma.company.findMany({
-      where: {
-        OR: [{ accountType: AccountTypeEnum.NORMAL }],
-      },
-      include: { products: true },
+      omit: { emailConfirmationCode: true, passwordHash: true },
+      where: { accountType: AccountTypeEnum.NORMAL },
     })
 
-    const safeSearchedCompanies = searchedCompanies.map(
-      ({ emailConfirmationCode, passwordHash, ...remainingAttrs }) =>
-        remainingAttrs,
-    )
-
-    return safeSearchedCompanies
+    return searchedCompanies
   }
 
   async updateById(id: string, data: Prisma.CompanyUpdateInput) {
+    console.log(1)
     const updatedCompany = await prisma.company.update({
       where: { id },
       data,
     })
+    console.log(2)
 
+    console.log(3, updatedCompany)
     return updatedCompany
   }
 
-  async updatePasswordById(id: string, passwordHash: string) {
+  async updatePasswordByCNPJ(CNPJ: string, passwordHash: string) {
     const updatedCompany = await prisma.company.update({
-      where: { id },
+      where: { CNPJ },
       data: {
         passwordHash,
       },
