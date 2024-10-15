@@ -21,11 +21,16 @@ async function authenticateCompanyController(
   try {
     const authenticateCompanyUseCase = setupAuthenticateCompanyUseCase()
 
-    const responseBody: IAuthenticateCompanyControllerResponse =
+    const authenticateCompanyUseCaseReturn =
       await authenticateCompanyUseCase.execute({
         CNPJ,
         password,
       })
+
+    const responseBody: IAuthenticateCompanyControllerResponse = {
+      company: authenticateCompanyUseCaseReturn.company,
+      token: authenticateCompanyUseCaseReturn.token,
+    }
 
     return reply.status(200).send(responseBody)
   } catch (error) {

@@ -1,17 +1,17 @@
-import { Client, Order, Prisma } from '@prisma/client'
-
-interface IClient extends Client {
-  orders?: Order[] | null
-}
+import { Client, Prisma } from '@prisma/client'
 
 interface IClientRepository {
-  findByCPF(CPF: string): Promise<IClient | null>
-  findByEmail(email: string): Promise<IClient | null>
-  findById(id: string): Promise<IClient | null>
-  findAllIncludeById(id: string): Promise<IClient | null>
-  updateById(id: string, data: Prisma.ClientUpdateInput): Promise<IClient>
-  delete(id: string): Promise<IClient | null>
-  create(data: Prisma.ClientUncheckedCreateInput): Promise<IClient>
+  findById(id: string): Promise<Client | null>
+  findByCPF(CPF: string): Promise<Client | null>
+  findByEmail(email: string): Promise<Client | null>
+  findAllByCompanyId(
+    companyId: string,
+    data: Partial<Prisma.ClientCreateManyInput>,
+  ): Promise<Client[]>
+  create(data: Prisma.ClientUncheckedCreateInput): Promise<Client>
+  updateById(id: string, data: Prisma.ClientUpdateInput): Promise<Client>
+  delete(id: string): Promise<Client | null>
+  deleteMany(ids: string[]): Promise<number>
 }
 
-export { IClientRepository, IClient }
+export { IClientRepository }

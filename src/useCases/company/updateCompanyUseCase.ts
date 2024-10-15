@@ -19,10 +19,10 @@ class UpdateCompanyUseCase {
     }
 
     if (email) {
-      const searchedAnotherCompany =
+      const searchedCompanyByEmail =
         await this.companyRepository.findByEmail(email)
 
-      if (searchedAnotherCompany) {
+      if (searchedCompanyByEmail) {
         throw new EmailAlreadyExistsError()
       }
     }

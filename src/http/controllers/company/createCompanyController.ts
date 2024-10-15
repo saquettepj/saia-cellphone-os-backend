@@ -11,7 +11,6 @@ interface ICreateCompanyControllerResponse {
   email: string
   emailChecked: boolean
   name: string
-  companyImageUrl?: string | null
 }
 
 async function createCompanyController(

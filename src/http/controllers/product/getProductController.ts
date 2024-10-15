@@ -28,7 +28,7 @@ async function getProductController(
   try {
     const getProductUseCase = setupGetProductUseCase()
 
-    const getProductUseCaseResult = await getProductUseCase.execute({
+    const getProductUseCaseReturn = await getProductUseCase.execute({
       companyId,
       id,
       type,
@@ -37,7 +37,7 @@ async function getProductController(
     })
 
     const responseBody: IGetProductControllerResponse = {
-      products: getProductUseCaseResult,
+      products: getProductUseCaseReturn,
     }
 
     return reply.status(200).send(responseBody)

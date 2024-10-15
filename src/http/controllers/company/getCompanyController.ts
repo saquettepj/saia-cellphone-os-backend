@@ -1,10 +1,10 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { Company } from '@prisma/client'
 
 import { setupGetCompanyUseCase } from '@/useCases/company/factory/setupGetCompanyUseCase'
+import { ICompany } from '@/repositories/company/ICompanyRepository'
 
 interface IGetCompanyControllerResponse {
-  companies: Partial<Company>[] | null
+  companies: Partial<ICompany>[]
 }
 
 async function getCompanyController(

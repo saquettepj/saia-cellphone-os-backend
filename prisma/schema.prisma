@@ -66,10 +66,11 @@ model Client {
   CPF       String   @unique
   email     String   @unique
   phone     String?
-  companyId String?
-  company   Company? @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
   orders    Order[]
   Nfes      Nfe[]
+  addressId String?
   address   Address?
   createdAt DateTime @default(now())
 
@@ -105,7 +106,6 @@ model NfeData {
   cnae                   String // Código Nacional de Atividade Econômica
   certificadoDigital     String? // Caminho ou ID do certificado digital
   senhaCertificado       String?
-  addressId              String?
 
   @@map("nfe_data_table")
 }

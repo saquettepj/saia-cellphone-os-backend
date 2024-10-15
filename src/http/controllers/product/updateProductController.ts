@@ -26,7 +26,7 @@ async function updateProductController(
   try {
     const updateProductUseCase = setupUpdateProductUseCase()
 
-    const updateProductUseCaseResult = await updateProductUseCase.execute({
+    const updateProductUseCaseReturn = await updateProductUseCase.execute({
       id,
       type,
       condition,
@@ -36,13 +36,13 @@ async function updateProductController(
     })
 
     const responseBody: IUpdateProductControllerResponse = {
-      id: updateProductUseCaseResult.id,
-      companyId: updateProductUseCaseResult.companyId,
-      type: updateProductUseCaseResult.type,
-      condition: updateProductUseCaseResult.condition,
-      description: updateProductUseCaseResult.description,
-      price: updateProductUseCaseResult.price,
-      quantity: updateProductUseCaseResult.quantity,
+      id: updateProductUseCaseReturn.id,
+      companyId: updateProductUseCaseReturn.companyId,
+      type: updateProductUseCaseReturn.type,
+      condition: updateProductUseCaseReturn.condition,
+      description: updateProductUseCaseReturn.description,
+      price: updateProductUseCaseReturn.price,
+      quantity: updateProductUseCaseReturn.quantity,
     }
 
     return reply.status(200).send(responseBody)

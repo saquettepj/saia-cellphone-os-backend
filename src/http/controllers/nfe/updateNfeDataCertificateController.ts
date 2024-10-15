@@ -29,7 +29,7 @@ async function updateNfeDataCertificateController(
     const serializedCertificate = file.buffer.toString('base64')
     const updateNfeDataCertificateUseCase =
       setupUpdateNfeDataCertificateUseCase()
-    const updateNfeDataCertificateUseCaseResult =
+    const updateNfeDataCertificateUseCaseReturn =
       await updateNfeDataCertificateUseCase.execute({
         id,
         certificateKey,
@@ -37,8 +37,8 @@ async function updateNfeDataCertificateController(
       })
 
     const responseBody: IUpdateNfeDataCertificateControllerResponse = {
-      id: updateNfeDataCertificateUseCaseResult.id,
-      companyId: updateNfeDataCertificateUseCaseResult.companyId,
+      id: updateNfeDataCertificateUseCaseReturn.id,
+      companyId: updateNfeDataCertificateUseCaseReturn.companyId,
     }
 
     return reply.status(200).send(responseBody)

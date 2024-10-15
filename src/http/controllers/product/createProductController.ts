@@ -24,7 +24,7 @@ async function createProductController(
   try {
     const createProductUseCase = setupCreateProductUseCase()
 
-    const createProductUseCaseResult = await createProductUseCase.execute({
+    const createProductUseCaseReturn = await createProductUseCase.execute({
       companyId,
       type,
       condition,
@@ -34,12 +34,12 @@ async function createProductController(
     })
 
     const responseBody: ICreateProductControllerResponse = {
-      id: createProductUseCaseResult.id,
-      companyId: createProductUseCaseResult.companyId,
-      type: createProductUseCaseResult.type,
-      condition: createProductUseCaseResult.condition,
-      description: createProductUseCaseResult.description,
-      price: createProductUseCaseResult.price,
+      id: createProductUseCaseReturn.id,
+      companyId: createProductUseCaseReturn.companyId,
+      type: createProductUseCaseReturn.type,
+      condition: createProductUseCaseReturn.condition,
+      description: createProductUseCaseReturn.description,
+      price: createProductUseCaseReturn.price,
     }
 
     return reply.status(201).send(responseBody)

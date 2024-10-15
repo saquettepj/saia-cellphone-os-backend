@@ -16,12 +16,12 @@ async function deleteProductController(
   try {
     const deleteProductUseCase = setupDeleteProductUseCase()
 
-    const deleteProductUseCaseResult = await deleteProductUseCase.execute({
+    const deleteProductUseCaseReturn = await deleteProductUseCase.execute({
       id,
     })
 
     const responseBody: IDeleteProductControllerResponse = {
-      id: deleteProductUseCaseResult.id,
+      id: deleteProductUseCaseReturn.id,
     }
 
     return reply.status(200).send(responseBody)

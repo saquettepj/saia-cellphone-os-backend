@@ -5,36 +5,18 @@ import { IClientRepository } from './IClientRepository'
 import { prisma } from '@/app'
 
 class ClientRepository implements IClientRepository {
-  async findByCPF(CPF: string) {
-    const searchedClient = await prisma.client.findUnique({ where: { CPF } })
-    return searchedClient
-  }
-
-  async findByEmail(email: string) {
-    const searchedClient = await prisma.client.findUnique({
-      where: { email },
-    })
-    return searchedClient
-  }
-
   async findById(id: string) {
-    const searchedClient = await prisma.client.findUnique({ where: { id } })
-    return searchedClient
+    const client = await prisma.client.findUnique({ where: { id } })
+    return client
   }
 
-  async findAllIncludeById(id: string) {
-    const searchedClient = await prisma.client.findUnique({
-      where: { id },
-      include: { orders: { where: { clientId: id } } },
-    })
-    return searchedClient
+  async create(data: Prisma.ClientUncheckedCreateInput) {
+    const newClient = await prisma.client.create({ data })
+    return newClient
   }
 
   async updateById(id: string, data: Prisma.ClientUpdateInput) {
-    const updatedClient = await prisma.client.update({
-      where: { id },
-      data,
-    })
+    const updatedClient = await prisma.client.update({ where: { id }, data })
     return updatedClient
   }
 
@@ -43,11 +25,56 @@ class ClientRepository implements IClientRepository {
     return deletedClient
   }
 
-  async create(data: Prisma.ClientUncheckedCreateInput) {
-    const createdClient = await prisma.client.create({
-      data,
+  async deleteMany(ids: string[]) {
+    const deletedClients = await prisma.client.deleteMany({
+      where: { id: { in: ids } },
     })
-    return createdClient
+    return deletedClients.count
+  }
+
+  async findByCPF(CPF: string) {
+    const client = prisma.client.findUnique({ where: { CPF } })
+    return client
+  }
+
+  async findByEmail(email: string) {
+    const client = prisma.client.findUnique({ where: { email } })
+    return client
+  }
+
+  async findAllByCompanyId(
+    companyId: string,
+    data: Partial<Prisma.ClientCreateManyInput>,
+  ) {
+    const searchedClients = await prisma.client.findMany({
+      where: {
+        companyId,
+        ...(data.id && { id: { contains: data.id } }),
+        ...(data.CPF && { CPF: { contains: data.CPF } }),
+        ...(data.email && { email: { contains: data.email } }),
+        ...(data.name && { name: { contains: data.name } }),
+      },
+      include: {
+        address: true,
+        orders: true,
+        Nfes: true,
+      },
+    })
+
+    return searchedClients
+  }
+
+  async findAllIncludeById(id: string) {
+    const searchedCompany = await prisma.company.findUnique({
+      where: { id },
+      include: {
+        address: { where: { clientId: id } },
+        orders: { where: { clientId: id } },
+        Nfes: { where: { clientId: id } },
+      },
+    })
+
+    return searchedCompany
   }
 }
 

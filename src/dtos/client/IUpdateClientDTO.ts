@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const ICreateClientDTO = z.object({
+export const IUpdateClientDTO = z.object({
   name: z.string(),
   CPF: z
     .string()
