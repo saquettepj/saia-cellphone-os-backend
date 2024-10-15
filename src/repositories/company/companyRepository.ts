@@ -50,14 +50,11 @@ class CompanyRepository implements ICompanyRepository {
   }
 
   async updateById(id: string, data: Prisma.CompanyUpdateInput) {
-    console.log(1)
     const updatedCompany = await prisma.company.update({
       where: { id },
       data,
     })
-    console.log(2)
 
-    console.log(3, updatedCompany)
     return updatedCompany
   }
 

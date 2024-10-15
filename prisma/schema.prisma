@@ -85,9 +85,8 @@ model Address {
   street       String
   streetNumber String
   zipCode      String
-  NfeDataId    String  @unique
-  clientId     String  @unique
-  client       Client  @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  clientId     String? @unique
+  client       Client? @relation(fields: [clientId], references: [id], onDelete: Cascade)
   companyId    String  @unique
   company      Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
 
