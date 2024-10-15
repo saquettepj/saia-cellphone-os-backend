@@ -4,7 +4,7 @@ import { ISimpleArrayProductDTO } from '@/dtos/product/ISimpleProductDTO'
 import { setupDeleteManyProductUseCase } from '@/useCases/product/factory/setupDeleteManyProductUseCase'
 
 interface IProductControllerResponse {
-  ids: string[]
+  count: number
 }
 
 async function deleteManyProductController(
@@ -22,11 +22,13 @@ async function deleteManyProductController(
       })
 
     const responseBody: IProductControllerResponse = {
-      ids: deleteManyProductUseCaseReturn.ids,
+      count: deleteManyProductUseCaseReturn,
     }
 
     return reply.status(200).send(responseBody)
-  } catch (error) {}
+  } catch (error) {
+    throw error
+  }
 }
 
 export { deleteManyProductController }

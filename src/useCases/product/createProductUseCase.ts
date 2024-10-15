@@ -3,9 +3,10 @@ import { IProductRepository } from '@/repositories/product/IProductRepository'
 interface ICreateProductUseCaseRequest {
   companyId: string
   type: string
+  price: number
   condition: string
   description: string
-  price: number
+  quantity: number
 }
 
 class CreateProductUseCase {
@@ -14,19 +15,21 @@ class CreateProductUseCase {
   async execute({
     companyId,
     type,
+    price,
     condition,
     description,
-    price,
+    quantity,
   }: ICreateProductUseCaseRequest) {
-    const createdProduct = await this.productRepository.create({
+    const product = await this.productRepository.create({
       companyId,
       type,
+      price,
       condition,
       description,
-      price,
+      quantity,
     })
 
-    return createdProduct
+    return product
   }
 }
 

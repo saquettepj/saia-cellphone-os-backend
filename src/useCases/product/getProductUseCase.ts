@@ -3,29 +3,27 @@ import { IProductRepository } from '@/repositories/product/IProductRepository'
 interface IGetProductsUseCaseRequest {
   companyId: string
   id?: string
-  manufactureBy?: string
-  model?: string
+  type?: string
   condition?: string
   description?: string
 }
 
 class GetProductUseCase {
-  constructor(private companyRepository: IProductRepository) {}
+  constructor(private productRepository: IProductRepository) {}
 
   async execute({
     companyId,
     id,
-    manufactureBy,
-    model,
+    type,
     condition,
     description,
   }: IGetProductsUseCaseRequest) {
-    const searchedCompanies = await this.companyRepository.findAllByCompanyId(
+    const searchedProducts = await this.productRepository.findAllByCompanyId(
       companyId,
-      { id, manufactureBy, model, condition, description },
+      { id, type, condition, description },
     )
 
-    return searchedCompanies
+    return searchedProducts
   }
 }
 

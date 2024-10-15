@@ -2,10 +2,11 @@ import { IProductRepository } from '@/repositories/product/IProductRepository'
 
 interface IUpdateProductUseCaseRequest {
   id: string
-  manufactureBy?: string
-  model?: string
+  type?: string
+  price?: number
   condition?: string
-  description?: string | null
+  description?: string
+  quantity?: number
 }
 
 class UpdateProductUseCase {
@@ -13,16 +14,18 @@ class UpdateProductUseCase {
 
   async execute({
     id,
-    manufactureBy,
-    model,
+    type,
+    price,
     condition,
     description,
+    quantity,
   }: IUpdateProductUseCaseRequest) {
     const result = await this.productRepository.updateById(id, {
-      manufactureBy,
-      model,
+      type,
+      price,
       condition,
       description,
+      quantity,
     })
 
     return result

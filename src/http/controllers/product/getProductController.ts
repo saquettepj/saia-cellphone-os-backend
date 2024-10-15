@@ -1,11 +1,18 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { Product } from '@prisma/client'
 
 import { IGetProductDTO } from '@/dtos/product/IGetProductDTO'
 import { setupGetProductUseCase } from '@/useCases/product/factory/setupGetProductUseCase'
 
 interface IGetProductControllerResponse {
-  products: Product[]
+  products: Array<{
+    id: string
+    companyId: string
+    type: string
+    condition: string
+    description: string
+    price: number
+    quantity: number
+  }>
 }
 
 async function getProductController(
@@ -14,8 +21,9 @@ async function getProductController(
 ) {
   const { id: companyId } = request.company
 
-  const { id, manufactureBy, model, condition, description } =
-    IGetProductDTO.parse(request.body)
+  const { id, type, condition, description } = IGetProductDTO.parse(
+    request.body,
+  )
 
   try {
     const getProductUseCase = setupGetProductUseCase()
@@ -23,8 +31,7 @@ async function getProductController(
     const getProductUseCaseResult = await getProductUseCase.execute({
       companyId,
       id,
-      manufactureBy,
-      model,
+      type,
       condition,
       description,
     })
@@ -34,7 +41,9 @@ async function getProductController(
     }
 
     return reply.status(200).send(responseBody)
-  } catch (error) {}
+  } catch (error) {
+    throw error
+  }
 }
 
 export { getProductController }

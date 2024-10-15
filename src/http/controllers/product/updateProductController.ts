@@ -7,10 +7,11 @@ import { setupUpdateProductUseCase } from '@/useCases/product/factory/setupUpdat
 interface IUpdateProductControllerResponse {
   id: string
   companyId: string
-  manufactureBy: string
-  model: string
+  type: string
   condition: string
-  description?: string | null
+  description: string | null
+  price: number
+  quantity: number
 }
 
 async function updateProductController(
@@ -19,7 +20,7 @@ async function updateProductController(
 ) {
   const { id } = ISimpleProductDTO.parse(request.params)
 
-  const { manufactureBy, model, condition, description } =
+  const { type, condition, description, price, quantity } =
     IUpdateProductDTO.parse(request.body)
 
   try {
@@ -27,23 +28,27 @@ async function updateProductController(
 
     const updateProductUseCaseResult = await updateProductUseCase.execute({
       id,
-      manufactureBy,
-      model,
+      type,
       condition,
       description,
+      price,
+      quantity,
     })
 
     const responseBody: IUpdateProductControllerResponse = {
       id: updateProductUseCaseResult.id,
       companyId: updateProductUseCaseResult.companyId,
-      manufactureBy: updateProductUseCaseResult.manufactureBy,
-      model: updateProductUseCaseResult.model,
+      type: updateProductUseCaseResult.type,
       condition: updateProductUseCaseResult.condition,
       description: updateProductUseCaseResult.description,
+      price: updateProductUseCaseResult.price,
+      quantity: updateProductUseCaseResult.quantity,
     }
 
     return reply.status(200).send(responseBody)
-  } catch (error) {}
+  } catch (error) {
+    throw error
+  }
 }
 
 export { updateProductController }

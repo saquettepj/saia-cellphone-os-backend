@@ -18,9 +18,8 @@ async function createProductController(
 ) {
   const { id: companyId } = request.company
 
-  const { type, condition, description, price } = ICreateProductDTO.parse(
-    request.body,
-  )
+  const { type, condition, description, price, quantity } =
+    ICreateProductDTO.parse(request.body)
 
   try {
     const createProductUseCase = setupCreateProductUseCase()
@@ -31,6 +30,7 @@ async function createProductController(
       condition,
       description,
       price,
+      quantity,
     })
 
     const responseBody: ICreateProductControllerResponse = {
@@ -43,7 +43,9 @@ async function createProductController(
     }
 
     return reply.status(201).send(responseBody)
-  } catch (error) {}
+  } catch (error) {
+    throw error
+  }
 }
 
 export { createProductController }

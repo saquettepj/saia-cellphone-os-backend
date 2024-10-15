@@ -7,4 +7,5 @@ export const ICreateProductDTO = z.object({
   condition: z.nativeEnum(ProductConditionEnum),
   description: z.string().max(200),
   price: z.number(),
+  quantity: z.number().min(1),
 })

@@ -3,7 +3,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { ISimpleProductDTO } from '@/dtos/product/ISimpleProductDTO'
 import { setupDeleteProductUseCase } from '@/useCases/product/factory/setupDeleteProductUseCase'
 
-interface IProductControllerResponse {
+interface IDeleteProductControllerResponse {
   id: string
 }
 
@@ -16,16 +16,18 @@ async function deleteProductController(
   try {
     const deleteProductUseCase = setupDeleteProductUseCase()
 
-    const deleteProductUseCaseReturn = await deleteProductUseCase.execute({
+    const deleteProductUseCaseResult = await deleteProductUseCase.execute({
       id,
     })
 
-    const responseBody: IProductControllerResponse = {
-      id: deleteProductUseCaseReturn.id,
+    const responseBody: IDeleteProductControllerResponse = {
+      id: deleteProductUseCaseResult.id,
     }
 
     return reply.status(200).send(responseBody)
-  } catch (error) {}
+  } catch (error) {
+    throw error
+  }
 }
 
 export { deleteProductController }

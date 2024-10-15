@@ -50,6 +50,8 @@ async function createClientController(
     if (error instanceof EmailAlreadyExistsError) {
       return reply.status(409).send({ message: error.message })
     }
+
+    throw error
   }
 }
 

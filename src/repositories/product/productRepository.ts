@@ -10,8 +10,8 @@ class ProductRepository implements IProductRepository {
     return searchedProduct
   }
 
-  async findByModel(model: string) {
-    const searchedProduct = await prisma.product.findMany({ where: { model } })
+  async findByType(type: string) {
+    const searchedProduct = await prisma.product.findMany({ where: { type } })
     return searchedProduct
   }
 
@@ -23,13 +23,10 @@ class ProductRepository implements IProductRepository {
       where: {
         companyId,
         ...(data.id && { id: { contains: data.id } }),
-        ...(data.manufactureBy && {
-          manufactureBy: { contains: data.manufactureBy },
-        }),
-        ...(data.model && { model: { contains: data.model } }),
+        ...(data.type && { type: { contains: data.type } }),
         ...(data.condition && { condition: { contains: data.condition } }),
-        ...(data.description !== undefined && {
-          description: { contains: data.description || '' },
+        ...(data.description && {
+          description: { contains: data.description },
         }),
       },
     })
@@ -50,29 +47,15 @@ class ProductRepository implements IProductRepository {
   }
 
   async deleteMany(ids: string[]) {
-    const searchedProducts = await prisma.product.findMany({
-      where: {
-        id: {
-          in: ids,
-        },
-      },
+    const deletedProducts = await prisma.product.deleteMany({
+      where: { id: { in: ids } },
     })
 
-    await prisma.product.deleteMany({
-      where: {
-        id: {
-          in: ids,
-        },
-      },
-    })
-
-    return searchedProducts
+    return deletedProducts.count
   }
 
   async create(data: Prisma.ProductUncheckedCreateInput) {
-    const createdProduct = await prisma.product.create({
-      data,
-    })
+    const createdProduct = await prisma.product.create({ data })
 
     return createdProduct
   }

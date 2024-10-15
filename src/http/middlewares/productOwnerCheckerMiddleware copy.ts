@@ -15,10 +15,7 @@ const productOwnerCheckerMiddleware = async (
   const { id: productId } = ISimpleProductDTO.parse(request.params)
 
   const productRepository = new ProductRepository()
-  const companyRepository = new CompanyRepository()
-
   const searchedProduct = await productRepository.findById(productId)
-  const searchedCompany = await companyRepository.findById(id)
 
   if (!searchedProduct) {
     throw new MiddlewareError({
@@ -26,6 +23,9 @@ const productOwnerCheckerMiddleware = async (
       message: 'Product not found!',
     })
   }
+
+  const companyRepository = new CompanyRepository()
+  const searchedCompany = await companyRepository.findById(id)
 
   if (
     searchedProduct.companyId !== id &&

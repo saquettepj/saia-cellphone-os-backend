@@ -21,7 +21,9 @@ async function getCompanyController(
     }
 
     return reply.status(200).send(responseBody)
-  } catch (error) {}
+  } catch (error) {
+    throw error
+  }
 }
 
 export { getCompanyController }
