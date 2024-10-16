@@ -5,6 +5,7 @@ import { emailRoutes } from './routes/email.routes'
 import { productRoutes } from './routes/product.routes'
 import { clientRoutes } from './routes/client.routes'
 import { addressRoutes } from './routes/address.routes'
+import { employeeRoutes } from './routes/employee.routes'
 
 import { env } from '@/env'
 
@@ -17,8 +18,9 @@ async function appRoutes(app: FastifyInstance) {
 
   companyRoutes(app)
   emailRoutes(app)
-  productRoutes(app)
+  employeeRoutes(app)
   clientRoutes(app)
+  productRoutes(app)
   addressRoutes(app)
 }
 

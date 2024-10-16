@@ -7,6 +7,7 @@ import { ZodError } from 'zod'
 import { appRoutes } from './http/routes'
 import { env } from './env'
 import { MiddlewareError } from './errors/middlewareError'
+import { filterErrorContent } from './utils/filterErrorContent'
 
 export const prisma = new PrismaClient()
 
@@ -19,12 +20,12 @@ app.register(appRoutes)
 
 app.setErrorHandler(
   (error: Error, _request: FastifyRequest, reply: FastifyReply) => {
-    if (env.NODE_ENV !== 'production' && !(error instanceof ZodError)) {
-      console.error(
-        `🔴 ${
-          error instanceof MiddlewareError ? 'Middleware' : ''
-        } ${error} 🔴`,
-      )
+    if (
+      env.NODE_ENV !== 'production' &&
+      !(error instanceof ZodError) &&
+      error instanceof MiddlewareError
+    ) {
+      console.error(`🔴 Middleware - ${error}🔴`)
     } else {
       // Usar um log externo: Datadog||NewRelic||Sentry
     }
@@ -41,7 +42,7 @@ app.setErrorHandler(
 
     return reply.status(500).send({
       status: 'error',
-      message: `Internal server error - ${error.message}`,
+      message: `Internal server error ${filterErrorContent(error.message)}`,
     })
   },
 )

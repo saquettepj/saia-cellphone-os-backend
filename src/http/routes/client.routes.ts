@@ -16,7 +16,7 @@ async function clientRoutes(app: FastifyInstance) {
   )
 
   app.post(
-    '/clients/list',
+    '/client/list',
     {
       preHandler: [companyAuthenticatorMiddleware],
     },
