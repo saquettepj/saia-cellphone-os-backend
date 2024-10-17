@@ -5,6 +5,7 @@ import { createClientController } from '../controllers/client/createClientContro
 import { updateClientController } from '../controllers/client/updateClientController'
 import { deleteClientController } from '../controllers/client/deleteClientController'
 import { getClientController } from '../controllers/client/getClientController'
+import { clientCheckerByCompanyMiddleware } from '../middlewares/clientCheckerByCompanyMiddleware'
 
 async function clientRoutes(app: FastifyInstance) {
   app.post(
@@ -26,7 +27,10 @@ async function clientRoutes(app: FastifyInstance) {
   app.patch(
     '/client/:id',
     {
-      preHandler: [companyAuthenticatorMiddleware],
+      preHandler: [
+        companyAuthenticatorMiddleware,
+        clientCheckerByCompanyMiddleware,
+      ],
     },
     updateClientController,
   )
@@ -34,7 +38,10 @@ async function clientRoutes(app: FastifyInstance) {
   app.delete(
     '/client/:id',
     {
-      preHandler: [companyAuthenticatorMiddleware],
+      preHandler: [
+        companyAuthenticatorMiddleware,
+        clientCheckerByCompanyMiddleware,
+      ],
     },
     deleteClientController,
   )

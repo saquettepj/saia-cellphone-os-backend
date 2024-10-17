@@ -2,6 +2,7 @@ import { Prisma, Product } from '@prisma/client'
 
 interface IProductRepository {
   findById(id: string): Promise<Product | null>
+  findManyByIds(ids: string[]): Promise<Product[]>
   findByType(type: string): Promise<Product[] | null>
   findAllByCompanyId(
     companyId: string,

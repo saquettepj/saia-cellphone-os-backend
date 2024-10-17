@@ -6,7 +6,7 @@ import { ProductRepository } from '@/repositories/product/productRepository'
 import { CompanyRepository } from '@/repositories/company/companyRepository'
 import { AccountTypeEnum } from '@/enums/all.enum'
 
-const productOwnerCheckerMiddleware = async (
+const productCheckerByCompanyMiddleware = async (
   request: FastifyRequest,
   _reply: FastifyReply,
 ) => {
@@ -38,4 +38,4 @@ const productOwnerCheckerMiddleware = async (
   }
 }
 
-export { productOwnerCheckerMiddleware }
+export { productCheckerByCompanyMiddleware }

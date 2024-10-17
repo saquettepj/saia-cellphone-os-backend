@@ -5,6 +5,7 @@ import { createEmployeeController } from '../controllers/employee/createEmployee
 import { updateEmployeeController } from '../controllers/employee/updateEmployeeController'
 import { deleteEmployeeController } from '../controllers/employee/deleteEmployeeController'
 import { getEmployeeController } from '../controllers/employee/getEmployeeController'
+import { employeeCheckerByCompanyMiddleware } from '../middlewares/employeeCheckerByCompanyMiddleware'
 
 async function employeeRoutes(app: FastifyInstance) {
   app.post(
@@ -26,7 +27,10 @@ async function employeeRoutes(app: FastifyInstance) {
   app.patch(
     '/employee/:id',
     {
-      preHandler: [companyAuthenticatorMiddleware],
+      preHandler: [
+        companyAuthenticatorMiddleware,
+        employeeCheckerByCompanyMiddleware,
+      ],
     },
     updateEmployeeController,
   )
@@ -34,7 +38,10 @@ async function employeeRoutes(app: FastifyInstance) {
   app.delete(
     '/employee/:id',
     {
-      preHandler: [companyAuthenticatorMiddleware],
+      preHandler: [
+        companyAuthenticatorMiddleware,
+        employeeCheckerByCompanyMiddleware,
+      ],
     },
     deleteEmployeeController,
   )

@@ -4,10 +4,10 @@ import { createProductController } from '../controllers/product/createProductCon
 import { getProductController } from '../controllers/product/getProductController'
 import { deleteProductController } from '../controllers/product/deleteProductController'
 import { companyAuthenticatorMiddleware } from '../middlewares/companyAuthenticatorMiddleware'
-import { productOwnerCheckerMiddleware } from '../middlewares/productOwnerCheckerMiddleware copy'
 import { emailConfirmationCheckerMiddleware } from '../middlewares/emailConfirmationCheckerMiddleware'
 import { updateProductController } from '../controllers/product/updateProductController'
 import { deleteManyProductController } from '../controllers/product/deleteManyProductController'
+import { productCheckerByCompanyMiddleware } from '../middlewares/productCheckerByCompanyMiddleware'
 
 async function productRoutes(app: FastifyInstance) {
   app.post(
@@ -37,7 +37,7 @@ async function productRoutes(app: FastifyInstance) {
     {
       preHandler: [
         companyAuthenticatorMiddleware,
-        productOwnerCheckerMiddleware,
+        productCheckerByCompanyMiddleware,
         emailConfirmationCheckerMiddleware,
       ],
     },
@@ -49,7 +49,7 @@ async function productRoutes(app: FastifyInstance) {
     {
       preHandler: [
         companyAuthenticatorMiddleware,
-        productOwnerCheckerMiddleware,
+        productCheckerByCompanyMiddleware,
         emailConfirmationCheckerMiddleware,
       ],
     },

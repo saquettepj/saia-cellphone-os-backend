@@ -147,7 +147,7 @@ model Order {
   employee      Employee    @relation(fields: [employeeId], references: [id])
   number        Int
   type          String
-  items         OrderItem[]
+  orderItems    OrderItem[]
   status        String
   payDate       DateTime
   paymentMethod String

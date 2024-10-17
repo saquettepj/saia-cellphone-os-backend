@@ -5,13 +5,11 @@ function filterErrorContent(content: string): string {
     return 'No content!'
   }
 
-  if (content.includes('double-quoted')) {
-    return '- SyntaxError'
-  }
-
   if (
     content.includes('Body cannot be empty') ||
-    content.includes('JSON input')
+    content.includes('JSON input') ||
+    content.includes(`Expected ',' or '}'`) ||
+    content.includes('double-quoted')
   ) {
     return `- ${content}`
   }

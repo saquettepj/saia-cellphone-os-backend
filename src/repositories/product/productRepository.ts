@@ -10,6 +10,16 @@ class ProductRepository implements IProductRepository {
     return searchedProduct
   }
 
+  async findManyByIds(ids: string[]) {
+    return prisma.product.findMany({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+    })
+  }
+
   async findByType(type: string) {
     const searchedProduct = await prisma.product.findMany({ where: { type } })
     return searchedProduct
