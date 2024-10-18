@@ -30,3 +30,4 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+      POSTGRESQL_DATABASE: database-postgres-sales-system-test
