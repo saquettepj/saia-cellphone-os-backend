@@ -95,16 +95,16 @@ model Address {
 
 model NfeData {
   id                     String  @id @default(uuid())
-  certificateKey         String
-  serializedCertificate  String
+  certificateKey         String?
+  serializedCertificate  String?
   companyId              String  @unique
   company                Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  idCSC                  String
+  CSC                    String
   inscricaoEstadual      String
   regimeTributario       String // Pode ser Simples Nacional, Lucro Presumido, etc.
   codigoRegimeTributario String // Código do regime tributário
   cnae                   String // Código Nacional de Atividade Econômica
-  certificadoDigital     String? // Caminho ou ID do certificado digital
-  senhaCertificado       String?
 
   @@map("nfe_data_table")
 }

@@ -3,6 +3,8 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { ICreateAddressDTO } from '@/dtos/address/ICreateAddressDTO'
 import { setupCreateAddressUseCase } from '@/useCases/address/factory/setupCreateAddressUseCase'
 import { ClientNotFoundError } from '@/errors/clientNotFoundError'
+import { ClientHasAddressError } from '@/errors/clientHasAddressError'
+import { CompanyHasAddressError } from '@/errors/companyHasAddressError'
 
 interface ICreateAddressControllerResponse {
   id: string
@@ -55,6 +57,12 @@ async function createAddressController(
   } catch (error) {
     if (error instanceof ClientNotFoundError) {
       return reply.status(404).send({ message: error.message })
+    }
+    if (error instanceof ClientHasAddressError) {
+      return reply.status(400).send({ message: error.message })
+    }
+    if (error instanceof CompanyHasAddressError) {
+      return reply.status(400).send({ message: error.message })
     }
     throw error
   }

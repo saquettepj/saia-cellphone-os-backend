@@ -1,7 +1,7 @@
 import { Address, Prisma } from '@prisma/client'
 
 import { IAddressRepository } from '@/repositories/address/IAddressRepository'
-import { prisma } from '@/app' // Supondo que você tenha um prisma client exportado de 'app'
+import { prisma } from '@/app'
 
 class AddressRepository implements IAddressRepository {
   async findById(id: string): Promise<Address | null> {

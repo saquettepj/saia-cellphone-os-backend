@@ -7,6 +7,7 @@ import { clientRoutes } from './routes/client.routes'
 import { addressRoutes } from './routes/address.routes'
 import { employeeRoutes } from './routes/employee.routes'
 import { orderRoutes } from './routes/order.routes'
+import { nfeDataRoutes } from './routes/nfeData.routes'
 
 import { env } from '@/env'
 
@@ -24,6 +25,7 @@ async function appRoutes(app: FastifyInstance) {
   productRoutes(app)
   orderRoutes(app)
   addressRoutes(app)
+  nfeDataRoutes(app)
 }
 
 export { appRoutes }

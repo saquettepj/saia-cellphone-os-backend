@@ -1,6 +1,8 @@
 import { IAddressRepository } from '@/repositories/address/IAddressRepository'
 import { ClientNotFoundError } from '@/errors/clientNotFoundError'
 import { IClientRepository } from '@/repositories/client/IClientRepository'
+import { ClientHasAddressError } from '@/errors/clientHasAddressError'
+import { CompanyHasAddressError } from '@/errors/companyHasAddressError'
 
 interface ICreateAddressUseCaseRequest {
   city: string
@@ -34,6 +36,20 @@ class CreateAddressUseCase {
         await this.clientRepositoryRepository.findById(clientId)
       if (!existingClient) {
         throw new ClientNotFoundError()
+      }
+
+      const existingClientAddress =
+        await this.addressRepository.findByClientId(clientId)
+      if (existingClientAddress) {
+        throw new ClientHasAddressError()
+      }
+    }
+
+    if (!clientId) {
+      const existingCompanyAddress =
+        await this.addressRepository.findByCompanyId(companyId)
+      if (existingCompanyAddress) {
+        throw new CompanyHasAddressError()
       }
     }
     const createdAddress = await this.addressRepository.create({

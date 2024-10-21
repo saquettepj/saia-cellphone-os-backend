@@ -1,6 +1,6 @@
 class NfeDataNotFoundError extends Error {
   constructor() {
-    super('NFe data not found.')
+    super('NFe data not found!')
   }
 }
 
