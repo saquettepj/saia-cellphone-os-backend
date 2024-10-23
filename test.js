@@ -10,8 +10,7 @@ const empresa = {
   razaoSocial: 'LF CALCADOS LTDA', // Nome completo ou razão social da empresa
   nomeFantasia: 'RAPHAELLA BOOZ SORRISO', // Nome fantasia da empresa
   inscricaoEstadual: '136478085', // Inscrição Estadual do emitente
-  inscricaoMunicipal: '123456789', // Inscrição Municipal (opcional)
-  CNAE: '1234567', // Código CNAE da empresa
+  CNAE: '4782201', // Código CNAE da empresa
   codRegimeTributario: '3', // Regime tributário (Simples, Lucro Presumido, etc.)
   endereco: {
     logradouro: 'AV NATALINO JOAO BRESCANSIN',
@@ -46,7 +45,7 @@ const documentoFiscal = {
   ambiente: '2', // 1 = Produção, 2 = Homologação
   dhEmissao: moment().format(), // Data e hora da emissão
   dhSaiEnt: '', // Data e hora de saída/entrada (opcional para NFC-e)
-  codUF: '43', // Código da Unidade Federativa
+  codUF: '51', // Código da Unidade Federativa
   tipoDocumentoFiscal: '1', // Tipo do documento: 0 = Entrada, 1 = Saída
   identificadorDestinoOperacao: '1', // Destino da operação: 1 = Interna, 2 = Interestadual, 3 = Exterior
   codIbgeFatoGerador: '4303103', // Código IBGE do município do fato gerador

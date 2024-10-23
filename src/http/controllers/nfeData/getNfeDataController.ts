@@ -27,6 +27,8 @@ async function getNfeDataController(
     regimeTributario,
     codigoRegimeTributario,
     cnae,
+    idCSC,
+    CSC,
   } = IGetNfeDataDTO.parse(request.body)
 
   try {
@@ -39,6 +41,8 @@ async function getNfeDataController(
       regimeTributario,
       codigoRegimeTributario,
       cnae,
+      idCSC,
+      CSC,
     })
 
     const responseBody: IGetNfeDataControllerResponse = {
