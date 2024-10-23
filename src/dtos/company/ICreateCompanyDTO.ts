@@ -10,7 +10,7 @@ export const ICreateCompanyDTO = z.object({
   password: z
     .string()
     .min(8)
-    .max(16)
+    .max(25)
     .regex(/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#%])/, {
       message:
         'Password must have at least one uppercase letter, one lowercase letter, one number and one special character:',
@@ -18,7 +18,7 @@ export const ICreateCompanyDTO = z.object({
   passwordConfirmation: z
     .string()
     .min(8)
-    .max(16)
+    .max(25)
     .regex(/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#%])/, {
       message:
         'Password must have at least one uppercase letter, one lowercase letter, one number and one special character:',

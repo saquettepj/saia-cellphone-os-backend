@@ -63,6 +63,8 @@ class CompanyRepository implements ICompanyRepository {
       where: { CNPJ },
       data: {
         passwordHash,
+        emailConfirmationCode: null,
+        emailChecked: false,
       },
     })
 

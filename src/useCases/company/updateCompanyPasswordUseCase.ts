@@ -22,7 +22,7 @@ class UpdateCompanyPasswordUseCase {
   }: IUpdateCompanyPasswordUseCaseRequest) {
     const searchedCompany = await this.companyRepository.findByCNPJ(CNPJ)
 
-    if (currentPassword !== passwordConfirmation) {
+    if (newPassword !== passwordConfirmation) {
       throw new PasswordConfirmationIsDifferentError()
     }
 

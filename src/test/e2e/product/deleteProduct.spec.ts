@@ -7,22 +7,30 @@ import {
   createNewProductTestObject,
 } from '@/test/testObjects/testObjects'
 import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
-import { getCompanyIdByToken } from '@/test/utils/getCompanyIdByToken'
+import { MiddlewareError } from '@/errors/middlewareError'
 
 describe('Delete product - (e2e)', () => {
+  let companyToken: string
+  let companyToken2: string
+  let productId: string
+
+  const companyJokerRepository = setupCompanyJokerRepository()
+
+  const newCompanyObject = createNewCompanyTestObject()
+  const newProductObject = createNewProductTestObject()
+
+  const productCheckerByCompanyMiddlewareError = new MiddlewareError({
+    statusCode: 401,
+    message: 'Request not allowed!',
+  })
+
+  const newCompanyObject2 = createNewCompanyTestObject({
+    CNPJ: '11111111111112',
+    email: 'teste@email2.com',
+  })
+
   beforeAll(async () => {
     await app.ready()
-  })
-
-  afterAll(async () => {
-    await app.close()
-  })
-
-  it('It should be able to delete a product', async () => {
-    const companyJokerRepository = setupCompanyJokerRepository()
-
-    const newCompanyObject = createNewCompanyTestObject()
-    const newProductObject = createNewProductTestObject()
 
     await request(app.server).post('/company').send(newCompanyObject)
 
@@ -33,76 +41,25 @@ describe('Delete product - (e2e)', () => {
         password: newCompanyObject.password,
       })
 
-    const newCompanyToken = authenticateCompanyResponse.body.token
+    companyToken = authenticateCompanyResponse.body.token
 
     const newCompanyJoker = await companyJokerRepository.findByCNPJ(
       newCompanyObject.CNPJ,
     )
 
     await request(app.server)
-      .patch(`/email/confirm`)
-      .set('Authorization', `Bearer ${newCompanyToken}`)
+      .patch('/email/confirm')
+      .set('Authorization', `Bearer ${companyToken}`)
       .send({
         emailConfirmationCode: newCompanyJoker?.emailConfirmationCode,
       })
 
     const createProductResponse = await request(app.server)
-      .post(`/product`)
-      .set('Authorization', `Bearer ${newCompanyToken}`)
+      .post('/product')
+      .set('Authorization', `Bearer ${companyToken}`)
       .send(newProductObject)
 
-    const newProductId = createProductResponse.body.id
-
-    const deleteProductResponse = await request(app.server)
-      .delete(`/product/${newProductId}`)
-      .set('Authorization', `Bearer ${newCompanyToken}`)
-      .send()
-
-    expect(deleteProductResponse.statusCode).toEqual(200)
-    expect(deleteProductResponse.body).toEqual({
-      id: newProductId,
-    })
-  })
-
-  it('It should not be able to delete a product if the requester is not the owner', async () => {
-    const companyJokerRepository = setupCompanyJokerRepository()
-
-    const newCompanyObject = createNewCompanyTestObject()
-    const newProductObject = createNewProductTestObject()
-
-    const newCompanyObject2 = createNewCompanyTestObject({
-      CNPJ: '11111111111112',
-      email: 'teste@email2.com',
-    })
-
-    await request(app.server).post('/company').send(newCompanyObject)
-
-    const authenticateCompanyResponse = await request(app.server)
-      .post('/company/authenticate')
-      .send({
-        CNPJ: newCompanyObject.CNPJ,
-        password: newCompanyObject.password,
-      })
-
-    const newCompanyToken = authenticateCompanyResponse.body.token
-
-    const newCompanyJoker = await companyJokerRepository.findByCNPJ(
-      newCompanyObject.CNPJ,
-    )
-
-    await request(app.server)
-      .patch(`/email/confirm`)
-      .set('Authorization', `Bearer ${newCompanyToken}`)
-      .send({
-        emailConfirmationCode: newCompanyJoker?.emailConfirmationCode,
-      })
-
-    const createProductResponse = await request(app.server)
-      .post(`/product`)
-      .set('Authorization', `Bearer ${newCompanyToken}`)
-      .send(newProductObject)
-
-    const newProductId = createProductResponse.body.id
+    productId = createProductResponse.body.id
 
     await request(app.server).post('/company').send(newCompanyObject2)
 
@@ -113,27 +70,47 @@ describe('Delete product - (e2e)', () => {
         password: newCompanyObject2.password,
       })
 
-    const newCompanyToken2 = authenticateCompanyResponse2.body.token
+    companyToken2 = authenticateCompanyResponse2.body.token
 
     const newCompanyJoker2 = await companyJokerRepository.findByCNPJ(
-      newCompanyObject.CNPJ,
+      newCompanyObject2.CNPJ,
     )
 
     await request(app.server)
-      .patch(`/email/confirm`)
-      .set('Authorization', `Bearer ${newCompanyToken2}`)
+      .patch('/email/confirm')
+      .set('Authorization', `Bearer ${companyToken2}`)
       .send({
         emailConfirmationCode: newCompanyJoker2?.emailConfirmationCode,
       })
+  })
 
+  afterAll(async () => {
+    await app.close()
+  })
+
+  it('should not be able to delete a product if the requester is not the owner', async () => {
     const deleteProductResponse = await request(app.server)
-      .delete(`/product/${newProductId}`)
-      .set('Authorization', `Bearer ${newCompanyToken2}`)
+      .delete(`/product/${productId}`)
+      .set('Authorization', `Bearer ${companyToken2}`)
       .send()
 
-    expect(deleteProductResponse.statusCode).toEqual(401)
+    expect(deleteProductResponse.statusCode).toEqual(
+      productCheckerByCompanyMiddlewareError.statusCode,
+    )
+    expect(deleteProductResponse.body.message).toEqual(
+      productCheckerByCompanyMiddlewareError.message,
+    )
+  })
+
+  it('should be able to delete a product', async () => {
+    const deleteProductResponse = await request(app.server)
+      .delete(`/product/${productId}`)
+      .set('Authorization', `Bearer ${companyToken}`)
+      .send()
+
+    expect(deleteProductResponse.statusCode).toEqual(200)
     expect(deleteProductResponse.body).toEqual({
-      message: 'Request not allowed!',
+      id: productId,
     })
   })
 })

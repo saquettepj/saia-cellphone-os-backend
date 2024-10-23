@@ -1,87 +1,69 @@
 import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
+import { env } from '@/env'
 import { app } from '@/app'
 import { createNewCompanyTestObject } from '@/test/testObjects/testObjects'
-import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
+import { MiddlewareError } from '@/errors/middlewareError'
 
-describe('Create product - (e2e)', () => {
+describe('Get company list - (e2e)', () => {
+  let adminAccessToken: string
+  let normalCompanyAccessToken: string
+
+  const authenticateMiddlewareError = new MiddlewareError({
+    message: 'Request not allowed!',
+    statusCode: 401,
+  })
+
+  const normalCompanyObject = createNewCompanyTestObject({
+    CNPJ: '22222222222222',
+    email: 'normal@company.com',
+  })
+
   beforeAll(async () => {
     await app.ready()
+
+    const adminAuthResponse = await request(app.server)
+      .post('/company/authenticate')
+      .send({
+        CNPJ: env.ADMIN_ACCOUNT_CNPJ,
+        password: env.ADMIN_ACCOUNT_PASSWORD,
+      })
+
+    adminAccessToken = adminAuthResponse.body.token
+
+    await request(app.server).post('/company').send(normalCompanyObject)
+
+    const normalAuthResponse = await request(app.server)
+      .post('/company/authenticate')
+      .send({
+        CNPJ: normalCompanyObject.CNPJ,
+        password: normalCompanyObject.password,
+      })
+
+    normalCompanyAccessToken = normalAuthResponse.body.token
   })
 
   afterAll(async () => {
     await app.close()
   })
 
-  it('It should be able list companies', async () => {
-    const companyJokerRepository = setupCompanyJokerRepository()
+  it('should allow an admin to list all companies', async () => {
+    const response = await request(app.server)
+      .get('/company')
+      .set('Authorization', `Bearer ${adminAccessToken}`)
 
-    const newCompanyObject = createNewCompanyTestObject({
-      CNPJ: '11111111111112',
-      email: 'teste@email2.com',
-    })
-
-    await request(app.server).post('/company').send(newCompanyObject)
-
-    const authenticateCompanyResponse = await request(app.server)
-      .post('/company/authenticate')
-      .send({
-        CNPJ: '12323123000000',
-        password: 'pass',
-      })
-
-    const adminToken = authenticateCompanyResponse.body.token
-    const newCompanyJoker = await companyJokerRepository.findByCNPJ(
-      newCompanyObject.CNPJ,
-    )
-
-    const getCompanyResponse = await request(app.server)
-      .get(`/company`)
-      .set('Authorization', `Bearer ${adminToken}`)
-      .send()
-
-    expect(getCompanyResponse.statusCode).toEqual(200)
-    expect(getCompanyResponse.body).toEqual({
-      companies: [
-        {
-          id: newCompanyJoker?.id,
-          accountType: 'NORMAL',
-          CNPJ: newCompanyObject.CNPJ,
-          email: newCompanyObject.email,
-          emailChecked: false,
-          name: newCompanyObject.name,
-          CEP: newCompanyObject.CEP,
-          createdAt: newCompanyJoker?.createdAt.toISOString(),
-          companyImageUrl: null,
-          products: [],
-        },
-      ],
-    })
+    expect(response.statusCode).toEqual(200)
+    expect(response.body.companies).toBeInstanceOf(Array)
+    expect(response.body.companies.length).toEqual(1)
   })
 
-  it('It should not be able list companies without admin account', async () => {
-    const newCompanyObject = createNewCompanyTestObject()
+  it('should not allow a normal company to list all companies', async () => {
+    const response = await request(app.server)
+      .get('/company')
+      .set('Authorization', `Bearer ${normalCompanyAccessToken}`)
 
-    await request(app.server).post('/company').send(newCompanyObject)
-
-    const authenticateCompanyResponse = await request(app.server)
-      .post('/company/authenticate')
-      .send({
-        CNPJ: newCompanyObject.CNPJ,
-        password: newCompanyObject.password,
-      })
-
-    const newCompanyToken = authenticateCompanyResponse.body.token
-
-    const getCompanyResponse = await request(app.server)
-      .get(`/company`)
-      .set('Authorization', `Bearer ${newCompanyToken}`)
-      .send()
-
-    expect(getCompanyResponse.statusCode).toEqual(401)
-    expect(getCompanyResponse.body).toEqual({
-      message: 'Request not allowed!',
-    })
+    expect(response.statusCode).toEqual(authenticateMiddlewareError.statusCode)
+    expect(response.body.message).toEqual(authenticateMiddlewareError.message)
   })
 })

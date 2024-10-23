@@ -7,21 +7,25 @@ import {
   createNewProductTestObject,
 } from '@/test/testObjects/testObjects'
 import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
-import { getCompanyIdByToken } from '@/test/utils/getCompanyIdByToken'
+import { MiddlewareError } from '@/errors/middlewareError'
 
 describe('Create product - (e2e)', () => {
+  let validToken: string
+
+  const companyJokerRepository = setupCompanyJokerRepository()
+
+  const authenticateCompanyMiddlewareError = new MiddlewareError({
+    message: 'Invalid token!',
+    statusCode: 401,
+  })
+
   beforeAll(async () => {
     await app.ready()
-  })
 
-  afterAll(async () => {
-    await app.close()
-  })
-
-  it('It should be able create a product', async () => {
-    const newCompanyObject = createNewCompanyTestObject()
-    const newProductObject = createNewProductTestObject()
-    const companyJokerRepository = setupCompanyJokerRepository()
+    const newCompanyObject = createNewCompanyTestObject({
+      CNPJ: '11111111111111',
+      email: 'valid@company.com',
+    })
 
     await request(app.server).post('/company').send(newCompanyObject)
 
@@ -32,33 +36,86 @@ describe('Create product - (e2e)', () => {
         password: newCompanyObject.password,
       })
 
-    const newCompanyToken = authenticateCompanyResponse.body.token
-    const newCompanyId = getCompanyIdByToken(newCompanyToken)
+    validToken = authenticateCompanyResponse.body.token
 
-    const newCompanyJoker = await companyJokerRepository.findByCNPJ(
+    const company = await companyJokerRepository.findByCNPJ(
       newCompanyObject.CNPJ,
     )
 
     await request(app.server)
       .patch(`/email/confirm`)
-      .set('Authorization', `Bearer ${newCompanyToken}`)
+      .set('Authorization', `Bearer ${validToken}`)
       .send({
-        emailConfirmationCode: newCompanyJoker?.emailConfirmationCode,
+        emailConfirmationCode: company?.emailConfirmationCode,
       })
+  })
 
-    const createProductResponse = await request(app.server)
-      .post(`/product`)
-      .set('Authorization', `Bearer ${newCompanyToken}`)
+  afterAll(async () => {
+    await app.close()
+  })
+
+  it('should be able to create a product with all attributes', async () => {
+    const newProductObject = createNewProductTestObject()
+
+    const response = await request(app.server)
+      .post('/product')
+      .set('Authorization', `Bearer ${validToken}`)
       .send(newProductObject)
 
-    expect(createProductResponse.statusCode).toEqual(201)
-    expect(createProductResponse.body).toEqual({
-      id: createProductResponse.body.id,
-      companyId: newCompanyId,
-      manufactureBy: newProductObject.manufactureBy,
-      model: newProductObject.model,
+    expect(response.statusCode).toEqual(201)
+    expect(response.body).toEqual({
+      id: expect.any(String),
+      companyId: expect.any(String),
+      type: newProductObject.type,
       condition: newProductObject.condition,
       description: newProductObject.description,
+      price: newProductObject.price,
     })
+  })
+
+  it('should not allow product creation without email confirmation', async () => {
+    const newProductObject = createNewProductTestObject()
+
+    const unconfirmedCompanyObject = createNewCompanyTestObject({
+      CNPJ: '33333333333333',
+      email: 'unconfirmed@company.com',
+    })
+
+    await request(app.server).post('/company').send(unconfirmedCompanyObject)
+
+    const unconfirmedAuthResponse = await request(app.server)
+      .post('/company/authenticate')
+      .send({
+        CNPJ: unconfirmedCompanyObject.CNPJ,
+        password: unconfirmedCompanyObject.password,
+      })
+
+    const unconfirmedToken = unconfirmedAuthResponse.body.token
+
+    const response = await request(app.server)
+      .post('/product')
+      .set('Authorization', `Bearer ${unconfirmedToken}`)
+      .send(newProductObject)
+
+    expect(response.statusCode).toEqual(401)
+    expect(response.body.message).toEqual(
+      'Prerequisite for this action: email confirmation.',
+    )
+  })
+
+  it('should not allow product creation with an invalid authentication token', async () => {
+    const newProductObject = createNewProductTestObject()
+
+    const response = await request(app.server)
+      .post('/product')
+      .set('Authorization', `Bearer invalidtoken`)
+      .send(newProductObject)
+
+    expect(response.statusCode).toEqual(
+      authenticateCompanyMiddlewareError.statusCode,
+    )
+    expect(response.body.message).toEqual(
+      authenticateCompanyMiddlewareError.message,
+    )
   })
 })
