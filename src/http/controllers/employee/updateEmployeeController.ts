@@ -4,6 +4,7 @@ import { IUpdateEmployeeDTO } from '@/dtos/employee/IUpdateEmployeeDTO'
 import { setupUpdateEmployeeUseCase } from '@/useCases/employee/factory/setupUpdateEmployeeUseCase'
 import { EmployeeNotFoundError } from '@/errors/employeeNotFoundError'
 import { ISimpleEmployeeDTO } from '@/dtos/employee/ISimpleEmployeeDTO'
+import { CPFAlreadyExistsError } from '@/errors/CPFAlreadyExistsError'
 
 interface IUpdateEmployeeControllerResponse {
   id: string
@@ -45,6 +46,10 @@ async function updateEmployeeController(
   } catch (error) {
     if (error instanceof EmployeeNotFoundError) {
       return reply.status(404).send({ message: error.message })
+    }
+
+    if (error instanceof CPFAlreadyExistsError) {
+      return reply.status(409).send({ message: error.message })
     }
 
     throw error

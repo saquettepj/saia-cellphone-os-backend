@@ -32,11 +32,21 @@ class UpdateAddressUseCase {
   }: IUpdateAddressUseCaseRequest) {
     let updatedAddress
 
-    if (clientId) {
+    if (clientId || clientId != null) {
       const existingClient =
         await this.clientRepositoryRepository.findById(clientId)
       if (!existingClient) {
         throw new ClientNotFoundError()
+      }
+
+      const existingAddress =
+        await this.addressRepository.findByClientId(clientId)
+      if (!existingAddress) {
+        throw new AddressNotFoundError()
+      }
+
+      if (existingAddress.clientId === null) {
+        throw new AddressNotFoundError()
       }
 
       updatedAddress = await this.addressRepository.updateByClientId(clientId, {

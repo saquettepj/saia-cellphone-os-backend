@@ -96,7 +96,7 @@ describe('Email Confirmation - (e2e)', () => {
         emailConfirmationCode: generateRandomNumber(6),
       })
 
-    expect(response.statusCode).toEqual(400)
     expect(response.body.message).toEqual(emailAlreadyConfirmedError.message)
+    expect(response.statusCode).toEqual(400)
   })
 })

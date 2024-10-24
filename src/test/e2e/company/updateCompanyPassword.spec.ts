@@ -156,10 +156,10 @@ describe('Update company password - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send(updatePasswordData)
 
-    expect(response.statusCode).toEqual(400)
     expect(response.body.message).toEqual(
       passwordConfirmationIsDifferentError.message,
     )
+    expect(response.statusCode).toEqual(400)
   })
 
   it('should not allow another company to update the password', async () => {
@@ -201,7 +201,7 @@ describe('Update company password - (e2e)', () => {
       .set('Authorization', `Bearer ${otherCompanyToken}`)
       .send(updatePasswordData)
 
-    expect(response.statusCode).toEqual(401)
     expect(response.body.message).toEqual(companyCredentialsError.message)
+    expect(response.statusCode).toEqual(401)
   })
 })

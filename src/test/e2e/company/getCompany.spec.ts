@@ -5,6 +5,7 @@ import { env } from '@/env'
 import { app } from '@/app'
 import { createNewCompanyTestObject } from '@/test/testObjects/testObjects'
 import { MiddlewareError } from '@/errors/middlewareError'
+import { AccountTypeEnum } from '@/enums/all.enum'
 
 describe('Get company list - (e2e)', () => {
   let adminAccessToken: string
@@ -53,9 +54,24 @@ describe('Get company list - (e2e)', () => {
       .get('/company')
       .set('Authorization', `Bearer ${adminAccessToken}`)
 
-    expect(response.statusCode).toEqual(200)
     expect(response.body.companies).toBeInstanceOf(Array)
     expect(response.body.companies.length).toEqual(1)
+    expect(response.body.companies[0]).toEqual(
+      expect.objectContaining({
+        id: expect.any(String),
+        CNPJ: normalCompanyObject.CNPJ,
+        email: normalCompanyObject.email,
+        name: normalCompanyObject.name,
+        accessToken: null,
+        address: null,
+        employees: null,
+        clients: null,
+        products: null,
+        orders: null,
+        Nfes: null,
+      }),
+    )
+    expect(response.statusCode).toEqual(200)
   })
 
   it('should not allow a normal company to list all companies', async () => {
@@ -63,7 +79,7 @@ describe('Get company list - (e2e)', () => {
       .get('/company')
       .set('Authorization', `Bearer ${normalCompanyAccessToken}`)
 
-    expect(response.statusCode).toEqual(authenticateMiddlewareError.statusCode)
     expect(response.body.message).toEqual(authenticateMiddlewareError.message)
+    expect(response.statusCode).toEqual(authenticateMiddlewareError.statusCode)
   })
 })

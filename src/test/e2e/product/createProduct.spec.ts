@@ -62,7 +62,6 @@ describe('Create product - (e2e)', () => {
       .set('Authorization', `Bearer ${validToken}`)
       .send(newProductObject)
 
-    expect(response.statusCode).toEqual(201)
     expect(response.body).toEqual({
       id: expect.any(String),
       companyId: expect.any(String),
@@ -71,6 +70,7 @@ describe('Create product - (e2e)', () => {
       description: newProductObject.description,
       price: newProductObject.price,
     })
+    expect(response.statusCode).toEqual(201)
   })
 
   it('should not allow product creation without email confirmation', async () => {
@@ -97,10 +97,10 @@ describe('Create product - (e2e)', () => {
       .set('Authorization', `Bearer ${unconfirmedToken}`)
       .send(newProductObject)
 
-    expect(response.statusCode).toEqual(401)
     expect(response.body.message).toEqual(
       'Prerequisite for this action: email confirmation.',
     )
+    expect(response.statusCode).toEqual(401)
   })
 
   it('should not allow product creation with an invalid authentication token', async () => {
@@ -111,11 +111,11 @@ describe('Create product - (e2e)', () => {
       .set('Authorization', `Bearer invalidtoken`)
       .send(newProductObject)
 
-    expect(response.statusCode).toEqual(
-      authenticateCompanyMiddlewareError.statusCode,
-    )
     expect(response.body.message).toEqual(
       authenticateCompanyMiddlewareError.message,
+    )
+    expect(response.statusCode).toEqual(
+      authenticateCompanyMiddlewareError.statusCode,
     )
   })
 })

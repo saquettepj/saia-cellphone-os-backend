@@ -1,3 +1,4 @@
+import { CPFAlreadyExistsError } from '@/errors/CPFAlreadyExistsError'
 import { IEmployeeRepository } from '@/repositories/employee/IEmployeeRepository'
 
 interface IUpdateEmployeeUseCaseRequest {
@@ -12,6 +13,13 @@ class UpdateEmployeeUseCase {
   constructor(private employeeRepository: IEmployeeRepository) {}
 
   async execute({ id, name, CPF, phone, role }: IUpdateEmployeeUseCaseRequest) {
+    if (CPF) {
+      const searchedClientByCPF = await this.employeeRepository.findByCPF(CPF)
+      if (searchedClientByCPF) {
+        throw new CPFAlreadyExistsError()
+      }
+    }
+
     const updatedEmployee = await this.employeeRepository.updateById(id, {
       name,
       CPF,

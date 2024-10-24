@@ -96,8 +96,8 @@ describe('Delete many products - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send({ ids: [productId1, productId2] })
 
-    expect(response.statusCode).toEqual(200)
     expect(response.body.count).toEqual(2)
+    expect(response.statusCode).toEqual(200)
   })
 
   it('should not allow deleting products that belong to another company', async () => {
@@ -106,10 +106,10 @@ describe('Delete many products - (e2e)', () => {
       .set('Authorization', `Bearer ${otherCompanyToken}`)
       .send({ ids: [productId1, productId2] })
 
-    expect(response.statusCode).toEqual(401)
     expect(response.body.message).toEqual(
       'Prerequisite for this action: email confirmation.',
     )
+    expect(response.statusCode).toEqual(401)
   })
 
   it('should not allow deleting products without authentication', async () => {
@@ -117,11 +117,11 @@ describe('Delete many products - (e2e)', () => {
       .post('/product/delete-by-ids')
       .send({ ids: [productId1, productId2] })
 
-    expect(response.statusCode).toEqual(
-      authenticateCompanyMiddlewareError.statusCode,
-    )
     expect(response.body.message).toEqual(
       authenticateCompanyMiddlewareError.message,
+    )
+    expect(response.statusCode).toEqual(
+      authenticateCompanyMiddlewareError.statusCode,
     )
   })
 
@@ -133,7 +133,7 @@ describe('Delete many products - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send({ ids: nonExistentProductIds })
 
-    expect(response.statusCode).toEqual(200)
     expect(response.body.count).toEqual(0)
+    expect(response.statusCode).toEqual(200)
   })
 })

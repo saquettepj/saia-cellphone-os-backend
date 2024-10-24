@@ -11,8 +11,8 @@ interface ICreateAddressUseCaseRequest {
   street: string
   streetNumber: string
   zipCode: string
-  clientId?: string
   companyId: string
+  clientId?: string
 }
 
 class CreateAddressUseCase {
@@ -31,7 +31,7 @@ class CreateAddressUseCase {
     clientId,
     companyId,
   }: ICreateAddressUseCaseRequest) {
-    if (clientId) {
+    if (clientId || clientId != null) {
       const existingClient =
         await this.clientRepositoryRepository.findById(clientId)
       if (!existingClient) {
@@ -43,9 +43,7 @@ class CreateAddressUseCase {
       if (existingClientAddress) {
         throw new ClientHasAddressError()
       }
-    }
-
-    if (!clientId) {
+    } else {
       const existingCompanyAddress =
         await this.addressRepository.findByCompanyId(companyId)
       if (existingCompanyAddress) {

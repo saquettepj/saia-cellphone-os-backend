@@ -14,7 +14,7 @@ interface IUpdateAddressControllerResponse {
   streetNumber: string
   zipCode: string
   clientId?: string | null
-  companyId: string
+  companyId: string | null
 }
 
 async function updateAddressController(

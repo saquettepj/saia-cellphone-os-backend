@@ -13,7 +13,7 @@ interface IGetAddressControllerResponse {
   streetNumber: string
   zipCode: string
   clientId?: string | null
-  companyId: string
+  companyId: string | null
 }
 
 async function getAddressController(

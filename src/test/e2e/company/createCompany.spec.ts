@@ -33,13 +33,13 @@ describe('Create company - (e2e)', () => {
       .post('/company')
       .send(newCompanyObject)
 
-    expect(response.statusCode).toEqual(201)
     expect(response.body).toEqual({
       CNPJ: newCompanyObject.CNPJ,
       email: newCompanyObject.email,
       name: newCompanyObject.name,
       emailChecked: false,
     })
+    expect(response.statusCode).toEqual(201)
   })
 
   it('should not allow company creation with an existing CNPJ', async () => {
@@ -53,8 +53,8 @@ describe('Create company - (e2e)', () => {
       passwordConfirmation: 'ValidPass1!',
     })
 
-    expect(response.statusCode).toEqual(409)
     expect(response.body.message).toEqual(companyCNPJAlreadyExistsError.message)
+    expect(response.statusCode).toEqual(409)
   })
 
   it('should not allow company creation with an existing email', async () => {
@@ -66,7 +66,7 @@ describe('Create company - (e2e)', () => {
       passwordConfirmation: 'ValidPass1!',
     })
 
-    expect(response.statusCode).toEqual(409)
     expect(response.body.message).toEqual(emailAlreadyExistsError.message)
+    expect(response.statusCode).toEqual(409)
   })
 })

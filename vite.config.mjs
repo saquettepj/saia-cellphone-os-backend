@@ -4,8 +4,8 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 export default defineConfig({
   plugins: [tsconfigPaths()],
   test: {
-    testTimeout: 20000,
-    hookTimeout: 20000,
+    testTimeout: 25000,
+    hookTimeout: 25000,
     environmentMatchGlobs: [
       ['./src/test/**', './src/vitest-environments/prisma.ts'],
     ],

@@ -81,8 +81,8 @@ describe('Delete company - (e2e)', () => {
       .delete(`/company/${companyId}`)
       .set('Authorization', `Bearer ${normalCompanyToken}`)
 
-    expect(response.statusCode).toEqual(401)
     expect(response.body.message).toEqual('Request not allowed!')
+    expect(response.statusCode).toEqual(401)
   })
 
   it('should not allow deletion of a non-existent company', async () => {
@@ -92,7 +92,7 @@ describe('Delete company - (e2e)', () => {
       .delete(`/company/${nonExistentCompanyId}`)
       .set('Authorization', `Bearer ${adminToken}`)
 
-    expect(response.statusCode).toEqual(400)
     expect(response.body.message).toEqual(deletingError.message)
+    expect(response.statusCode).toEqual(400)
   })
 })

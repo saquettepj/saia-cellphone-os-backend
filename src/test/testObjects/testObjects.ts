@@ -1,5 +1,8 @@
 import { ICreateCompanyUseCaseRequest } from '@/useCases/company/createCompanyUseCase'
 import { ICreateProductUseCaseRequest } from '@/useCases/product/createProductUseCase'
+import { ICreateClientUseCaseRequest } from '@/useCases/client/createClientUseCase'
+import { ICreateEmployeeUseCaseRequest } from '@/useCases/employee/createEmployeeUseCase'
+import { ICreateAddressUseCaseRequest } from '@/useCases/address/createAddressUseCase'
 import { ProductConditionEnum, ProductTypeEnum } from '@/enums/all.enum'
 
 const createNewCompanyTestObject = (
@@ -23,4 +26,40 @@ const createNewProductTestObject = (
   quantity: params?.quantity || 1,
 })
 
-export { createNewCompanyTestObject, createNewProductTestObject }
+const createNewClientTestObject = (
+  params?: Partial<ICreateClientUseCaseRequest>,
+) => ({
+  name: params?.name || 'Test Client',
+  CPF: params?.CPF || '12345678901',
+  email: params?.email || 'clientemail@test.com',
+  phone: params?.phone || '1234567890',
+})
+
+const createNewEmployeeTestObject = (
+  params?: Partial<ICreateEmployeeUseCaseRequest>,
+) => ({
+  name: params?.name || 'Test Employee',
+  CPF: params?.CPF || '12345678901',
+  phone: params?.phone || '1234567890',
+  role: params?.role || 'Manager',
+})
+
+const createNewAddressTestObject = (
+  params?: Partial<ICreateAddressUseCaseRequest>,
+) => ({
+  city: params?.city || 'CityTest',
+  state: params?.state || 'StateTest',
+  neighborhood: params?.neighborhood || 'NeighborhoodTest',
+  street: params?.street || 'StreetTest',
+  streetNumber: params?.streetNumber || '1000',
+  zipCode: params?.zipCode || '12345678',
+  clientId: params?.clientId || undefined,
+})
+
+export {
+  createNewCompanyTestObject,
+  createNewProductTestObject,
+  createNewClientTestObject,
+  createNewEmployeeTestObject,
+  createNewAddressTestObject,
+}

@@ -14,8 +14,8 @@ interface ICreateAddressControllerResponse {
   street: string
   streetNumber: string
   zipCode: string
+  companyId: string | null
   clientId?: string | null
-  companyId: string
 }
 
 async function createAddressController(
@@ -30,7 +30,7 @@ async function createAddressController(
   try {
     const createAddressUseCase = setupCreateAddressUseCase()
 
-    const address = await createAddressUseCase.execute({
+    const createAddressUseCaseReturn = await createAddressUseCase.execute({
       city,
       state,
       neighborhood,
@@ -42,15 +42,15 @@ async function createAddressController(
     })
 
     const responseBody: ICreateAddressControllerResponse = {
-      id: address.id,
-      city: address.city,
-      state: address.state,
-      neighborhood: address.neighborhood,
-      street: address.street,
-      streetNumber: address.streetNumber,
-      zipCode: address.zipCode,
-      clientId: address.clientId,
-      companyId: address.companyId,
+      id: createAddressUseCaseReturn.id,
+      city: createAddressUseCaseReturn.city,
+      state: createAddressUseCaseReturn.state,
+      neighborhood: createAddressUseCaseReturn.neighborhood,
+      street: createAddressUseCaseReturn.street,
+      streetNumber: createAddressUseCaseReturn.streetNumber,
+      zipCode: createAddressUseCaseReturn.zipCode,
+      companyId: createAddressUseCaseReturn.companyId,
+      clientId: createAddressUseCaseReturn.clientId,
     }
 
     return reply.status(201).send(responseBody)

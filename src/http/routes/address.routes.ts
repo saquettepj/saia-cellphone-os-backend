@@ -24,7 +24,7 @@ async function addressRoutes(app: FastifyInstance) {
   )
 
   app.patch(
-    '/address/:id',
+    '/address',
     {
       preHandler: [companyAuthenticatorMiddleware],
     },

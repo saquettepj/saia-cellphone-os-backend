@@ -4,7 +4,7 @@ import { MiddlewareError } from '@/errors/middlewareError'
 import { ClientRepository } from '@/repositories/client/clientRepository'
 import { CompanyRepository } from '@/repositories/company/companyRepository'
 import { AccountTypeEnum } from '@/enums/all.enum'
-import { ICheckerClientDTO } from '@/dtos/client/ICheckerClientDTO'
+import { ISimpleClientDTO } from '@/dtos/client/ISimpleClientDTO'
 
 const clientCheckerByCompanyMiddleware = async (
   request: FastifyRequest,
@@ -12,7 +12,7 @@ const clientCheckerByCompanyMiddleware = async (
 ) => {
   const { id: companyId } = request.company
 
-  const { clientId } = ICheckerClientDTO.parse(request.body)
+  const { id: clientId } = ISimpleClientDTO.parse(request.params)
 
   const clientRepository = new ClientRepository()
   const searchedClient = await clientRepository.findById(clientId)

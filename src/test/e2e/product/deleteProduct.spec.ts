@@ -94,11 +94,11 @@ describe('Delete product - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken2}`)
       .send()
 
-    expect(deleteProductResponse.statusCode).toEqual(
-      productCheckerByCompanyMiddlewareError.statusCode,
-    )
     expect(deleteProductResponse.body.message).toEqual(
       productCheckerByCompanyMiddlewareError.message,
+    )
+    expect(deleteProductResponse.statusCode).toEqual(
+      productCheckerByCompanyMiddlewareError.statusCode,
     )
   })
 
@@ -108,9 +108,9 @@ describe('Delete product - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send()
 
-    expect(deleteProductResponse.statusCode).toEqual(200)
     expect(deleteProductResponse.body).toEqual({
       id: productId,
     })
+    expect(deleteProductResponse.statusCode).toEqual(200)
   })
 })

@@ -106,7 +106,6 @@ describe('Update product - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send(updateProductObject)
 
-    expect(response.statusCode).toEqual(200)
     expect(response.body).toEqual({
       id: productId,
       companyId: expect.any(String),
@@ -116,6 +115,7 @@ describe('Update product - (e2e)', () => {
       price: updateProductObject.price,
       quantity: updateProductObject.quantity,
     })
+    expect(response.statusCode).toEqual(200)
   })
 
   it('should return error when updating a non-existent product', async () => {
@@ -134,11 +134,11 @@ describe('Update product - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send(updateProductObject)
 
-    expect(response.statusCode).toEqual(
-      productCheckerByCompanyMiddleware2.statusCode,
-    )
     expect(response.body.message).toEqual(
       productCheckerByCompanyMiddleware2.message,
+    )
+    expect(response.statusCode).toEqual(
+      productCheckerByCompanyMiddleware2.statusCode,
     )
   })
 
@@ -156,11 +156,11 @@ describe('Update product - (e2e)', () => {
       .set('Authorization', `Bearer ${otherCompanyToken}`)
       .send(updateProductObject)
 
-    expect(response.statusCode).toEqual(
-      productCheckerByCompanyMiddleware1.statusCode,
-    )
     expect(response.body.message).toEqual(
       productCheckerByCompanyMiddleware1.message,
+    )
+    expect(response.statusCode).toEqual(
+      productCheckerByCompanyMiddleware1.statusCode,
     )
   })
 
@@ -177,11 +177,11 @@ describe('Update product - (e2e)', () => {
       .patch(`/product/${productId}`)
       .send(updateProductObject)
 
-    expect(response.statusCode).toEqual(
-      authenticateCompanyMiddlewareError.statusCode,
-    )
     expect(response.body.message).toEqual(
       authenticateCompanyMiddlewareError.message,
+    )
+    expect(response.statusCode).toEqual(
+      authenticateCompanyMiddlewareError.statusCode,
     )
   })
 })

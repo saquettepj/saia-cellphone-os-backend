@@ -4,7 +4,7 @@ import { MiddlewareError } from '@/errors/middlewareError'
 import { EmployeeRepository } from '@/repositories/employee/employeeRepository'
 import { CompanyRepository } from '@/repositories/company/companyRepository'
 import { AccountTypeEnum } from '@/enums/all.enum'
-import { ICheckerEmployeeDTO } from '@/dtos/employee/ICheckerEmployeeDTO'
+import { ISimpleEmployeeDTO } from '@/dtos/employee/ISimpleEmployeeDTO'
 
 const employeeCheckerByCompanyMiddleware = async (
   request: FastifyRequest,
@@ -12,7 +12,7 @@ const employeeCheckerByCompanyMiddleware = async (
 ) => {
   const { id: companyId } = request.company
 
-  const { employeeId } = ICheckerEmployeeDTO.parse(request.body)
+  const { id: employeeId } = ISimpleEmployeeDTO.parse(request.params)
 
   const employeeRepository = new EmployeeRepository()
   const searchedEmployee = await employeeRepository.findById(employeeId)

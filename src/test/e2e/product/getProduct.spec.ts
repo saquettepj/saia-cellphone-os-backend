@@ -92,20 +92,30 @@ describe('Get product - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send({})
 
-    expect(response.statusCode).toEqual(200)
     expect(response.body.products).toBeInstanceOf(Array)
     expect(response.body.products.length).toBeGreaterThan(0)
-    expect(response.body.products[0]).toHaveProperty('id', productId)
+    expect(response.body.products[0]).toEqual(
+      expect.objectContaining({
+        id: productId,
+        companyId: expect.any(String),
+        type: newProductObject.type,
+        condition: newProductObject.condition,
+        description: newProductObject.description,
+        price: newProductObject.price,
+        quantity: newProductObject.quantity,
+      }),
+    )
+    expect(response.statusCode).toEqual(200)
   })
 
   it('should not allow listing products without authentication', async () => {
     const response = await request(app.server).post('/product/list').send({})
 
-    expect(response.statusCode).toEqual(
-      authenticateCompanyMiddlewareError.statusCode,
-    )
     expect(response.body.message).toEqual(
       authenticateCompanyMiddlewareError.message,
+    )
+    expect(response.statusCode).toEqual(
+      authenticateCompanyMiddlewareError.statusCode,
     )
   })
 
@@ -115,11 +125,11 @@ describe('Get product - (e2e)', () => {
       .set('Authorization', `Bearer ${unconfirmedToken}`)
       .send({})
 
-    expect(response.statusCode).toEqual(
-      emailConfirmationCheckerMiddleware.statusCode,
-    )
     expect(response.body.message).toEqual(
       emailConfirmationCheckerMiddleware.message,
+    )
+    expect(response.statusCode).toEqual(
+      emailConfirmationCheckerMiddleware.statusCode,
     )
   })
 })
