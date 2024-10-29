@@ -1,5 +1,5 @@
-import { IClientRepository } from '@/repositories/client/IClientRepository'
-import { IEmployeeRepository } from '@/repositories/employee/IEmployeeRepository'
+import { ProductNotFoundError } from '@/errors/productNotFoundError'
+import { DuplicateOrderItemError } from '@/errors/duplicateOrderItemError'
 import { IOrderRepository } from '@/repositories/order/IOrderRepository'
 import { IProductRepository } from '@/repositories/product/IProductRepository'
 
@@ -20,8 +20,6 @@ interface ICreateOrderUseCaseRequest {
 class CreateOrderUseCase {
   constructor(
     private orderRepository: IOrderRepository,
-    private clientRepository: IClientRepository,
-    private employeeRepository: IEmployeeRepository,
     private productRepository: IProductRepository,
   ) {}
 
@@ -38,6 +36,35 @@ class CreateOrderUseCase {
     orderItems,
     type,
   }: ICreateOrderUseCaseRequest) {
+    const productIds = new Set<string>()
+    for (const item of orderItems) {
+      if (productIds.has(item.productId)) {
+        throw new DuplicateOrderItemError()
+      }
+      productIds.add(item.productId)
+    }
+
+    const orderItemsWithInitialQuantity = []
+
+    for (const item of orderItems) {
+      const product = await this.productRepository.findById(item.productId)
+      if (!product) {
+        throw new ProductNotFoundError()
+      }
+
+      const newQuantity = Math.max(product.quantity - item.quantity, 0)
+
+      await this.productRepository.updateById(item.productId, {
+        quantity: newQuantity,
+      })
+
+      orderItemsWithInitialQuantity.push({
+        productId: item.productId,
+        quantity: item.quantity,
+        initialQuantity: product.quantity,
+      })
+    }
+
     const order = await this.orderRepository.create({
       companyId,
       clientId,
@@ -48,7 +75,7 @@ class CreateOrderUseCase {
       paymentMethod,
       price,
       description,
-      orderItems,
+      orderItems: orderItemsWithInitialQuantity,
       type,
     })
 

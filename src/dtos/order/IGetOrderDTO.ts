@@ -12,9 +12,12 @@ export const IGetOrderDTO = z
     number: z.number().optional(),
     type: z.string().optional(),
     status: z.string().optional(),
-    payDate: z.string().refine((val) => validateDateOnRequests(val), {
-      message: ValidateMessagesEnum.DATE_ON_ISO,
-    }),
+    payDate: z
+      .string()
+      .refine((val) => validateDateOnRequests(val), {
+        message: ValidateMessagesEnum.DATE_ON_ISO,
+      })
+      .optional(),
     paymentMethod: z.string().optional(),
     price: z.number().optional(),
     description: z.string().optional(),

@@ -2,8 +2,8 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 
 import { ICreateOrderDTO } from '@/dtos/order/ICreateOrderDTO'
 import { setupCreateOrderUseCase } from '@/useCases/order/factory/setupCreateOrderUseCase'
-import { ClientNotFoundError } from '@/errors/clientNotFoundError'
-import { EmployeeNotFoundError } from '@/errors/employeeNotFoundError'
+import { ProductNotFoundError } from '@/errors/productNotFoundError'
+import { DuplicateOrderItemError } from '@/errors/duplicateOrderItemError'
 
 interface ICreateOrderControllerResponse {
   id: string
@@ -78,10 +78,10 @@ async function createOrderController(
 
     return reply.status(201).send(responseBody)
   } catch (error) {
-    if (error instanceof ClientNotFoundError) {
-      return reply.status(404).send({ message: error.message })
+    if (error instanceof DuplicateOrderItemError) {
+      return reply.status(400).send({ message: error.message })
     }
-    if (error instanceof EmployeeNotFoundError) {
+    if (error instanceof ProductNotFoundError) {
       return reply.status(404).send({ message: error.message })
     }
     throw error

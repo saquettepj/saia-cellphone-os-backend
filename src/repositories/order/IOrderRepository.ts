@@ -16,7 +16,7 @@ interface IOrderRepository {
     data: Partial<Prisma.OrderCreateManyInput> & { productIds?: string[] },
   ): Promise<IOrder[]>
   updateById(id: string, data: Prisma.OrderUncheckedUpdateInput): Promise<Order>
-  delete(id: string): Promise<IOrder | null>
+  delete(id: string): Promise<IOrder>
   deleteMany(ids: string[]): Promise<number>
   create(data: ICreateOrder): Promise<IOrder>
 }

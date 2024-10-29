@@ -1,18 +1,15 @@
 import { CreateOrderUseCase } from '../createOrderUseCase'
 
 import { OrderRepository } from '@/repositories/order/orderRepository'
-import { ClientRepository } from '@/repositories/client/clientRepository'
-import { EmployeeRepository } from '@/repositories/employee/employeeRepository'
+import { ProductRepository } from '@/repositories/product/productRepository'
 
 function setupCreateOrderUseCase() {
   const orderRepository = new OrderRepository()
-  const clientRepository = new ClientRepository()
-  const employeeRepository = new EmployeeRepository()
+  const productRepository = new ProductRepository()
 
   const createOrderUseCase = new CreateOrderUseCase(
     orderRepository,
-    clientRepository,
-    employeeRepository,
+    productRepository,
   )
 
   return createOrderUseCase

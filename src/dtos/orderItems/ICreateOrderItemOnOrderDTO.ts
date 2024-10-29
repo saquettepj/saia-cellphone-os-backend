@@ -1,8 +1,7 @@
 import { z } from 'zod'
 
-export const ICreateOrderItemDTO = z
+export const ICreateOrderItemOnOrderDTO = z
   .object({
-    orderId: z.string().uuid(),
     productId: z.string().uuid(),
     quantity: z.number().min(1),
   })

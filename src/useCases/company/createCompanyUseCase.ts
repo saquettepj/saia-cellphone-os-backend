@@ -54,14 +54,14 @@ class CreateCompanyUseCase {
       emailConfirmationCode,
     })
 
-    const emailObject = generateEmailSendCodeObject(emailConfirmationCode)
+    /*     const emailObject = generateEmailSendCodeObject(emailConfirmationCode)
 
     await sendEmail({
       to: email,
       subject: 'Código de confirmação de email',
       html: emailObject.html,
       text: emailObject.text,
-    })
+    }) */
 
     return createdCompany
   }

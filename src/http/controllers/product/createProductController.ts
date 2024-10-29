@@ -10,6 +10,7 @@ interface ICreateProductControllerResponse {
   condition: string
   description: string
   price: number
+  quantity: number
 }
 
 async function createProductController(
@@ -40,6 +41,7 @@ async function createProductController(
       condition: createProductUseCaseReturn.condition,
       description: createProductUseCaseReturn.description,
       price: createProductUseCaseReturn.price,
+      quantity: createProductUseCaseReturn.quantity,
     }
 
     return reply.status(201).send(responseBody)

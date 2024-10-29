@@ -8,6 +8,7 @@ import { addressRoutes } from './routes/address.routes'
 import { employeeRoutes } from './routes/employee.routes'
 import { orderRoutes } from './routes/order.routes'
 import { nfeDataRoutes } from './routes/nfeData.routes'
+import { orderItemRoutes } from './routes/orderItem.routes'
 
 import { env } from '@/env'
 
@@ -26,6 +27,7 @@ async function appRoutes(app: FastifyInstance) {
   orderRoutes(app)
   addressRoutes(app)
   nfeDataRoutes(app)
+  orderItemRoutes(app)
 }
 
 export { appRoutes }

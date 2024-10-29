@@ -1,7 +1,8 @@
+import { ClientNotFoundError } from '@/errors/clientNotFoundError'
+import { EmployeeNotFoundError } from '@/errors/employeeNotFoundError'
 import { IClientRepository } from '@/repositories/client/IClientRepository'
 import { IEmployeeRepository } from '@/repositories/employee/IEmployeeRepository'
 import { IOrderRepository } from '@/repositories/order/IOrderRepository'
-import { IProductRepository } from '@/repositories/product/IProductRepository'
 
 interface IUpdateOrderUseCaseRequest {
   id: string
@@ -11,7 +12,7 @@ interface IUpdateOrderUseCaseRequest {
   number?: number
   type?: string
   status?: string
-  payDate?: Date
+  payDate?: string
   paymentMethod?: string
   price?: number
   description?: string
@@ -22,7 +23,6 @@ class UpdateOrderUseCase {
     private orderRepository: IOrderRepository,
     private clientRepository: IClientRepository,
     private employeeRepository: IEmployeeRepository,
-    private productRepository: IProductRepository,
   ) {}
 
   async execute({
@@ -38,6 +38,20 @@ class UpdateOrderUseCase {
     price,
     description,
   }: IUpdateOrderUseCaseRequest) {
+    if (clientId) {
+      const clientExists = await this.clientRepository.findById(clientId)
+      if (!clientExists) {
+        throw new ClientNotFoundError()
+      }
+    }
+
+    if (employeeId) {
+      const employeeExists = await this.employeeRepository.findById(employeeId)
+      if (!employeeExists) {
+        throw new EmployeeNotFoundError()
+      }
+    }
+
     const updatedOrder = await this.orderRepository.updateById(id, {
       companyId,
       clientId,

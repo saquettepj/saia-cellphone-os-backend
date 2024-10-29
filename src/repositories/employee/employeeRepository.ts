@@ -14,7 +14,6 @@ class EmployeeRepository implements IEmployeeRepository {
     companyId: string,
     data: Partial<Prisma.EmployeeCreateManyInput>,
   ) {
-    console.log(companyId, data)
     const searchedEmployees = await prisma.employee.findMany({
       where: {
         companyId,

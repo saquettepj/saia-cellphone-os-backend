@@ -6,10 +6,10 @@ import { deleteOrderController } from '../controllers/order/deleteOrderControlle
 import { updateOrderController } from '../controllers/order/updateOrderController'
 import { companyAuthenticatorMiddleware } from '../middlewares/companyAuthenticatorMiddleware'
 import { emailConfirmationCheckerMiddleware } from '../middlewares/emailConfirmationCheckerMiddleware'
-import { employeeCheckerByCompanyMiddleware } from '../middlewares/employeeCheckerByCompanyMiddleware'
-import { clientCheckerByCompanyMiddleware } from '../middlewares/clientCheckerByCompanyMiddleware'
+import { clientOnOthersCheckerByCompanyMiddleware } from '../middlewares/clientOnOthersCheckerByCompanyMiddleware'
 import { orderCheckerByCompanyMiddleware } from '../middlewares/orderCheckerByCompanyMiddleware'
-import { orderItemsCheckerByCompanyMiddleware } from '../middlewares/orderItemsCheckerByCompanyMiddleware'
+import { orderItemsOnOthersCheckerByCompanyMiddleware } from '../middlewares/orderItemsOnOthersCheckerByCompanyMiddleware'
+import { employeeOnOthersCheckerByCompanyMiddleware } from '../middlewares/employeeOnOthersCheckerByCompanyMiddleware'
 
 async function orderRoutes(app: FastifyInstance) {
   app.post(
@@ -18,9 +18,9 @@ async function orderRoutes(app: FastifyInstance) {
       preHandler: [
         companyAuthenticatorMiddleware,
         emailConfirmationCheckerMiddleware,
-        employeeCheckerByCompanyMiddleware,
-        clientCheckerByCompanyMiddleware,
-        orderItemsCheckerByCompanyMiddleware,
+        employeeOnOthersCheckerByCompanyMiddleware,
+        clientOnOthersCheckerByCompanyMiddleware,
+        orderItemsOnOthersCheckerByCompanyMiddleware,
       ],
     },
     createOrderController,
@@ -44,8 +44,8 @@ async function orderRoutes(app: FastifyInstance) {
         companyAuthenticatorMiddleware,
         emailConfirmationCheckerMiddleware,
         orderCheckerByCompanyMiddleware,
-        employeeCheckerByCompanyMiddleware,
-        clientCheckerByCompanyMiddleware,
+        employeeOnOthersCheckerByCompanyMiddleware,
+        clientOnOthersCheckerByCompanyMiddleware,
       ],
     },
     updateOrderController,

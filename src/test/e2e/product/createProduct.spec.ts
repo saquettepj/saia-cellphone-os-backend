@@ -69,6 +69,7 @@ describe('Create product - (e2e)', () => {
       condition: newProductObject.condition,
       description: newProductObject.description,
       price: newProductObject.price,
+      quantity: newProductObject.quantity,
     })
     expect(response.statusCode).toEqual(201)
   })

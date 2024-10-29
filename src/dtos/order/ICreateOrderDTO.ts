@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { ICreateOrderItemDTO } from '../orderItems/ICreateOrderItemDTO'
+import { ICreateOrderItemOnOrderDTO } from '../orderItems/ICreateOrderItemOnOrderDTO'
 
 import { validateDateOnRequests } from '@/utils/validateDateOnRequests'
 import { ValidateMessagesEnum } from '@/enums/all.enum'
@@ -18,6 +18,6 @@ export const ICreateOrderDTO = z
     paymentMethod: z.string(),
     price: z.number(),
     description: z.string().default(''),
-    orderItems: z.array(ICreateOrderItemDTO).nonempty(),
+    orderItems: z.array(ICreateOrderItemOnOrderDTO).nonempty(),
   })
   .strict()

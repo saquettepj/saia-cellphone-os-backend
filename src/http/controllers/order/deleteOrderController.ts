@@ -4,6 +4,10 @@ import { ISimpleOrderDTO } from '@/dtos/order/ISimpleOrderDTO'
 import { DeletingError } from '@/errors/deletingError'
 import { setupDeleteOrderUseCase } from '@/useCases/order/factory/setupDeleteOrderUseCase'
 
+interface IDeleteOrderControllerResponse {
+  id: string
+}
+
 async function deleteOrderController(
   request: FastifyRequest,
   reply: FastifyReply,
@@ -12,9 +16,12 @@ async function deleteOrderController(
 
   try {
     const deleteOrderUseCase = setupDeleteOrderUseCase()
-    await deleteOrderUseCase.execute({ id })
+    const deleteOrderUseCaseReturn = await deleteOrderUseCase.execute({ id })
 
-    return reply.status(200).send()
+    const responseBody: IDeleteOrderControllerResponse = {
+      id: deleteOrderUseCaseReturn.id,
+    }
+    return reply.status(200).send(responseBody)
   } catch (error) {
     if (error instanceof DeletingError) {
       return reply.status(400).send({ message: error.message })

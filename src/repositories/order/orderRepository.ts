@@ -88,6 +88,7 @@ class OrderRepository implements IOrderRepository {
           create: data.orderItems?.map((item) => ({
             productId: item.productId,
             quantity: item.quantity,
+            initialQuantity: item.initialQuantity,
           })),
         },
       },

@@ -4,7 +4,7 @@ import { MiddlewareError } from '@/errors/middlewareError'
 import { ProductRepository } from '@/repositories/product/productRepository'
 import { ICheckerOrderItemsDTO } from '@/dtos/orderItems/ICheckerOrderItemsDTO'
 
-const orderItemsCheckerByCompanyMiddleware = async (
+const orderItemsOnOthersCheckerByCompanyMiddleware = async (
   request: FastifyRequest,
   _reply: FastifyReply,
 ) => {
@@ -36,4 +36,4 @@ const orderItemsCheckerByCompanyMiddleware = async (
   }
 }
 
-export { orderItemsCheckerByCompanyMiddleware }
+export { orderItemsOnOthersCheckerByCompanyMiddleware }
