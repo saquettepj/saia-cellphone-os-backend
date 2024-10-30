@@ -42,6 +42,7 @@ const orderItemCheckerByCompanyMiddleware = async (
   const searchedEmployee = await employeeRepository.findById(
     searchedOrder.employeeId,
   )
+
   if (!searchedEmployee) {
     throw new MiddlewareError({
       statusCode: 404,

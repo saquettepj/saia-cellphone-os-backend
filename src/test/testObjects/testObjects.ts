@@ -1,9 +1,12 @@
+import { v4 as uuidv4 } from 'uuid'
+
 import { ICreateCompanyUseCaseRequest } from '@/useCases/company/createCompanyUseCase'
 import { ICreateProductUseCaseRequest } from '@/useCases/product/createProductUseCase'
 import { ICreateClientUseCaseRequest } from '@/useCases/client/createClientUseCase'
 import { ICreateEmployeeUseCaseRequest } from '@/useCases/employee/createEmployeeUseCase'
 import { ICreateAddressUseCaseRequest } from '@/useCases/address/createAddressUseCase'
 import { ProductConditionEnum, ProductTypeEnum } from '@/enums/all.enum'
+import { ICreateOrderUseCaseRequest } from '@/useCases/order/createOrderUseCase'
 
 const createNewCompanyTestObject = (
   params?: Partial<ICreateCompanyUseCaseRequest>,
@@ -56,10 +59,43 @@ const createNewAddressTestObject = (
   clientId: params?.clientId || undefined,
 })
 
+const createNewOrderTestObject = (
+  params?: Partial<ICreateOrderUseCaseRequest>,
+) => ({
+  clientId: params?.clientId || uuidv4(),
+  employeeId: params?.employeeId || uuidv4(),
+  number: params?.number || 1234,
+  type: params?.type || 'sale',
+  status: params?.status || 'pending',
+  payDate: params?.payDate || new Date().toISOString(),
+  paymentMethod: params?.paymentMethod || 'credit',
+  price: params?.price || 100.0,
+  description: params?.description || 'Order description',
+  orderItems: params?.orderItems || [
+    { productId: params?.orderItems?.[0]?.productId || uuidv4(), quantity: 1 },
+  ],
+})
+
+const updateNewOrderTestObject = (
+  params?: Partial<ICreateOrderUseCaseRequest>,
+) => ({
+  clientId: params?.clientId || uuidv4(),
+  employeeId: params?.employeeId || uuidv4(),
+  number: params?.number || 1234,
+  type: params?.type || 'sale',
+  status: params?.status || 'pending',
+  payDate: params?.payDate || new Date().toISOString(),
+  paymentMethod: params?.paymentMethod || 'credit',
+  price: params?.price || 100.0,
+  description: params?.description || 'Order description',
+})
+
 export {
   createNewCompanyTestObject,
   createNewProductTestObject,
   createNewClientTestObject,
   createNewEmployeeTestObject,
   createNewAddressTestObject,
+  createNewOrderTestObject,
+  updateNewOrderTestObject,
 }
