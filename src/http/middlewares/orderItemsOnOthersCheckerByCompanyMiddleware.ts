@@ -21,7 +21,6 @@ const orderItemsOnOthersCheckerByCompanyMiddleware = async (
   const productIdsToCheck = new Set<string>()
 
   for (const item of orderItems) {
-    console.log(item.productId)
     if (productIdsToCheck.has(item.productId)) {
       const duplicateOrderItemError = new DuplicateOrderItemError()
       throw new MiddlewareError({
