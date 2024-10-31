@@ -2,12 +2,18 @@ import { z } from 'zod'
 
 import { ProductConditionEnum, ProductTypeEnum } from '../../enums/all.enum'
 
+import { formatUniqueStrings } from '@/utils/formatUniqueStrings'
+
 export const IUpdateProductDTO = z
   .object({
     type: z.nativeEnum(ProductTypeEnum).optional(),
     price: z.number().optional(),
     condition: z.nativeEnum(ProductConditionEnum).optional(),
-    description: z.string().max(600).optional(),
+    description: z
+      .string()
+      .max(200)
+      .transform((value) => formatUniqueStrings(value))
+      .optional(),
     quantity: z.number().optional(),
   })
   .strict()

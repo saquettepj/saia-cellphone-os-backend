@@ -8,6 +8,7 @@ import {
 } from '@/test/testObjects/testObjects'
 import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
 import { MiddlewareError } from '@/errors/middlewareError'
+import { formatUniqueStrings } from '@/utils/formatUniqueStrings'
 
 describe('Get product - (e2e)', () => {
   let companyToken: string
@@ -100,7 +101,7 @@ describe('Get product - (e2e)', () => {
         companyId: expect.any(String),
         type: newProductObject.type,
         condition: newProductObject.condition,
-        description: newProductObject.description,
+        description: formatUniqueStrings(newProductObject.description),
         price: newProductObject.price,
         quantity: newProductObject.quantity,
       }),

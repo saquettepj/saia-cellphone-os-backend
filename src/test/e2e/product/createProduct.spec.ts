@@ -8,11 +8,16 @@ import {
 } from '@/test/testObjects/testObjects'
 import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
 import { MiddlewareError } from '@/errors/middlewareError'
+import { ProductDescriptionAlreadyExistsError } from '@/errors/productDescriptionAlreadyExistsError'
+import { formatUniqueStrings } from '@/utils/formatUniqueStrings'
 
 describe('Create product - (e2e)', () => {
   let validToken: string
 
   const companyJokerRepository = setupCompanyJokerRepository()
+
+  const productDescriptionAlreadyExistsError =
+    new ProductDescriptionAlreadyExistsError()
 
   const authenticateCompanyMiddlewareError = new MiddlewareError({
     message: 'Invalid token!',
@@ -67,7 +72,7 @@ describe('Create product - (e2e)', () => {
       companyId: expect.any(String),
       type: newProductObject.type,
       condition: newProductObject.condition,
-      description: newProductObject.description,
+      description: formatUniqueStrings(newProductObject.description),
       price: newProductObject.price,
       quantity: newProductObject.quantity,
     })
@@ -118,5 +123,25 @@ describe('Create product - (e2e)', () => {
     expect(response.statusCode).toEqual(
       authenticateCompanyMiddlewareError.statusCode,
     )
+  })
+
+  it('should not allow creation of a product with an existing description for the same company', async () => {
+    const duplicateProductObject = createNewProductTestObject()
+    duplicateProductObject.description = 'Unique Product Description'
+
+    await request(app.server)
+      .post('/product')
+      .set('Authorization', `Bearer ${validToken}`)
+      .send(duplicateProductObject)
+
+    const response = await request(app.server)
+      .post('/product')
+      .set('Authorization', `Bearer ${validToken}`)
+      .send(duplicateProductObject)
+
+    expect(response.body.message).toEqual(
+      productDescriptionAlreadyExistsError.message,
+    )
+    expect(response.statusCode).toEqual(400)
   })
 })

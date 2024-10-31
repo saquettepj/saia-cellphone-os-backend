@@ -25,7 +25,7 @@ app.setErrorHandler(
       !(error instanceof ZodError) &&
       error instanceof MiddlewareError
     ) {
-      console.error(`🔴 Middleware - ${error}🔴`)
+      console.error(`🔴 Middleware - ${error} 🔴`)
     } else {
       // Usar um log externo: Datadog||NewRelic||Sentry
     }

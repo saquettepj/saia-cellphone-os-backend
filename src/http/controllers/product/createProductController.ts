@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 
 import { ICreateProductDTO } from '@/dtos/product/ICreateProductDTO'
 import { setupCreateProductUseCase } from '@/useCases/product/factory/setupCreateProductUseCase'
+import { ProductDescriptionAlreadyExistsError } from '@/errors/productDescriptionAlreadyExistsError'
 
 interface ICreateProductControllerResponse {
   id: string
@@ -46,6 +47,9 @@ async function createProductController(
 
     return reply.status(201).send(responseBody)
   } catch (error) {
+    if (error instanceof ProductDescriptionAlreadyExistsError) {
+      return reply.status(400).send({ message: error.message })
+    }
     throw error
   }
 }

@@ -128,7 +128,7 @@ model Product {
   type        String
   price       Float
   condition   String
-  description String
+  description String      @unique
   orders      OrderItem[]
   quantity    Int
 

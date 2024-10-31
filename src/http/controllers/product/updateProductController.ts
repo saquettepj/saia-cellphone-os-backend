@@ -3,6 +3,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { ISimpleProductDTO } from '@/dtos/product/ISimpleProductDTO'
 import { IUpdateProductDTO } from '@/dtos/product/IUpdateProductDTO'
 import { setupUpdateProductUseCase } from '@/useCases/product/factory/setupUpdateProductUseCase'
+import { ProductDescriptionAlreadyExistsError } from '@/errors/productDescriptionAlreadyExistsError'
 
 interface IUpdateProductControllerResponse {
   id: string
@@ -18,6 +19,7 @@ async function updateProductController(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
+  const { id: companyId } = request.company
   const { id } = ISimpleProductDTO.parse(request.params)
 
   const { type, condition, description, price, quantity } =
@@ -28,6 +30,7 @@ async function updateProductController(
 
     const updateProductUseCaseReturn = await updateProductUseCase.execute({
       id,
+      companyId,
       type,
       condition,
       description,
@@ -47,6 +50,9 @@ async function updateProductController(
 
     return reply.status(200).send(responseBody)
   } catch (error) {
+    if (error instanceof ProductDescriptionAlreadyExistsError) {
+      return reply.status(400).send({ message: error.message })
+    }
     throw error
   }
 }

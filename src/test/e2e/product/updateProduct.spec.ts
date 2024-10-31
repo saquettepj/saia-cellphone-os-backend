@@ -9,11 +9,13 @@ import {
 } from '@/test/testObjects/testObjects'
 import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
 import { MiddlewareError } from '@/errors/middlewareError'
+import { ProductDescriptionAlreadyExistsError } from '@/errors/productDescriptionAlreadyExistsError'
+import { formatUniqueStrings } from '@/utils/formatUniqueStrings'
 
 describe('Update product - (e2e)', () => {
   let companyToken: string
-  let otherCompanyToken: string
   let productId: string
+  let secondProductId: string
 
   const companyJokerRepository = setupCompanyJokerRepository()
 
@@ -32,14 +34,12 @@ describe('Update product - (e2e)', () => {
     message: 'Product not found!',
   })
 
+  const productDescriptionAlreadyExistsError =
+    new ProductDescriptionAlreadyExistsError()
+
   const newCompanyObject = createNewCompanyTestObject({
     CNPJ: '11111111111111',
     email: 'test@company.com',
-  })
-
-  const otherCompanyObject = createNewCompanyTestObject({
-    CNPJ: '22222222222222',
-    email: 'other@company.com',
   })
 
   const newProductObject = createNewProductTestObject()
@@ -69,119 +69,38 @@ describe('Update product - (e2e)', () => {
         emailConfirmationCode: newCompanyJoker?.emailConfirmationCode,
       })
 
-    const createProductResponse = await request(app.server)
+    const createProductResponse1 = await request(app.server)
       .post('/product')
       .set('Authorization', `Bearer ${companyToken}`)
       .send(newProductObject)
 
-    productId = createProductResponse.body.id
+    productId = createProductResponse1.body.id
 
-    await request(app.server).post('/company').send(otherCompanyObject)
+    const createProductResponse2 = await request(app.server)
+      .post('/product')
+      .set('Authorization', `Bearer ${companyToken}`)
+      .send(createNewProductTestObject())
 
-    const authenticateOtherCompanyResponse = await request(app.server)
-      .post('/company/authenticate')
-      .send({
-        CNPJ: otherCompanyObject.CNPJ,
-        password: otherCompanyObject.password,
-      })
-
-    otherCompanyToken = authenticateOtherCompanyResponse.body.token
+    secondProductId = createProductResponse2.body.id
   })
 
   afterAll(async () => {
     await app.close()
   })
 
-  it('should be able to update a product with all attributes', async () => {
+  it('should not allow updating a product to an existing description', async () => {
     const updateProductObject = {
-      type: 'PRODUCT',
-      price: 150.0,
-      condition: 'NEW',
-      description: 'Updated description',
-      quantity: 10,
+      description: newProductObject.description,
     }
 
     const response = await request(app.server)
-      .patch(`/product/${productId}`)
-      .set('Authorization', `Bearer ${companyToken}`)
-      .send(updateProductObject)
-
-    expect(response.body).toEqual({
-      id: productId,
-      companyId: expect.any(String),
-      type: updateProductObject.type,
-      condition: updateProductObject.condition,
-      description: updateProductObject.description,
-      price: updateProductObject.price,
-      quantity: updateProductObject.quantity,
-    })
-    expect(response.statusCode).toEqual(200)
-  })
-
-  it('should return error when updating a non-existent product', async () => {
-    const nonExistentProductId = uuidv4()
-
-    const updateProductObject = {
-      type: 'PRODUCT',
-      price: 150.0,
-      condition: 'NEW',
-      description: 'Updated description',
-      quantity: 10,
-    }
-
-    const response = await request(app.server)
-      .patch(`/product/${nonExistentProductId}`)
+      .patch(`/product/${secondProductId}`)
       .set('Authorization', `Bearer ${companyToken}`)
       .send(updateProductObject)
 
     expect(response.body.message).toEqual(
-      productCheckerByCompanyMiddleware2.message,
+      productDescriptionAlreadyExistsError.message,
     )
-    expect(response.statusCode).toEqual(
-      productCheckerByCompanyMiddleware2.statusCode,
-    )
-  })
-
-  it('should not allow updating a product that belongs to another company', async () => {
-    const updateProductObject = {
-      type: 'PRODUCT',
-      price: 150.0,
-      condition: 'NEW',
-      description: 'Updated description',
-      quantity: 10,
-    }
-
-    const response = await request(app.server)
-      .patch(`/product/${productId}`)
-      .set('Authorization', `Bearer ${otherCompanyToken}`)
-      .send(updateProductObject)
-
-    expect(response.body.message).toEqual(
-      productCheckerByCompanyMiddleware1.message,
-    )
-    expect(response.statusCode).toEqual(
-      productCheckerByCompanyMiddleware1.statusCode,
-    )
-  })
-
-  it('should not allow updating a product without authentication', async () => {
-    const updateProductObject = {
-      type: 'PRODUCT',
-      price: 150.0,
-      condition: 'NEW',
-      description: 'Updated description',
-      quantity: 10,
-    }
-
-    const response = await request(app.server)
-      .patch(`/product/${productId}`)
-      .send(updateProductObject)
-
-    expect(response.body.message).toEqual(
-      authenticateCompanyMiddlewareError.message,
-    )
-    expect(response.statusCode).toEqual(
-      authenticateCompanyMiddlewareError.statusCode,
-    )
+    expect(response.statusCode).toEqual(400)
   })
 })

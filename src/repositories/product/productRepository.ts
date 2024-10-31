@@ -44,6 +44,17 @@ class ProductRepository implements IProductRepository {
     return searchedProducts
   }
 
+  async findByDescriptionAndCompanyId(description: string, companyId: string) {
+    const searchedProduct = await prisma.product.findFirst({
+      where: {
+        description,
+        companyId,
+      },
+    })
+
+    return searchedProduct
+  }
+
   async updateById(id: string, data: Prisma.ProductUpdateInput) {
     const updatedProduct = await prisma.product.update({ where: { id }, data })
 

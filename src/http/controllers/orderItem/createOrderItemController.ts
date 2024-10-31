@@ -10,6 +10,7 @@ interface ICreateOrderItemControllerResponse {
   orderId: string
   productId: string
   quantity: number
+  initialQuantity: number
 }
 
 async function createOrderItemController(
@@ -34,6 +35,7 @@ async function createOrderItemController(
       orderId: createOrderItemUseCaseReturn.orderId,
       productId: createOrderItemUseCaseReturn.productId,
       quantity: createOrderItemUseCaseReturn.quantity,
+      initialQuantity: createOrderItemUseCaseReturn.initialQuantity,
     }
 
     return reply.status(201).send(responseBody)

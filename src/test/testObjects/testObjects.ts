@@ -7,6 +7,9 @@ import { ICreateEmployeeUseCaseRequest } from '@/useCases/employee/createEmploye
 import { ICreateAddressUseCaseRequest } from '@/useCases/address/createAddressUseCase'
 import { ProductConditionEnum, ProductTypeEnum } from '@/enums/all.enum'
 import { ICreateOrderUseCaseRequest } from '@/useCases/order/createOrderUseCase'
+import { ICreateOrderItemUseCaseRequest } from '@/useCases/orderItem/createOrderItemUseCase'
+
+let uniqueDescriptionCounter = 1
 
 const createNewCompanyTestObject = (
   params?: Partial<ICreateCompanyUseCaseRequest>,
@@ -24,7 +27,9 @@ const createNewProductTestObject = (
 ) => ({
   type: params?.type || ProductTypeEnum.PRODUCT,
   condition: params?.condition || ProductConditionEnum.NEW,
-  description: params?.description || 'descricao teste',
+  description:
+    params?.description ||
+    `Descrição teste TESTE tEsTe ${uniqueDescriptionCounter++}`,
   price: params?.price || 100.0,
   quantity: params?.quantity || 1,
 })
@@ -90,6 +95,14 @@ const updateNewOrderTestObject = (
   description: params?.description || 'Order description',
 })
 
+const createNewOrderItemTestObject = (
+  params?: Partial<ICreateOrderItemUseCaseRequest>,
+) => ({
+  orderId: params?.orderId || uuidv4(),
+  productId: params?.productId || uuidv4(),
+  quantity: params?.quantity || 1,
+})
+
 export {
   createNewCompanyTestObject,
   createNewProductTestObject,
@@ -98,4 +111,5 @@ export {
   createNewAddressTestObject,
   createNewOrderTestObject,
   updateNewOrderTestObject,
+  createNewOrderItemTestObject,
 }

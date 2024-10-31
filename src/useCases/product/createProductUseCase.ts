@@ -1,4 +1,5 @@
 import { IProductRepository } from '@/repositories/product/IProductRepository'
+import { ProductDescriptionAlreadyExistsError } from '@/errors/productDescriptionAlreadyExistsError'
 
 interface ICreateProductUseCaseRequest {
   companyId: string
@@ -20,7 +21,17 @@ class CreateProductUseCase {
     description,
     quantity,
   }: ICreateProductUseCaseRequest) {
-    const product = await this.productRepository.create({
+    const searchedProduct =
+      await this.productRepository.findByDescriptionAndCompanyId(
+        description,
+        companyId,
+      )
+
+    if (searchedProduct) {
+      throw new ProductDescriptionAlreadyExistsError()
+    }
+
+    const createdProduct = await this.productRepository.create({
       companyId,
       type,
       price,
@@ -29,7 +40,7 @@ class CreateProductUseCase {
       quantity,
     })
 
-    return product
+    return createdProduct
   }
 }
 

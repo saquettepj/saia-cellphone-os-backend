@@ -8,6 +8,10 @@ interface IProductRepository {
     companyId: string,
     data: Partial<Prisma.ProductCreateManyInput>,
   ): Promise<Product[]>
+  findByDescriptionAndCompanyId(
+    description: string,
+    companyId: string,
+  ): Promise<Product | null>
   updateById(id: string, data: Prisma.ProductUpdateInput): Promise<Product>
   delete(id: string): Promise<Product | null>
   deleteMany(ids: string[]): Promise<number>
