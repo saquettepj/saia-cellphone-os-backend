@@ -12,6 +12,7 @@ import {
 } from '@/test/testObjects/testObjects'
 import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
 import { MiddlewareError } from '@/errors/middlewareError'
+import { DuplicateOrderItemError } from '@/errors/duplicateOrderItemError'
 
 describe('Create Order - (e2e)', () => {
   let companyToken: string
@@ -41,6 +42,8 @@ describe('Create Order - (e2e)', () => {
     statusCode: 401,
     message: 'Not Allowed!',
   })
+
+  const duplicateOrderItemError = new DuplicateOrderItemError()
 
   const newCompanyObject = createNewCompanyTestObject({
     CNPJ: '11111111111111',
@@ -216,6 +219,25 @@ describe('Create Order - (e2e)', () => {
     expect(response.statusCode).toEqual(
       employeeNotBelongsToCompanyError.statusCode,
     )
+  })
+
+  it('should not allow creating an order with duplicate product items', async () => {
+    const orderData = createNewOrderTestObject({
+      clientId,
+      employeeId,
+      orderItems: [
+        { productId, quantity: 2 },
+        { productId, quantity: 1 },
+      ],
+    })
+
+    const response = await request(app.server)
+      .post('/order')
+      .set('Authorization', `Bearer ${companyToken}`)
+      .send(orderData)
+
+    expect(response.body.message).toEqual(duplicateOrderItemError.message)
+    expect(response.statusCode).toEqual(400)
   })
 
   it('should create an order and return the correct response structure', async () => {

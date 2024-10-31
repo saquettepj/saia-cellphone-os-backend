@@ -3,6 +3,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { MiddlewareError } from '@/errors/middlewareError'
 import { ProductRepository } from '@/repositories/product/productRepository'
 import { ICheckerOrderItemsDTO } from '@/dtos/orderItems/ICheckerOrderItemsDTO'
+import { DuplicateOrderItemError } from '@/errors/duplicateOrderItemError'
 
 const orderItemsOnOthersCheckerByCompanyMiddleware = async (
   request: FastifyRequest,
@@ -16,6 +17,20 @@ const orderItemsOnOthersCheckerByCompanyMiddleware = async (
 
   const productRepository = new ProductRepository()
   const searchedProducts = await productRepository.findManyByIds(productIds)
+
+  const productIdsToCheck = new Set<string>()
+
+  for (const item of orderItems) {
+    console.log(item.productId)
+    if (productIdsToCheck.has(item.productId)) {
+      const duplicateOrderItemError = new DuplicateOrderItemError()
+      throw new MiddlewareError({
+        statusCode: 400,
+        message: duplicateOrderItemError.message,
+      })
+    }
+    productIdsToCheck.add(item.productId)
+  }
 
   if (searchedProducts.length !== productIds.length) {
     throw new MiddlewareError({

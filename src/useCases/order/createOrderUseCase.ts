@@ -1,5 +1,4 @@
 import { ProductNotFoundError } from '@/errors/productNotFoundError'
-import { DuplicateOrderItemError } from '@/errors/duplicateOrderItemError'
 import { IOrderRepository } from '@/repositories/order/IOrderRepository'
 import { IProductRepository } from '@/repositories/product/IProductRepository'
 
@@ -36,14 +35,6 @@ class CreateOrderUseCase {
     orderItems,
     type,
   }: ICreateOrderUseCaseRequest) {
-    const productIds = new Set<string>()
-    for (const item of orderItems) {
-      if (productIds.has(item.productId)) {
-        throw new DuplicateOrderItemError()
-      }
-      productIds.add(item.productId)
-    }
-
     const orderItemsWithInitialQuantity = []
 
     for (const item of orderItems) {
