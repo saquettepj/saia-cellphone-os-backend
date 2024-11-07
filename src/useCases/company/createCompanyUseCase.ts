@@ -55,7 +55,7 @@ class CreateCompanyUseCase {
       emailConfirmationCode,
     })
 
-    if (env.NODE_ENV !== 'test') {
+    if (env.NODE_ENV === 'production' && createdCompany) {
       const emailObject = generateEmailSendCodeObject(emailConfirmationCode)
 
       await sendEmail({

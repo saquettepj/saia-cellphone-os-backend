@@ -25,15 +25,25 @@ class CompanyRepository implements ICompanyRepository {
 
   async findAllIncludeById(id: string) {
     const searchedCompany = await prisma.company.findUnique({
+      omit: { emailConfirmationCode: true, passwordHash: true },
       where: { id },
       include: {
-        accessToken: { where: { companyId: id } },
-        address: { where: { companyId: id } },
-        employees: { where: { companyId: id } },
-        clients: { where: { companyId: id } },
-        products: { where: { companyId: id } },
-        orders: { where: { companyId: id } },
-        Nfes: { where: { companyId: id } },
+        products: true,
+        orders: {
+          include: {
+            orderItems: {
+              include: {
+                product: true,
+              },
+            },
+          },
+        },
+        clients: true,
+        employees: true,
+        accessToken: true,
+        NfeDataTable: true,
+        addresses: true,
+        Nfes: true,
       },
     })
 
@@ -44,6 +54,24 @@ class CompanyRepository implements ICompanyRepository {
     const searchedCompanies = await prisma.company.findMany({
       omit: { emailConfirmationCode: true, passwordHash: true },
       where: { accountType: AccountTypeEnum.NORMAL },
+      include: {
+        products: true,
+        orders: {
+          include: {
+            orderItems: {
+              include: {
+                product: true,
+              },
+            },
+          },
+        },
+        clients: true,
+        employees: true,
+        accessToken: true,
+        NfeDataTable: true,
+        addresses: true,
+        Nfes: true,
+      },
     })
 
     return searchedCompanies

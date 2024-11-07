@@ -29,7 +29,7 @@ class UpdateProductUseCase {
           description,
           companyId,
         )
-      console.log(existingProduct)
+
       if (existingProduct && existingProduct.id !== id) {
         throw new ProductDescriptionAlreadyExistsError()
       }

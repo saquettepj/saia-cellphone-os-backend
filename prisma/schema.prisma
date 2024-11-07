@@ -22,6 +22,8 @@ model Company {
   emailChecked          Boolean      @default(false)
   name                  String
   passwordHash          String
+  payDate               DateTime?
+  termsDate             DateTime?
   products              Product[]
   orders                Order[]
   clients               Client[]

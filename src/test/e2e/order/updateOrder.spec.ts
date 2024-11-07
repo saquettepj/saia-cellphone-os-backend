@@ -11,10 +11,7 @@ import {
   createNewProductTestObject,
   updateNewOrderTestObject,
 } from '@/test/testObjects/testObjects'
-import {
-  setupCompanyJokerRepository,
-  setupProductJokerRepository,
-} from '@/test/utils/jokerRepository'
+import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
 import { MiddlewareError } from '@/errors/middlewareError'
 
 describe('Update Order - (e2e)', () => {
@@ -28,7 +25,6 @@ describe('Update Order - (e2e)', () => {
   let orderData: ReturnType<typeof createNewOrderTestObject>
 
   const companyJokerRepository = setupCompanyJokerRepository()
-  const productJokerRepository = setupProductJokerRepository()
 
   const newCompanyObject = createNewCompanyTestObject({
     CNPJ: '11111111111111',

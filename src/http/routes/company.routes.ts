@@ -9,6 +9,10 @@ import { emailConfirmationCheckerMiddleware } from '../middlewares/emailConfirma
 import { getCompanyController } from '../controllers/company/getCompanyController'
 import { updateCompanyController } from '../controllers/company/updateCompanyController'
 import { updateCompanyPasswordController } from '../controllers/company/updateCompanyPasswordController'
+import { superUpdateCompanyController } from '../controllers/company/superUpdateCompanyController'
+import { updateCompanyTermsController } from '../controllers/company/updateCompanyTermsController'
+import { companyCheckerByCompanyMiddleware } from '../middlewares/companyCheckerByCompanyMiddleware'
+import { getCompanyByIdController } from '../controllers/company/getCompanyByIdController'
 
 async function companyRoutes(app: FastifyInstance) {
   app.post('/company', createCompanyController)
@@ -22,6 +26,17 @@ async function companyRoutes(app: FastifyInstance) {
       ],
     },
     getCompanyController,
+  )
+
+  app.get(
+    '/company/:id',
+    {
+      preHandler: [
+        companyAuthenticatorMiddleware,
+        companyCheckerByCompanyMiddleware,
+      ],
+    },
+    getCompanyByIdController,
   )
 
   app.delete(
@@ -47,6 +62,17 @@ async function companyRoutes(app: FastifyInstance) {
   )
 
   app.patch(
+    '/super/company/:id',
+    {
+      preHandler: [
+        companyAuthenticatorMiddleware,
+        adminAuthenticatorMiddleware,
+      ],
+    },
+    superUpdateCompanyController,
+  )
+
+  app.patch(
     '/company/update-password',
     {
       preHandler: [
@@ -55,6 +81,14 @@ async function companyRoutes(app: FastifyInstance) {
       ],
     },
     updateCompanyPasswordController,
+  )
+
+  app.patch(
+    '/company/update-terms',
+    {
+      preHandler: [companyAuthenticatorMiddleware],
+    },
+    updateCompanyTermsController,
   )
 
   app.post('/company/authenticate', authenticateCompanyController)

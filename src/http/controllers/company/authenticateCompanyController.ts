@@ -8,6 +8,7 @@ interface IAuthenticateCompanyControllerResponse {
   company: {
     name: string
     email: string
+    accountType: string
   }
   token: string
 }

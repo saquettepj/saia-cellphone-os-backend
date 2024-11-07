@@ -1,21 +1,41 @@
+import { CompanyCNPJAlreadyExistsError } from '@/errors/companyCNPJAlreadyExistsError'
 import { CompanyNotFoundError } from '@/errors/companyNotFoundError'
 import { EmailAlreadyExistsError } from '@/errors/emailAlreadyExistsError'
 import { ICompanyRepository } from '@/repositories/company/ICompanyRepository'
 
-interface IUpdateCompanyUseCaseRequest {
+interface ISuperUpdateCompanyUseCaseRequest {
   id: string
+  CNPJ?: string
   email?: string
   name?: string
+  emailChecked?: boolean
+  payDate?: string | null
 }
 
-class UpdateCompanyUseCase {
+class SuperUpdateCompanyUseCase {
   constructor(private companyRepository: ICompanyRepository) {}
 
-  async execute({ id, email, name }: IUpdateCompanyUseCaseRequest) {
+  async execute({
+    id,
+    CNPJ,
+    email,
+    name,
+    emailChecked,
+    payDate,
+  }: ISuperUpdateCompanyUseCaseRequest) {
     const searchedCompany = await this.companyRepository.findById(id)
 
     if (!searchedCompany) {
       throw new CompanyNotFoundError()
+    }
+
+    if (CNPJ) {
+      const searchedCompanyByCNPJ =
+        await this.companyRepository.findByCNPJ(CNPJ)
+
+      if (searchedCompanyByCNPJ) {
+        throw new CompanyCNPJAlreadyExistsError()
+      }
     }
 
     if (email) {
@@ -28,12 +48,15 @@ class UpdateCompanyUseCase {
     }
 
     const result = await this.companyRepository.updateById(searchedCompany.id, {
+      CNPJ,
       email,
       name,
+      emailChecked,
+      payDate,
     })
 
     return result
   }
 }
 
-export { UpdateCompanyUseCase, IUpdateCompanyUseCaseRequest }
+export { SuperUpdateCompanyUseCase, ISuperUpdateCompanyUseCaseRequest }

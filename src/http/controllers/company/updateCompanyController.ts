@@ -2,8 +2,8 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 
 import { IUpdateCompanyDTO } from '@/dtos/company/IUpdateCompanyDTO'
 import { setupUpdateCompanyUseCase } from '@/useCases/company/factory/setupUpdateCompanyUseCase'
-import { CompanyCredentialsError } from '@/errors/companyCredentialsError'
 import { EmailAlreadyExistsError } from '@/errors/emailAlreadyExistsError'
+import { CompanyNotFoundError } from '@/errors/companyNotFoundError'
 
 interface IUpdateCompanyControllerResponse {
   email: string
@@ -33,8 +33,8 @@ async function updateCompanyController(
 
     return reply.status(200).send(responseBody)
   } catch (error) {
-    if (error instanceof CompanyCredentialsError) {
-      return reply.status(401).send({ message: error.message })
+    if (error instanceof CompanyNotFoundError) {
+      return reply.status(404).send({ message: error.message })
     }
 
     if (error instanceof EmailAlreadyExistsError) {

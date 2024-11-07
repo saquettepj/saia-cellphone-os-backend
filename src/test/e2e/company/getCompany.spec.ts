@@ -5,7 +5,6 @@ import { env } from '@/env'
 import { app } from '@/app'
 import { createNewCompanyTestObject } from '@/test/testObjects/testObjects'
 import { MiddlewareError } from '@/errors/middlewareError'
-import { AccountTypeEnum } from '@/enums/all.enum'
 
 describe('Get company list - (e2e)', () => {
   let adminAccessToken: string
@@ -64,11 +63,11 @@ describe('Get company list - (e2e)', () => {
         name: normalCompanyObject.name,
         accessToken: null,
         address: null,
-        employees: null,
-        clients: null,
-        products: null,
-        orders: null,
-        Nfes: null,
+        employees: [],
+        clients: [],
+        products: [],
+        orders: [],
+        Nfes: [],
       }),
     )
     expect(response.statusCode).toEqual(200)

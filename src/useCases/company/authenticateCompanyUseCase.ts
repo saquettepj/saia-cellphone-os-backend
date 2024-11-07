@@ -14,6 +14,9 @@ interface IAuthenticateCompanyUseCaseReturn {
   company: {
     name: string
     email: string
+    accountType: string
+    payDate: Date | null
+    termsDate: Date | null
   }
   token: string
 }
@@ -42,6 +45,9 @@ class AuthenticateCompanyUseCase {
       company: {
         name: searchedCompany.name,
         email: searchedCompany.email,
+        accountType: searchedCompany.accountType,
+        payDate: searchedCompany.payDate,
+        termsDate: searchedCompany.termsDate,
       },
       token,
     }

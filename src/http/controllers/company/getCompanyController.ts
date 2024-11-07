@@ -23,6 +23,8 @@ async function getCompanyController(
         CNPJ: company.CNPJ,
         email: company.email,
         name: company.name,
+        createdAt: company.createdAt,
+        emailChecked: company.emailChecked,
         accessToken: company.accessToken || null,
         address: company.address || null,
         employees: company.employees || null,
