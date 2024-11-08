@@ -38,10 +38,10 @@ model Company {
 }
 
 model AccessToken {
-  code      String   @id @default(uuid())
-  companyId String   @unique
-  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
+  code        String    @id @default(uuid())
+  companyId   String?   @unique
+  company     Company?  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  activatedAt DateTime?
 }
 
 model Employee {

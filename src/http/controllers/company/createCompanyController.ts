@@ -7,6 +7,7 @@ import { EmailAlreadyExistsError } from '@/errors/emailAlreadyExistsError'
 import { PasswordConfirmationIsDifferentError } from '@/errors/passwordConfirmationIsDifferentError'
 
 interface ICreateCompanyControllerResponse {
+  id: string
   CNPJ: string
   email: string
   emailChecked: boolean
@@ -32,6 +33,7 @@ async function createCompanyController(
     })
 
     const responseBody: ICreateCompanyControllerResponse = {
+      id: createCompanyUseCaseReturn.id,
       CNPJ: createCompanyUseCaseReturn.CNPJ,
       email: createCompanyUseCaseReturn.email,
       emailChecked: createCompanyUseCaseReturn.emailChecked,

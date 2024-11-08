@@ -34,6 +34,7 @@ describe('Create company - (e2e)', () => {
       .send(newCompanyObject)
 
     expect(response.body).toEqual({
+      id: expect.any(String),
       CNPJ: newCompanyObject.CNPJ,
       email: newCompanyObject.email,
       name: newCompanyObject.name,

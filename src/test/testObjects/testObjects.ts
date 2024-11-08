@@ -103,6 +103,10 @@ const createNewOrderItemTestObject = (
   quantity: params?.quantity || 1,
 })
 
+const createNewAccessTokenTestObject = (params?: { companyId?: string }) => ({
+  companyId: params?.companyId || undefined,
+})
+
 export {
   createNewCompanyTestObject,
   createNewProductTestObject,
@@ -112,4 +116,5 @@ export {
   createNewOrderTestObject,
   updateNewOrderTestObject,
   createNewOrderItemTestObject,
+  createNewAccessTokenTestObject,
 }

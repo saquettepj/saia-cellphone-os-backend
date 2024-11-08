@@ -1,0 +1,124 @@
+import request from 'supertest'
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
+import { v4 as uuidv4 } from 'uuid'
+
+import { env } from '@/env'
+import { app } from '@/app'
+import {
+  createNewAccessTokenTestObject,
+  createNewCompanyTestObject,
+} from '@/test/testObjects/testObjects'
+import { MiddlewareError } from '@/errors/middlewareError'
+
+describe('Create access token - (e2e)', () => {
+  let adminToken: string
+  let normalCompanyToken: string
+  let normalCompanyId: string
+
+  const companyNotFoundError = new MiddlewareError({
+    message: 'Company not found!',
+    statusCode: 404,
+  })
+
+  const authenticateMiddlewareError = new MiddlewareError({
+    message: 'Request not allowed!',
+    statusCode: 401,
+  })
+
+  const normalCompanyObject = createNewCompanyTestObject({
+    CNPJ: '33333333333333',
+    email: 'normal@company.com',
+  })
+
+  beforeAll(async () => {
+    await app.ready()
+
+    const adminAuthResponse = await request(app.server)
+      .post('/company/authenticate')
+      .send({
+        CNPJ: env.ADMIN_ACCOUNT_CNPJ,
+        password: env.ADMIN_ACCOUNT_PASSWORD,
+      })
+
+    adminToken = adminAuthResponse.body.token
+
+    const createNormalCompany = await request(app.server)
+      .post('/company')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send(normalCompanyObject)
+
+    normalCompanyId = createNormalCompany.body.id
+
+    const normalAuthResponse = await request(app.server)
+      .post('/company/authenticate')
+      .send({
+        CNPJ: normalCompanyObject.CNPJ,
+        password: normalCompanyObject.password,
+      })
+
+    normalCompanyToken = normalAuthResponse.body.token
+  })
+
+  afterAll(async () => {
+    await app.close()
+  })
+
+  it('should not allow creation of an access token without being authenticated as admin', async () => {
+    const response = await request(app.server)
+      .post('/access-token')
+      .set('Authorization', `Bearer ${normalCompanyToken}`)
+
+    expect(response.body.message).toEqual(authenticateMiddlewareError.message)
+    expect(response.statusCode).toEqual(authenticateMiddlewareError.statusCode)
+  })
+
+  it('should not allow creation of an access token with a non-existing companyId', async () => {
+    const nonExistingCompanyId = uuidv4()
+
+    const response = await request(app.server)
+      .post('/access-token')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ companyId: nonExistingCompanyId })
+
+    expect(response.body.message).toEqual(companyNotFoundError.message)
+    expect(response.statusCode).toEqual(companyNotFoundError.statusCode)
+  })
+
+  it('should allow creation of an access token with a valid companyId', async () => {
+    const testAccessTokenObject = createNewAccessTokenTestObject({
+      companyId: normalCompanyId,
+    })
+
+    const response = await request(app.server)
+      .post('/access-token')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send(testAccessTokenObject)
+
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        code: expect.any(String),
+        companyId: normalCompanyId,
+        activatedAt: expect.any(String),
+      }),
+    )
+    expect(response.statusCode).toEqual(201)
+  })
+
+  it('should allow creation of an access token without specifying companyId', async () => {
+    const testAccessTokenObjectWithOutId = createNewAccessTokenTestObject()
+
+    const response = await request(app.server)
+      .post('/access-token')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send(testAccessTokenObjectWithOutId)
+
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        code: expect.any(String),
+        companyId: null,
+        activatedAt: null,
+      }),
+    )
+    expect(response.statusCode).toEqual(201)
+  })
+})
