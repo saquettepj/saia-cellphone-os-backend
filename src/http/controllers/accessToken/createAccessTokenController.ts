@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 
 import { setupCreateAccessTokenUseCase } from '@/useCases/accessToken/factory/setupCreateAccessTokenUseCase'
 import { ICreateAccessTokenDTO } from '@/dtos/accessToken/ICreateAccessTokenDTO'
+import { AnAccessTokenAlreadyHasCompanyIdError } from '@/errors/anAccessTokenAlreadyHasCompanyIdError'
 
 interface ICreateAccessTokenControllerResponse {
   code: string
@@ -29,6 +30,9 @@ async function createAccessTokenController(
 
     return reply.status(201).send(responseBody)
   } catch (error) {
+    if (error instanceof AnAccessTokenAlreadyHasCompanyIdError) {
+      return reply.status(400).send({ message: error.message })
+    }
     throw error
   }
 }

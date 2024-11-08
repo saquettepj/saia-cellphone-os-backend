@@ -9,6 +9,7 @@ import {
   createNewCompanyTestObject,
 } from '@/test/testObjects/testObjects'
 import { MiddlewareError } from '@/errors/middlewareError'
+import { AnAccessTokenAlreadyHasCompanyIdError } from '@/errors/anAccessTokenAlreadyHasCompanyIdError'
 
 describe('Create access token - (e2e)', () => {
   let adminToken: string
@@ -24,6 +25,9 @@ describe('Create access token - (e2e)', () => {
     message: 'Request not allowed!',
     statusCode: 401,
   })
+
+  const accessTokenAlreadyHasCompanyIdError =
+    new AnAccessTokenAlreadyHasCompanyIdError()
 
   const normalCompanyObject = createNewCompanyTestObject({
     CNPJ: '33333333333333',
@@ -120,5 +124,26 @@ describe('Create access token - (e2e)', () => {
       }),
     )
     expect(response.statusCode).toEqual(201)
+  })
+
+  it('should not allow creation of an access token with a companyId that is already associated with another access token', async () => {
+    const testAccessTokenObject = createNewAccessTokenTestObject({
+      companyId: normalCompanyId,
+    })
+
+    await request(app.server)
+      .post('/access-token')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send(testAccessTokenObject)
+
+    const response = await request(app.server)
+      .post('/access-token')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send(testAccessTokenObject)
+
+    expect(response.body.message).toEqual(
+      accessTokenAlreadyHasCompanyIdError.message,
+    )
+    expect(response.statusCode).toEqual(400)
   })
 })
