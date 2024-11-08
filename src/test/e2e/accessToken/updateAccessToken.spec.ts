@@ -100,12 +100,10 @@ describe('Update access token - (e2e)', () => {
   })
 
   it('should not allow updating an access token to a companyId that already has a token', async () => {
-    const secondAccessTokenResponse = await request(app.server)
+    await request(app.server)
       .post('/access-token')
       .set('Authorization', `Bearer ${adminToken}`)
       .send(createNewAccessTokenTestObject({ companyId: normalCompanyId }))
-
-    const secondAccessTokenId = secondAccessTokenResponse.body.code
 
     const response = await request(app.server)
       .patch(`/access-token/${accessTokenId}`)
