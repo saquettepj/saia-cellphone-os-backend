@@ -55,4 +55,5 @@ export const ptBR = {
     'Um ou mais produtos não encontrados!',
   [TranslationKeysEnum.ERROR_PRODUCTS_NOT_BELONG_TO_COMPANY]:
     'Um ou mais produtos não pertencem a esta empresa!',
+  [TranslationKeysEnum.ERROR_VALIDATION]: 'Erro de validação!',
 }

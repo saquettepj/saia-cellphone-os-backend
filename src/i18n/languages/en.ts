@@ -54,4 +54,5 @@ export const en = {
     'One or more products not found!',
   [TranslationKeysEnum.ERROR_PRODUCTS_NOT_BELONG_TO_COMPANY]:
     'One or more products do not belong to this company!',
+  [TranslationKeysEnum.ERROR_VALIDATION]: 'Validation error!',
 }

@@ -8,6 +8,8 @@ import { appRoutes } from './http/routes'
 import { env } from './env'
 import { MiddlewareError } from './errors/middlewareError'
 import { filterErrorContent } from './utils/filterErrorContent'
+import { translate } from './i18n/translate'
+import { TranslationKeysEnum } from './i18n/enums/TranslationKeysEnum'
 
 export const prisma = new PrismaClient()
 
@@ -35,9 +37,11 @@ app.setErrorHandler(
     }
 
     if (error instanceof ZodError) {
-      return reply
-        .status(400)
-        .send({ message: 'Validation Error', issues: error.format() })
+      return reply.status(400).send({
+        name: TranslationKeysEnum.ERROR_VALIDATION,
+        message: translate(TranslationKeysEnum.ERROR_VALIDATION),
+        issues: error.format(),
+      })
     }
 
     return reply.status(500).send({
