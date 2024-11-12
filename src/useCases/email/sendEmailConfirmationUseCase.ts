@@ -1,8 +1,8 @@
 import { IEmailConfig } from '@/emails/IEmailConfig'
 import { generateEmailSendCodeObject } from '@/emails/emailStructures/generateEmailSendCodeObject'
 import { sendEmail } from '@/emails/sendEmail'
-import { CompanySpecificPropsNotFoundError } from '@/errors/companySpecificPropsNotFoundError'
 import { EmailAlreadyConfirmedError } from '@/errors/emailAlreadyConfirmedError'
+import { EmailNotFoundError } from '@/errors/emailNotFoundError'
 import { ICompanyRepository } from '@/repositories/company/ICompanyRepository'
 import { generateRandomNumber } from '@/utils/randomNumberGenerator'
 
@@ -21,7 +21,7 @@ class SendEmailConfirmationUseCase {
     }
 
     if (!searchedCompany?.email) {
-      throw new CompanySpecificPropsNotFoundError('email')
+      throw new EmailNotFoundError()
     }
 
     const randomCode = generateRandomNumber(6)

@@ -13,6 +13,8 @@ import {
 import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
 import { MiddlewareError } from '@/errors/middlewareError'
 import { DuplicateOrderItemError } from '@/errors/duplicateOrderItemError'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 describe('Create Order - (e2e)', () => {
   let companyToken: string
@@ -25,22 +27,22 @@ describe('Create Order - (e2e)', () => {
 
   const clientNotFoundMiddlewareError = new MiddlewareError({
     statusCode: 404,
-    message: 'Client not found!',
+    message: translate(TranslationKeysEnum.ERROR_CLIENT_NOT_FOUND),
   })
 
   const employeeNotFoundMiddlewareError = new MiddlewareError({
     statusCode: 404,
-    message: 'Employee not found!',
+    message: translate(TranslationKeysEnum.ERROR_EMPLOYEE_NOT_FOUND),
   })
 
   const productNotFoundMiddlewareError = new MiddlewareError({
     statusCode: 404,
-    message: 'One or more products not found!',
+    message: translate(TranslationKeysEnum.ERROR_PRODUCTS_NOT_FOUND),
   })
 
   const employeeNotBelongsToCompanyError = new MiddlewareError({
     statusCode: 401,
-    message: 'Not Allowed!',
+    message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
   })
 
   const duplicateOrderItemError = new DuplicateOrderItemError()

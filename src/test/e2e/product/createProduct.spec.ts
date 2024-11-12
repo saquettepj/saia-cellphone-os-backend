@@ -10,6 +10,8 @@ import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
 import { MiddlewareError } from '@/errors/middlewareError'
 import { ProductDescriptionAlreadyExistsError } from '@/errors/productDescriptionAlreadyExistsError'
 import { formatUniqueStrings } from '@/utils/formatUniqueStrings'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 describe('Create product - (e2e)', () => {
   let validToken: string
@@ -19,8 +21,15 @@ describe('Create product - (e2e)', () => {
   const productDescriptionAlreadyExistsError =
     new ProductDescriptionAlreadyExistsError()
 
-  const authenticateCompanyMiddlewareError = new MiddlewareError({
-    message: 'Invalid token!',
+  const emailConfirmationMiddlewareError = new MiddlewareError({
+    message: translate(
+      TranslationKeysEnum.ERROR_PREREQUISITE_EMAIL_CONFIRMATION,
+    ),
+    statusCode: 401,
+  })
+
+  const invalidTokenMiddlewareError = new MiddlewareError({
+    message: translate(TranslationKeysEnum.ERROR_INVALID_TOKEN),
     statusCode: 401,
   })
 
@@ -104,9 +113,11 @@ describe('Create product - (e2e)', () => {
       .send(newProductObject)
 
     expect(response.body.message).toEqual(
-      'Prerequisite for this action: email confirmation.',
+      emailConfirmationMiddlewareError.message,
     )
-    expect(response.statusCode).toEqual(401)
+    expect(response.statusCode).toEqual(
+      emailConfirmationMiddlewareError.statusCode,
+    )
   })
 
   it('should not allow product creation with an invalid authentication token', async () => {
@@ -117,12 +128,8 @@ describe('Create product - (e2e)', () => {
       .set('Authorization', `Bearer invalidtoken`)
       .send(newProductObject)
 
-    expect(response.body.message).toEqual(
-      authenticateCompanyMiddlewareError.message,
-    )
-    expect(response.statusCode).toEqual(
-      authenticateCompanyMiddlewareError.statusCode,
-    )
+    expect(response.body.message).toEqual(invalidTokenMiddlewareError.message)
+    expect(response.statusCode).toEqual(invalidTokenMiddlewareError.statusCode)
   })
 
   it('should not allow creation of a product with an existing description for the same company', async () => {

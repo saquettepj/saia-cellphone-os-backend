@@ -2,8 +2,16 @@ import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 import { app } from '@/app'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
+import { MiddlewareError } from '@/errors/middlewareError'
 
 describe('Authentication - (e2e)', () => {
+  const invalidTokenMiddlewareError = new MiddlewareError({
+    message: translate(TranslationKeysEnum.ERROR_INVALID_TOKEN),
+    statusCode: 401,
+  })
+
   beforeAll(async () => {
     await app.ready()
   })
@@ -19,7 +27,7 @@ describe('Authentication - (e2e)', () => {
 
     expect(sendCompanyEmailResponse.statusCode).toEqual(401)
     expect(sendCompanyEmailResponse.body).toEqual({
-      message: 'Token missing!',
+      message: translate(TranslationKeysEnum.ERROR_TOKEN_MISSING),
     })
   })
 
@@ -29,9 +37,11 @@ describe('Authentication - (e2e)', () => {
       .set('Authorization', `Bearer ${1}`)
       .send({ emailConfirmationCode: null })
 
-    expect(sendCompanyEmailResponse.statusCode).toEqual(401)
+    expect(sendCompanyEmailResponse.statusCode).toEqual(
+      invalidTokenMiddlewareError.statusCode,
+    )
     expect(sendCompanyEmailResponse.body).toEqual({
-      message: 'Invalid token!',
+      message: invalidTokenMiddlewareError.message,
     })
   })
 })

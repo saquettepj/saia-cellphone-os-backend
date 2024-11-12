@@ -12,6 +12,8 @@ import {
 } from '@/test/testObjects/testObjects'
 import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
 import { MiddlewareError } from '@/errors/middlewareError'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 describe('Delete Order - (e2e)', () => {
   let companyToken: string
@@ -39,12 +41,12 @@ describe('Delete Order - (e2e)', () => {
 
   const orderNotFoundError = new MiddlewareError({
     statusCode: 404,
-    message: 'Order not found!',
+    message: translate(TranslationKeysEnum.ERROR_ORDER_NOT_FOUND),
   })
 
   const requestNotAllowedError = new MiddlewareError({
     statusCode: 401,
-    message: 'Request not allowed!',
+    message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
   })
 
   beforeAll(async () => {

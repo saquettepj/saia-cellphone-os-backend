@@ -8,6 +8,8 @@ import { CompanyNotFoundError } from '@/errors/companyNotFoundError'
 import { createNewCompanyTestObject } from '@/test/testObjects/testObjects'
 import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
 import { env } from '@/env'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 describe('Get Company By ID - (e2e)', () => {
   let adminAccessToken: string
@@ -18,7 +20,7 @@ describe('Get Company By ID - (e2e)', () => {
   const companyJokerRepository = setupCompanyJokerRepository()
 
   const notAllowedError = new MiddlewareError({
-    message: 'Not allowed!',
+    message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
     statusCode: 401,
   })
 

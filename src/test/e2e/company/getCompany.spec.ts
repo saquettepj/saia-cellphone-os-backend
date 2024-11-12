@@ -5,13 +5,15 @@ import { env } from '@/env'
 import { app } from '@/app'
 import { createNewCompanyTestObject } from '@/test/testObjects/testObjects'
 import { MiddlewareError } from '@/errors/middlewareError'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 describe('Get company list - (e2e)', () => {
   let adminAccessToken: string
   let normalCompanyAccessToken: string
 
   const authenticateMiddlewareError = new MiddlewareError({
-    message: 'Request not allowed!',
+    message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
     statusCode: 401,
   })
 

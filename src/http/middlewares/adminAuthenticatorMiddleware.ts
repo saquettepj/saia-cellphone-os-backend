@@ -4,6 +4,8 @@ import { ISimpleCompanyDTO } from '@/dtos/company/ISimpleCompanyDTO'
 import { AccountTypeEnum } from '@/enums/all.enum'
 import { MiddlewareError } from '@/errors/middlewareError'
 import { CompanyRepository } from '@/repositories/company/companyRepository'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 const adminAuthenticatorMiddleware = async (
   request: FastifyRequest,
@@ -17,8 +19,9 @@ const adminAuthenticatorMiddleware = async (
 
   if (searchedCompany?.accountType !== AccountTypeEnum.ADMIN) {
     throw new MiddlewareError({
-      message: 'Request not allowed!',
+      message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
       statusCode: 401,
+      name: TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED,
     })
   }
 }

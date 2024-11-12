@@ -10,6 +10,8 @@ import {
 } from '@/test/testObjects/testObjects'
 import { MiddlewareError } from '@/errors/middlewareError'
 import { AnAccessTokenAlreadyHasCompanyIdError } from '@/errors/anAccessTokenAlreadyHasCompanyIdError'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 describe('Create access token - (e2e)', () => {
   let adminToken: string
@@ -17,12 +19,12 @@ describe('Create access token - (e2e)', () => {
   let normalCompanyId: string
 
   const companyNotFoundError = new MiddlewareError({
-    message: 'Company not found!',
+    message: translate(TranslationKeysEnum.ERROR_COMPANY_NOT_FOUND),
     statusCode: 404,
   })
 
   const authenticateMiddlewareError = new MiddlewareError({
-    message: 'Request not allowed!',
+    message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
     statusCode: 401,
   })
 

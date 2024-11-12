@@ -3,6 +3,8 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { MiddlewareError } from '@/errors/middlewareError'
 import { ISimpleCompanyDTO } from '@/dtos/company/ISimpleCompanyDTO'
 import { CompanyRepository } from '@/repositories/company/companyRepository'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 const emailConfirmationCheckerMiddleware = async (
   request: FastifyRequest,
@@ -17,7 +19,10 @@ const emailConfirmationCheckerMiddleware = async (
   if (!searchedCompany?.emailChecked) {
     throw new MiddlewareError({
       statusCode: 401,
-      message: 'Prerequisite for this action: email confirmation.',
+      message: translate(
+        TranslationKeysEnum.ERROR_PREREQUISITE_EMAIL_CONFIRMATION,
+      ),
+      name: TranslationKeysEnum.ERROR_PREREQUISITE_EMAIL_CONFIRMATION,
     })
   }
 }

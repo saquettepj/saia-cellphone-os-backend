@@ -1,8 +1,8 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 
 import { EmailAlreadyConfirmedError } from '@/errors/emailAlreadyConfirmedError'
-import { CompanySpecificPropsNotFoundError } from '@/errors/companySpecificPropsNotFoundError'
 import { setupSendEmailConfirmationUseCase } from '@/useCases/email/emailUseCaseFactory/setupSendEmailConfirmationUseCase'
+import { EmailNotFoundError } from '@/errors/emailNotFoundError'
 
 async function sendEmailConfirmationController(
   request: FastifyRequest,
@@ -20,7 +20,7 @@ async function sendEmailConfirmationController(
     if (error instanceof EmailAlreadyConfirmedError) {
       return reply.status(400).send({ message: error.message })
     }
-    if (error instanceof CompanySpecificPropsNotFoundError) {
+    if (error instanceof EmailNotFoundError) {
       return reply.status(400).send({ message: error.message })
     }
   }

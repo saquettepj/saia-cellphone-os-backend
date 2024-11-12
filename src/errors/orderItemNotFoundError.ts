@@ -1,7 +1,10 @@
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
+import { translate } from '@/i18n/translate'
+
 class OrderItemNotFoundError extends Error {
   constructor() {
-    super('OrderItem not found!')
-    this.name = 'OrderItemNotFoundError'
+    super(translate(TranslationKeysEnum.ERROR_ORDER_ITEM_NOT_FOUND))
+    this.name = TranslationKeysEnum.ERROR_ORDER_ITEM_NOT_FOUND
   }
 }
 

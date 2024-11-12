@@ -9,6 +9,8 @@ import {
 import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
 import { CPFAlreadyExistsError } from '@/errors/CPFAlreadyExistsError'
 import { MiddlewareError } from '@/errors/middlewareError'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 describe('Update Employee - (e2e)', () => {
   let companyToken: string
@@ -20,7 +22,7 @@ describe('Update Employee - (e2e)', () => {
   const cpfAlreadyExistsError = new CPFAlreadyExistsError()
   const notAllowedError = new MiddlewareError({
     statusCode: 401,
-    message: 'Not Allowed!',
+    message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
   })
 
   const newCompanyObject = createNewCompanyTestObject({

@@ -5,6 +5,8 @@ import { MiddlewareError } from '@/errors/middlewareError'
 import { ProductRepository } from '@/repositories/product/productRepository'
 import { CompanyRepository } from '@/repositories/company/companyRepository'
 import { AccountTypeEnum } from '@/enums/all.enum'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 const productOnOthersCheckerByCompanyMiddleware = async (
   request: FastifyRequest,
@@ -20,7 +22,8 @@ const productOnOthersCheckerByCompanyMiddleware = async (
   if (!searchedProduct) {
     throw new MiddlewareError({
       statusCode: 404,
-      message: 'Product not found!',
+      message: translate(TranslationKeysEnum.ERROR_PRODUCT_NOT_FOUND),
+      name: TranslationKeysEnum.ERROR_PRODUCT_NOT_FOUND,
     })
   }
 
@@ -33,7 +36,8 @@ const productOnOthersCheckerByCompanyMiddleware = async (
   ) {
     throw new MiddlewareError({
       statusCode: 401,
-      message: 'Request not allowed!',
+      message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
+      name: TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED,
     })
   }
 }

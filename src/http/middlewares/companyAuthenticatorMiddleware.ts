@@ -4,6 +4,8 @@ import { verify } from 'jsonwebtoken'
 import { env } from '@/env'
 import { MiddlewareError } from '@/errors/middlewareError'
 import { CompanyRepository } from '@/repositories/company/companyRepository'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 interface IPayLoad {
   sub: string
@@ -16,7 +18,11 @@ const companyAuthenticatorMiddleware = async (
   const authHeader = request.headers.authorization
 
   if (!authHeader) {
-    throw new MiddlewareError({ message: 'Token missing!', statusCode: 401 })
+    throw new MiddlewareError({
+      message: translate(TranslationKeysEnum.ERROR_TOKEN_MISSING),
+      statusCode: 401,
+      name: TranslationKeysEnum.ERROR_TOKEN_MISSING,
+    })
   }
 
   const [, token] = authHeader.split(' ')
@@ -29,12 +35,20 @@ const companyAuthenticatorMiddleware = async (
     const searchedUser = await companyRepository.findById(id)
 
     if (!searchedUser) {
-      throw new MiddlewareError({ message: 'Invalid token!', statusCode: 401 })
+      throw new MiddlewareError({
+        message: translate(TranslationKeysEnum.ERROR_INVALID_TOKEN),
+        statusCode: 401,
+        name: TranslationKeysEnum.ERROR_INVALID_TOKEN,
+      })
     }
 
     request.company = { id, name: searchedUser.name }
   } catch {
-    throw new MiddlewareError({ message: 'Invalid token!', statusCode: 401 })
+    throw new MiddlewareError({
+      message: translate(TranslationKeysEnum.ERROR_INVALID_TOKEN),
+      statusCode: 401,
+      name: TranslationKeysEnum.ERROR_INVALID_TOKEN,
+    })
   }
 }
 

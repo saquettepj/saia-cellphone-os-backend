@@ -4,6 +4,8 @@ import { MiddlewareError } from '@/errors/middlewareError'
 import { ProductRepository } from '@/repositories/product/productRepository'
 import { ICheckerOrderItemsDTO } from '@/dtos/orderItems/ICheckerOrderItemsDTO'
 import { DuplicateOrderItemError } from '@/errors/duplicateOrderItemError'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 const orderItemsOnOthersCheckerByCompanyMiddleware = async (
   request: FastifyRequest,
@@ -26,6 +28,7 @@ const orderItemsOnOthersCheckerByCompanyMiddleware = async (
       throw new MiddlewareError({
         statusCode: 400,
         message: duplicateOrderItemError.message,
+        name: duplicateOrderItemError.name,
       })
     }
     productIdsToCheck.add(item.productId)
@@ -34,7 +37,8 @@ const orderItemsOnOthersCheckerByCompanyMiddleware = async (
   if (searchedProducts.length !== productIds.length) {
     throw new MiddlewareError({
       statusCode: 404,
-      message: 'One or more products not found!',
+      message: translate(TranslationKeysEnum.ERROR_PRODUCTS_NOT_FOUND),
+      name: TranslationKeysEnum.ERROR_PRODUCTS_NOT_FOUND,
     })
   }
 
@@ -45,7 +49,10 @@ const orderItemsOnOthersCheckerByCompanyMiddleware = async (
   if (invalidProducts.length > 0) {
     throw new MiddlewareError({
       statusCode: 401,
-      message: 'One or more products do not belong to this company!',
+      message: translate(
+        TranslationKeysEnum.ERROR_PRODUCTS_NOT_BELONG_TO_COMPANY,
+      ),
+      name: TranslationKeysEnum.ERROR_PRODUCTS_NOT_BELONG_TO_COMPANY,
     })
   }
 }

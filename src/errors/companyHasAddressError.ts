@@ -1,6 +1,10 @@
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
+import { translate } from '@/i18n/translate'
+
 class CompanyHasAddressError extends Error {
   constructor() {
-    super('Address already exists for this company!')
+    super(translate(TranslationKeysEnum.ERROR_COMPANY_HAS_ADDRESS))
+    this.name = TranslationKeysEnum.ERROR_COMPANY_HAS_ADDRESS
   }
 }
 

@@ -44,8 +44,6 @@ async function orderRoutes(app: FastifyInstance) {
         companyAuthenticatorMiddleware,
         emailConfirmationCheckerMiddleware,
         orderCheckerByCompanyMiddleware,
-        employeeOnOthersCheckerByCompanyMiddleware,
-        clientOnOthersCheckerByCompanyMiddleware,
       ],
     },
     updateOrderController,

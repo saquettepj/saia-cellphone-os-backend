@@ -24,9 +24,10 @@ async function updateOrderController(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const { id: companyId } = request.company
   const { id } = ISimpleOrderDTO.parse(request.params)
+
   const {
+    companyId,
     clientId,
     employeeId,
     number,

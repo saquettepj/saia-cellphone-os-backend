@@ -10,6 +10,8 @@ import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
 import { CPFAlreadyExistsError } from '@/errors/CPFAlreadyExistsError'
 import { EmailAlreadyExistsError } from '@/errors/emailAlreadyExistsError'
 import { MiddlewareError } from '@/errors/middlewareError'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 describe('Update Client - (e2e)', () => {
   let companyToken: string
@@ -22,7 +24,7 @@ describe('Update Client - (e2e)', () => {
   const emailAlreadyExistsError = new EmailAlreadyExistsError()
   const notAllowedError = new MiddlewareError({
     statusCode: 401,
-    message: 'Not allowed!',
+    message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
   })
 
   const newCompanyObject = createNewCompanyTestObject({

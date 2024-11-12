@@ -5,6 +5,8 @@ import { EmployeeRepository } from '@/repositories/employee/employeeRepository'
 import { CompanyRepository } from '@/repositories/company/companyRepository'
 import { AccountTypeEnum } from '@/enums/all.enum'
 import { ICheckerEmployeeDTO } from '@/dtos/employee/ICheckerEmployeeDTO'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 const employeeOnOthersCheckerByCompanyMiddleware = async (
   request: FastifyRequest,
@@ -20,7 +22,8 @@ const employeeOnOthersCheckerByCompanyMiddleware = async (
   if (!searchedEmployee) {
     throw new MiddlewareError({
       statusCode: 404,
-      message: 'Employee not found!',
+      message: translate(TranslationKeysEnum.ERROR_EMPLOYEE_NOT_FOUND),
+      name: TranslationKeysEnum.ERROR_EMPLOYEE_NOT_FOUND,
     })
   }
 
@@ -33,7 +36,8 @@ const employeeOnOthersCheckerByCompanyMiddleware = async (
   ) {
     throw new MiddlewareError({
       statusCode: 401,
-      message: 'Not Allowed!',
+      message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
+      name: TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED,
     })
   }
 }

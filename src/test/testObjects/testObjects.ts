@@ -84,6 +84,7 @@ const createNewOrderTestObject = (
 const updateNewOrderTestObject = (
   params?: Partial<ICreateOrderUseCaseRequest>,
 ) => ({
+  companyId: params?.companyId || uuidv4(),
   clientId: params?.clientId || uuidv4(),
   employeeId: params?.employeeId || uuidv4(),
   number: params?.number || 1234,

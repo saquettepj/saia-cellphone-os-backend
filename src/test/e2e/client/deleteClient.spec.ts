@@ -8,6 +8,8 @@ import {
 } from '@/test/testObjects/testObjects'
 import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
 import { MiddlewareError } from '@/errors/middlewareError'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 describe('Delete Client - (e2e)', () => {
   let companyToken: string
@@ -18,7 +20,7 @@ describe('Delete Client - (e2e)', () => {
 
   const notAllowedError = new MiddlewareError({
     statusCode: 401,
-    message: 'Not allowed!',
+    message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
   })
 
   const newCompanyObject = createNewCompanyTestObject({

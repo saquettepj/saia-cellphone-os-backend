@@ -17,6 +17,8 @@ import {
 } from '@/test/utils/jokerRepository'
 import { MiddlewareError } from '@/errors/middlewareError'
 import { DuplicateOrderItemError } from '@/errors/duplicateOrderItemError'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 describe('Create OrderItem - (e2e)', () => {
   let companyToken: string
@@ -37,8 +39,13 @@ describe('Create OrderItem - (e2e)', () => {
 
   const duplicateOrderItemError = new DuplicateOrderItemError()
 
+  const orderNotFoundError = new MiddlewareError({
+    statusCode: 404,
+    message: translate(TranslationKeysEnum.ERROR_ORDER_NOT_FOUND),
+  })
+
   const productNotFoundError = new MiddlewareError({
-    message: 'Product not found!',
+    message: translate(TranslationKeysEnum.ERROR_PRODUCT_NOT_FOUND),
     statusCode: 404,
   })
 
@@ -129,8 +136,8 @@ describe('Create OrderItem - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send(orderItemData)
 
-    expect(response.body.message).toEqual('Order not found!')
-    expect(response.statusCode).toEqual(404)
+    expect(response.body.message).toEqual(orderNotFoundError.message)
+    expect(response.statusCode).toEqual(orderNotFoundError.statusCode)
   })
 
   it('should not allow creating an OrderItem with a non-existent product', async () => {

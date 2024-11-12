@@ -9,6 +9,8 @@ import {
 import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
 import { MiddlewareError } from '@/errors/middlewareError'
 import { EmployeeNotFoundError } from '@/errors/employeeNotFoundError'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 describe('Delete Employee - (e2e)', () => {
   let companyToken: string
@@ -19,7 +21,7 @@ describe('Delete Employee - (e2e)', () => {
 
   const notAllowedError = new MiddlewareError({
     statusCode: 401,
-    message: 'Not Allowed!',
+    message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
   })
 
   const employeeNotFoundError = new EmployeeNotFoundError()

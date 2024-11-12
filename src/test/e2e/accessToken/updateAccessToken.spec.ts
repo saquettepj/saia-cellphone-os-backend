@@ -13,6 +13,8 @@ import { AccessTokenNotFoundError } from '@/errors/accessTokenNotFoundError'
 import { CompanyNotFoundError } from '@/errors/companyNotFoundError'
 import { AnAccessTokenAlreadyHasCompanyIdError } from '@/errors/anAccessTokenAlreadyHasCompanyIdError'
 import { ThisAccessTokenAlreadyHasCompanyIdError } from '@/errors/thisAccessTokenAlreadyHasCompanyIdError'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 describe('Update access token - (e2e)', () => {
   let adminToken: string
@@ -21,7 +23,7 @@ describe('Update access token - (e2e)', () => {
   let accessTokenId: string
 
   const authenticateMiddlewareError = new MiddlewareError({
-    message: 'Request not allowed!',
+    message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
     statusCode: 401,
   })
 

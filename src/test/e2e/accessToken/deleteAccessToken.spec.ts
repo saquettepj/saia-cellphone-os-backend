@@ -10,6 +10,8 @@ import {
 } from '@/test/testObjects/testObjects'
 import { MiddlewareError } from '@/errors/middlewareError'
 import { DeletingError } from '@/errors/deletingError'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 describe('Delete access token - (e2e)', () => {
   let adminToken: string
@@ -17,7 +19,7 @@ describe('Delete access token - (e2e)', () => {
   let accessTokenId: string
 
   const authenticateMiddlewareError = new MiddlewareError({
-    message: 'Request not allowed!',
+    message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
     statusCode: 401,
   })
 

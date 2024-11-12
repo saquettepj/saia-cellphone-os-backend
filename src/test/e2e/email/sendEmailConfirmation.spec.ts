@@ -6,9 +6,11 @@ import { app } from '@/app'
 import { createNewCompanyTestObject } from '@/test/testObjects/testObjects'
 import { MiddlewareError } from '@/errors/middlewareError'
 import { EmailAlreadyConfirmedError } from '@/errors/emailAlreadyConfirmedError'
-import { CompanySpecificPropsNotFoundError } from '@/errors/companySpecificPropsNotFoundError'
 import { generateRandomNumber } from '@/utils/randomNumberGenerator'
 import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
+import { EmailNotFoundError } from '@/errors/emailNotFoundError'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 describe('Email Confirmation - (e2e)', () => {
   let companyToken: string
@@ -16,14 +18,13 @@ describe('Email Confirmation - (e2e)', () => {
   const companyJokerRepository = setupCompanyJokerRepository()
 
   const authenticateCompanyMiddlewareError = new MiddlewareError({
-    message: 'Token missing!',
+    message: translate(TranslationKeysEnum.ERROR_TOKEN_MISSING),
     statusCode: 401,
   })
 
   const emailAlreadyConfirmedError = new EmailAlreadyConfirmedError()
 
-  const companySpecificPropsNotFoundError =
-    new CompanySpecificPropsNotFoundError('email')
+  const emailNotFoundError = new EmailNotFoundError()
 
   const newCompanyObject = createNewCompanyTestObject({
     CNPJ: '33333333333333',

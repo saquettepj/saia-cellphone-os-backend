@@ -4,6 +4,8 @@ import { MiddlewareError } from '@/errors/middlewareError'
 import { CompanyRepository } from '@/repositories/company/companyRepository'
 import { AccountTypeEnum } from '@/enums/all.enum'
 import { ISimpleCompanyDTO } from '@/dtos/company/ISimpleCompanyDTO'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 const companyCheckerByCompanyMiddleware = async (
   request: FastifyRequest,
@@ -21,7 +23,8 @@ const companyCheckerByCompanyMiddleware = async (
   if (!searchedTargetCompany) {
     throw new MiddlewareError({
       statusCode: 404,
-      message: 'Company not found!',
+      message: translate(TranslationKeysEnum.ERROR_COMPANY_NOT_FOUND),
+      name: TranslationKeysEnum.ERROR_COMPANY_NOT_FOUND,
     })
   }
 
@@ -31,7 +34,8 @@ const companyCheckerByCompanyMiddleware = async (
   ) {
     throw new MiddlewareError({
       statusCode: 401,
-      message: 'Not allowed!',
+      message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
+      name: TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED,
     })
   }
 }

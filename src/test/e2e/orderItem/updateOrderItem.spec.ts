@@ -15,6 +15,8 @@ import {
   setupProductJokerRepository,
 } from '@/test/utils/jokerRepository'
 import { MiddlewareError } from '@/errors/middlewareError'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 describe('Update OrderItem - (e2e)', () => {
   let companyToken: string
@@ -35,7 +37,7 @@ describe('Update OrderItem - (e2e)', () => {
 
   const orderItemNotFoundError = new MiddlewareError({
     statusCode: 404,
-    message: 'OrderItem not found!',
+    message: translate(TranslationKeysEnum.ERROR_ORDER_ITEM_NOT_FOUND),
   })
 
   beforeAll(async () => {

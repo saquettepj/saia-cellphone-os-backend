@@ -5,6 +5,8 @@ import { MiddlewareError } from '@/errors/middlewareError'
 import { NfeDataRepository } from '@/repositories/nfeData/nfeDataRepository'
 import { CompanyRepository } from '@/repositories/company/companyRepository'
 import { AccountTypeEnum } from '@/enums/all.enum'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 const nfeDataCheckerByCompanyMiddleware = async (
   request: FastifyRequest,
@@ -20,7 +22,8 @@ const nfeDataCheckerByCompanyMiddleware = async (
   if (!searchedNfeData) {
     throw new MiddlewareError({
       statusCode: 404,
-      message: 'NfeData not found!',
+      message: translate(TranslationKeysEnum.ERROR_NFE_DATA_NOT_FOUND),
+      name: TranslationKeysEnum.ERROR_NFE_DATA_NOT_FOUND,
     })
   }
 
@@ -33,7 +36,8 @@ const nfeDataCheckerByCompanyMiddleware = async (
   ) {
     throw new MiddlewareError({
       statusCode: 401,
-      message: 'Request not allowed!',
+      message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
+      name: TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED,
     })
   }
 }

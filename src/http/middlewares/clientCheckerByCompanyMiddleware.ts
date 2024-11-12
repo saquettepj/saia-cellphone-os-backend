@@ -5,6 +5,8 @@ import { ClientRepository } from '@/repositories/client/clientRepository'
 import { CompanyRepository } from '@/repositories/company/companyRepository'
 import { AccountTypeEnum } from '@/enums/all.enum'
 import { ISimpleClientDTO } from '@/dtos/client/ISimpleClientDTO'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 const clientCheckerByCompanyMiddleware = async (
   request: FastifyRequest,
@@ -20,7 +22,8 @@ const clientCheckerByCompanyMiddleware = async (
   if (!searchedClient) {
     throw new MiddlewareError({
       statusCode: 404,
-      message: 'Client not found!',
+      message: translate(TranslationKeysEnum.ERROR_CLIENT_NOT_FOUND),
+      name: TranslationKeysEnum.ERROR_CLIENT_NOT_FOUND,
     })
   }
 
@@ -33,7 +36,8 @@ const clientCheckerByCompanyMiddleware = async (
   ) {
     throw new MiddlewareError({
       statusCode: 401,
-      message: 'Not allowed!',
+      message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
+      name: TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED,
     })
   }
 }

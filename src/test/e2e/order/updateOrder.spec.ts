@@ -13,6 +13,8 @@ import {
 } from '@/test/testObjects/testObjects'
 import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
 import { MiddlewareError } from '@/errors/middlewareError'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 describe('Update Order - (e2e)', () => {
   let companyToken: string
@@ -23,6 +25,7 @@ describe('Update Order - (e2e)', () => {
   let orderId: string
   let secondCompanyToken: string
   let orderData: ReturnType<typeof createNewOrderTestObject>
+  let updateOrderData: ReturnType<typeof updateNewOrderTestObject>
 
   const companyJokerRepository = setupCompanyJokerRepository()
 
@@ -42,17 +45,17 @@ describe('Update Order - (e2e)', () => {
 
   const employeeNotFoundError = new MiddlewareError({
     statusCode: 404,
-    message: 'Employee not found!',
+    message: translate(TranslationKeysEnum.ERROR_EMPLOYEE_NOT_FOUND),
   })
 
   const clientNotFoundError = new MiddlewareError({
     statusCode: 404,
-    message: 'Client not found!',
+    message: translate(TranslationKeysEnum.ERROR_CLIENT_NOT_FOUND),
   })
 
   const requestNotAllowedError = new MiddlewareError({
     statusCode: 401,
-    message: 'Request not allowed!',
+    message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
   })
 
   beforeAll(async () => {
@@ -109,6 +112,15 @@ describe('Update Order - (e2e)', () => {
       orderItems: [{ productId, quantity: 2 }],
     })
 
+    updateOrderData = updateNewOrderTestObject({
+      type: 'online',
+      number: 1002,
+      status: 'pending',
+      paymentMethod: 'credit',
+      price: 150.75,
+      description: 'desc',
+    })
+
     const createOrderResponse = await request(app.server)
       .post('/order')
       .set('Authorization', `Bearer ${companyToken}`)
@@ -149,7 +161,14 @@ describe('Update Order - (e2e)', () => {
     const response = await request(app.server)
       .patch(`/order/${orderId}`)
       .set('Authorization', `Bearer ${companyToken}`)
-      .send({ ...orderData, employeeId: invalidEmployeeId })
+      .send({
+        ...updateOrderData,
+        clientId: undefined,
+        employeeId: invalidEmployeeId,
+        companyId,
+      })
+
+    console.log('TESSSSSSTE', response.body)
 
     expect(response.body.message).toEqual(employeeNotFoundError.message)
     expect(response.statusCode).toEqual(employeeNotFoundError.statusCode)
@@ -161,7 +180,7 @@ describe('Update Order - (e2e)', () => {
     const response = await request(app.server)
       .patch(`/order/${orderId}`)
       .set('Authorization', `Bearer ${companyToken}`)
-      .send({ ...orderData, clientId: invalidClientId })
+      .send({ ...updateOrderData, clientId: invalidClientId })
 
     expect(response.body.message).toEqual(clientNotFoundError.message)
     expect(response.statusCode).toEqual(clientNotFoundError.statusCode)
@@ -179,10 +198,10 @@ describe('Update Order - (e2e)', () => {
 
   it('should update an order successfully with the correct response structure', async () => {
     const updatedOrderData = updateNewOrderTestObject({
+      ...updateOrderData,
       clientId,
       employeeId,
-      status: 'Updated Status',
-      description: 'Updated Description',
+      companyId,
     })
 
     const response = await request(app.server)
@@ -191,8 +210,8 @@ describe('Update Order - (e2e)', () => {
       .send(updatedOrderData)
 
     expect(response.body).toEqual({
-      id: orderId,
       companyId,
+      id: orderId,
       clientId,
       employeeId,
       number: updatedOrderData.number,

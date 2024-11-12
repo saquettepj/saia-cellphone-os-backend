@@ -9,6 +9,8 @@ import { CompanyCNPJAlreadyExistsError } from '@/errors/companyCNPJAlreadyExists
 import { EmailAlreadyExistsError } from '@/errors/emailAlreadyExistsError'
 import { createNewCompanyTestObject } from '@/test/testObjects/testObjects'
 import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 describe('Super Update Company - (e2e)', () => {
   let adminAccessToken: string
@@ -18,7 +20,7 @@ describe('Super Update Company - (e2e)', () => {
   const companyJokerRepository = setupCompanyJokerRepository()
 
   const authenticateMiddlewareError = new MiddlewareError({
-    message: 'Request not allowed!',
+    message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
     statusCode: 401,
   })
 

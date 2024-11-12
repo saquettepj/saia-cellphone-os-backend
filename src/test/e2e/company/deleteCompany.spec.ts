@@ -14,6 +14,9 @@ import { env } from '@/env'
 import { app } from '@/app'
 import { createNewCompanyTestObject } from '@/test/testObjects/testObjects'
 import { DeletingError } from '@/errors/deletingError'
+import { MiddlewareError } from '@/errors/middlewareError'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 describe('Delete company - (e2e)', () => {
   let adminToken: string
@@ -24,6 +27,11 @@ describe('Delete company - (e2e)', () => {
   const normalCompanyObject = createNewCompanyTestObject({
     CNPJ: '22222222222222',
     email: 'normal@company.com',
+  })
+
+  const companyDeleteMiddlewareError = new MiddlewareError({
+    statusCode: 401,
+    message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
   })
 
   beforeAll(async () => {
@@ -81,8 +89,8 @@ describe('Delete company - (e2e)', () => {
       .delete(`/company/${companyId}`)
       .set('Authorization', `Bearer ${normalCompanyToken}`)
 
-    expect(response.body.message).toEqual('Request not allowed!')
-    expect(response.statusCode).toEqual(401)
+    expect(response.body.message).toEqual(companyDeleteMiddlewareError.message)
+    expect(response.statusCode).toEqual(companyDeleteMiddlewareError.statusCode)
   })
 
   it('should not allow deletion of a non-existent company', async () => {

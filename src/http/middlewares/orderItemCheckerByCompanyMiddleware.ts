@@ -7,6 +7,8 @@ import { CompanyRepository } from '@/repositories/company/companyRepository'
 import { AccountTypeEnum } from '@/enums/all.enum'
 import { OrderItemRepository } from '@/repositories/orderItem/OrderItemRepository'
 import { ISimpleOrderItemDTO } from '@/dtos/orderItems/ISimpleOrderItemDTO'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 const orderItemCheckerByCompanyMiddleware = async (
   request: FastifyRequest,
@@ -25,7 +27,8 @@ const orderItemCheckerByCompanyMiddleware = async (
   if (!searchedOrderItem) {
     throw new MiddlewareError({
       statusCode: 404,
-      message: 'OrderItem not found!',
+      message: translate(TranslationKeysEnum.ERROR_ORDER_ITEM_NOT_FOUND),
+      name: TranslationKeysEnum.ERROR_ORDER_ITEM_NOT_FOUND,
     })
   }
 
@@ -35,7 +38,8 @@ const orderItemCheckerByCompanyMiddleware = async (
   if (!searchedOrder) {
     throw new MiddlewareError({
       statusCode: 404,
-      message: 'Order not found!',
+      message: translate(TranslationKeysEnum.ERROR_ORDER_NOT_FOUND),
+      name: TranslationKeysEnum.ERROR_ORDER_NOT_FOUND,
     })
   }
 
@@ -46,7 +50,8 @@ const orderItemCheckerByCompanyMiddleware = async (
   if (!searchedEmployee) {
     throw new MiddlewareError({
       statusCode: 404,
-      message: 'Employee not found!',
+      message: translate(TranslationKeysEnum.ERROR_EMPLOYEE_NOT_FOUND),
+      name: TranslationKeysEnum.ERROR_EMPLOYEE_NOT_FOUND,
     })
   }
 
@@ -57,7 +62,8 @@ const orderItemCheckerByCompanyMiddleware = async (
   ) {
     throw new MiddlewareError({
       statusCode: 401,
-      message: 'Request not allowed!',
+      message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
+      name: TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED,
     })
   }
 }

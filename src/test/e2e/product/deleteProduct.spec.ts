@@ -8,6 +8,8 @@ import {
 } from '@/test/testObjects/testObjects'
 import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
 import { MiddlewareError } from '@/errors/middlewareError'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 describe('Delete product - (e2e)', () => {
   let companyToken: string
@@ -21,7 +23,7 @@ describe('Delete product - (e2e)', () => {
 
   const productCheckerByCompanyMiddlewareError = new MiddlewareError({
     statusCode: 401,
-    message: 'Request not allowed!',
+    message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
   })
 
   const newCompanyObject2 = createNewCompanyTestObject({

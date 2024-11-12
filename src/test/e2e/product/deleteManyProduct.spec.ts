@@ -9,6 +9,8 @@ import {
 } from '@/test/testObjects/testObjects'
 import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
 import { MiddlewareError } from '@/errors/middlewareError'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 describe('Delete many products - (e2e)', () => {
   let companyToken: string
@@ -19,7 +21,14 @@ describe('Delete many products - (e2e)', () => {
   const companyJokerRepository = setupCompanyJokerRepository()
 
   const authenticateCompanyMiddlewareError = new MiddlewareError({
-    message: 'Token missing!',
+    message: translate(TranslationKeysEnum.ERROR_TOKEN_MISSING),
+    statusCode: 401,
+  })
+
+  const emailConfirmationMiddlewareError = new MiddlewareError({
+    message: translate(
+      TranslationKeysEnum.ERROR_PREREQUISITE_EMAIL_CONFIRMATION,
+    ),
     statusCode: 401,
   })
 
@@ -107,9 +116,11 @@ describe('Delete many products - (e2e)', () => {
       .send({ ids: [productId1, productId2] })
 
     expect(response.body.message).toEqual(
-      'Prerequisite for this action: email confirmation.',
+      emailConfirmationMiddlewareError.message,
     )
-    expect(response.statusCode).toEqual(401)
+    expect(response.statusCode).toEqual(
+      emailConfirmationMiddlewareError.statusCode,
+    )
   })
 
   it('should not allow deleting products without authentication', async () => {

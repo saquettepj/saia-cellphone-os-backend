@@ -9,6 +9,8 @@ import {
 import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
 import { MiddlewareError } from '@/errors/middlewareError'
 import { formatUniqueStrings } from '@/utils/formatUniqueStrings'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 describe('Get product - (e2e)', () => {
   let companyToken: string
@@ -17,13 +19,15 @@ describe('Get product - (e2e)', () => {
 
   const companyJokerRepository = setupCompanyJokerRepository()
 
-  const emailConfirmationCheckerMiddleware = new MiddlewareError({
+  const emailConfirmationMiddlewareError = new MiddlewareError({
+    message: translate(
+      TranslationKeysEnum.ERROR_PREREQUISITE_EMAIL_CONFIRMATION,
+    ),
     statusCode: 401,
-    message: 'Prerequisite for this action: email confirmation.',
   })
 
   const authenticateCompanyMiddlewareError = new MiddlewareError({
-    message: 'Token missing!',
+    message: translate(TranslationKeysEnum.ERROR_TOKEN_MISSING),
     statusCode: 401,
   })
 
@@ -127,10 +131,10 @@ describe('Get product - (e2e)', () => {
       .send({})
 
     expect(response.body.message).toEqual(
-      emailConfirmationCheckerMiddleware.message,
+      emailConfirmationMiddlewareError.message,
     )
     expect(response.statusCode).toEqual(
-      emailConfirmationCheckerMiddleware.statusCode,
+      emailConfirmationMiddlewareError.statusCode,
     )
   })
 })

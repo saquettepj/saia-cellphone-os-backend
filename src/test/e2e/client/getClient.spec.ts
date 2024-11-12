@@ -8,6 +8,8 @@ import {
 } from '@/test/testObjects/testObjects'
 import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
 import { MiddlewareError } from '@/errors/middlewareError'
+import { translate } from '@/i18n/translate'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
 describe('Get Clients - (e2e)', () => {
   let companyToken: string
@@ -15,7 +17,7 @@ describe('Get Clients - (e2e)', () => {
   const companyJokerRepository = setupCompanyJokerRepository()
 
   const authenticateCompanyMiddlewareError = new MiddlewareError({
-    message: 'Token missing!',
+    message: translate(TranslationKeysEnum.ERROR_TOKEN_MISSING),
     statusCode: 401,
   })
 
