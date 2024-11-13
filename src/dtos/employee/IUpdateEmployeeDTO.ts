@@ -6,7 +6,8 @@ export const IUpdateEmployeeDTO = z
     CPF: z
       .string()
       .length(11)
-      .regex(/^[0-9]+$/),
+      .regex(/^[0-9]+$/)
+      .optional(),
     phone: z.string().optional(),
     role: z.string().optional(),
   })
