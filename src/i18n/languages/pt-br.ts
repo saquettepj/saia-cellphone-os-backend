@@ -6,7 +6,7 @@ export const ptBR = {
     'Token de acesso não encontrado!',
   [TranslationKeysEnum.ERROR_ADDRESS_NOT_FOUND]: 'Endereço não encontrado!',
   [TranslationKeysEnum.ERROR_ACCESS_TOKEN_ALREADY_HAS_COMPANY_ID]:
-    'Um AccessToken já possui um companyId e não pode ser atualizado!',
+    'Um AccessToken já possui uma empresa e não pode ser atualizado!',
   [TranslationKeysEnum.ERROR_CLIENT_HAS_ADDRESS]:
     'Endereço já existe para este cliente!',
   [TranslationKeysEnum.ERROR_CLIENT_NOT_FOUND]: 'Cliente não encontrado!',
@@ -43,7 +43,7 @@ export const ptBR = {
   [TranslationKeysEnum.ERROR_REQUEST_PARAMS_NOT_REACHED]:
     'Parâmetros da rota não alcançados!',
   [TranslationKeysEnum.ERROR_THIS_ACCESS_TOKEN_ALREADY_HAS_COMPANY_ID]:
-    'Este AccessToken já possui um companyId e não pode ser atualizado!',
+    'Este AccessToken já possui uma empresa e não pode ser atualizado!',
   [TranslationKeysEnum.ERROR_PRODUCT_DESCRIPTION_ALREADY_EXISTS]:
     'Um produto com esta descrição já existe para esta empresa.',
   [TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED]: 'Solicitação não permitida!',

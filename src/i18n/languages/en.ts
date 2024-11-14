@@ -5,7 +5,7 @@ export const en = {
   [TranslationKeysEnum.ERROR_ACCESS_TOKEN_NOT_FOUND]: 'Access token not found!',
   [TranslationKeysEnum.ERROR_ADDRESS_NOT_FOUND]: 'Address not found!',
   [TranslationKeysEnum.ERROR_ACCESS_TOKEN_ALREADY_HAS_COMPANY_ID]:
-    'An AccessToken already has a companyId and cannot be updated!',
+    'An AccessToken already has a company and cannot be updated!',
   [TranslationKeysEnum.ERROR_CLIENT_HAS_ADDRESS]:
     'Address already exists for this client!',
   [TranslationKeysEnum.ERROR_CLIENT_NOT_FOUND]: 'Client not found!',
@@ -42,7 +42,7 @@ export const en = {
   [TranslationKeysEnum.ERROR_REQUEST_PARAMS_NOT_REACHED]:
     'Route parameters not reached!',
   [TranslationKeysEnum.ERROR_THIS_ACCESS_TOKEN_ALREADY_HAS_COMPANY_ID]:
-    'This AccessToken already has a companyId and cannot be updated!',
+    'This AccessToken already has a company and cannot be updated!',
   [TranslationKeysEnum.ERROR_PRODUCT_DESCRIPTION_ALREADY_EXISTS]:
     'A product with this description already exists for this company.',
   [TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED]: 'Request not allowed!',
