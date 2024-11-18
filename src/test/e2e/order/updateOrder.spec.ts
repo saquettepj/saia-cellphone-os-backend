@@ -167,8 +167,6 @@ describe('Update Order - (e2e)', () => {
         companyId,
       })
 
-    console.log('TESSSSSSTE', response.body)
-
     expect(response.body.message).toEqual(employeeNotFoundError.message)
     expect(response.statusCode).toEqual(employeeNotFoundError.statusCode)
   })

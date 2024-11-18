@@ -128,8 +128,6 @@ describe('Get Company By ID - (e2e)', () => {
       .get(`/company/${targetCompanyId}`)
       .set('Authorization', `Bearer ${adminAccessToken}`)
 
-    console.log('TESTE', response.body)
-
     expect(response.body.company).toEqual(
       expect.objectContaining({
         id: targetCompanyId,
