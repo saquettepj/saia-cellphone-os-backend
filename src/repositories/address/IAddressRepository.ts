@@ -7,7 +7,7 @@ interface IAddressRepository {
   findAllByCompanyId(
     companyId: string,
     data: Partial<Prisma.AddressCreateManyInput>,
-  ): Promise<Address[]>
+  ): Promise<Address | null>
   updateByClientId(
     clientId: string,
     data: Prisma.AddressUpdateInput,
@@ -15,9 +15,8 @@ interface IAddressRepository {
   updateByCompanyId(
     companyId: string,
     data: Prisma.AddressUpdateInput,
-  ): Promise<Address>
-  delete(id: string): Promise<Address | null>
-  deleteMany(ids: string[]): Promise<number>
+  ): Promise<Address | null>
+  delete(id: string): Promise<Address>
   create(data: Prisma.AddressUncheckedCreateInput): Promise<Address>
 }
 

@@ -55,6 +55,7 @@ const createNewEmployeeTestObject = (
 const createNewAddressTestObject = (
   params?: Partial<ICreateAddressUseCaseRequest>,
 ) => ({
+  country: params?.country || 'Brazil',
   city: params?.city || 'CityTest',
   state: params?.state || 'StateTest',
   neighborhood: params?.neighborhood || 'NeighborhoodTest',
@@ -69,7 +70,6 @@ const createNewOrderTestObject = (
 ) => ({
   clientId: params?.clientId || uuidv4(),
   employeeId: params?.employeeId || uuidv4(),
-  number: params?.number || 1234,
   type: params?.type || 'sale',
   status: params?.status || 'pending',
   payDate: params?.payDate || new Date().toISOString(),
@@ -87,7 +87,6 @@ const updateNewOrderTestObject = (
   companyId: params?.companyId || uuidv4(),
   clientId: params?.clientId || uuidv4(),
   employeeId: params?.employeeId || uuidv4(),
-  number: params?.number || 1234,
   type: params?.type || 'sale',
   status: params?.status || 'pending',
   payDate: params?.payDate || new Date().toISOString(),

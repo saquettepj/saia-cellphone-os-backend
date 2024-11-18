@@ -8,6 +8,7 @@ import { CompanyHasAddressError } from '@/errors/companyHasAddressError'
 
 interface ICreateAddressControllerResponse {
   id: string
+  country: string
   city: string
   state: string
   neighborhood: string
@@ -24,13 +25,22 @@ async function createAddressController(
 ) {
   const { id: companyId } = request.company
 
-  const { city, state, neighborhood, street, streetNumber, zipCode, clientId } =
-    ICreateAddressDTO.parse(request.body)
+  const {
+    country,
+    city,
+    state,
+    neighborhood,
+    street,
+    streetNumber,
+    zipCode,
+    clientId,
+  } = ICreateAddressDTO.parse(request.body)
 
   try {
     const createAddressUseCase = setupCreateAddressUseCase()
 
     const createAddressUseCaseReturn = await createAddressUseCase.execute({
+      country,
       city,
       state,
       neighborhood,
@@ -43,6 +53,7 @@ async function createAddressController(
 
     const responseBody: ICreateAddressControllerResponse = {
       id: createAddressUseCaseReturn.id,
+      country: createAddressUseCaseReturn.country,
       city: createAddressUseCaseReturn.city,
       state: createAddressUseCaseReturn.state,
       neighborhood: createAddressUseCaseReturn.neighborhood,

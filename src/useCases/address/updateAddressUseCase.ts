@@ -4,6 +4,7 @@ import { ClientNotFoundError } from '@/errors/clientNotFoundError'
 import { IClientRepository } from '@/repositories/client/IClientRepository'
 
 interface IUpdateAddressUseCaseRequest {
+  country?: string
   city?: string
   state?: string
   neighborhood?: string
@@ -21,6 +22,7 @@ class UpdateAddressUseCase {
   ) {}
 
   async execute({
+    country,
     city,
     state,
     neighborhood,
@@ -50,6 +52,7 @@ class UpdateAddressUseCase {
       }
 
       updatedAddress = await this.addressRepository.updateByClientId(clientId, {
+        country,
         city,
         state,
         neighborhood,
@@ -67,6 +70,7 @@ class UpdateAddressUseCase {
       updatedAddress = await this.addressRepository.updateByCompanyId(
         companyId,
         {
+          country,
           city,
           state,
           neighborhood,

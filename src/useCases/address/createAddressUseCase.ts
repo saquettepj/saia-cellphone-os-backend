@@ -5,6 +5,7 @@ import { ClientHasAddressError } from '@/errors/clientHasAddressError'
 import { CompanyHasAddressError } from '@/errors/companyHasAddressError'
 
 interface ICreateAddressUseCaseRequest {
+  country: string
   city: string
   state: string
   neighborhood: string
@@ -22,6 +23,7 @@ class CreateAddressUseCase {
   ) {}
 
   async execute({
+    country,
     city,
     state,
     neighborhood,
@@ -51,6 +53,7 @@ class CreateAddressUseCase {
       }
     }
     const createdAddress = await this.addressRepository.create({
+      country,
       city,
       state,
       neighborhood,

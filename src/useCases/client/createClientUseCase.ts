@@ -20,12 +20,19 @@ class CreateClientUseCase {
     phone,
     companyId,
   }: ICreateClientUseCaseRequest) {
-    const searchedCPF = await this.clientRepository.findByCPF(CPF)
+    const searchedCPF = await this.clientRepository.findByCPFAndCompanyId(
+      CPF,
+      companyId,
+    )
+
     if (searchedCPF) {
       throw new CPFAlreadyExistsError()
     }
 
-    const searchedEmail = await this.clientRepository.findByEmail(email)
+    const searchedEmail = await this.clientRepository.findByEmailAndCompanyId(
+      email,
+      companyId,
+    )
     if (searchedEmail) {
       throw new EmailAlreadyExistsError()
     }

@@ -18,12 +18,15 @@ async function updateClientController(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
+  const { id: companyId } = request.company
+
   const { id } = ISimpleClientDTO.parse(request.params)
   const { name, CPF, email, phone } = IUpdateClientDTO.parse(request.body)
 
   try {
     const updateClientUseCase = setupUpdateClientUseCase()
     const updateClientUseCaseReturn = await updateClientUseCase.execute({
+      companyId,
       id,
       name,
       CPF,

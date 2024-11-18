@@ -6,7 +6,6 @@ interface ICreateOrderUseCaseRequest {
   companyId: string
   clientId: string
   employeeId: string
-  number: number
   status: string
   payDate: string
   paymentMethod: string
@@ -26,7 +25,6 @@ class CreateOrderUseCase {
     companyId,
     clientId,
     employeeId,
-    number,
     status,
     payDate,
     paymentMethod,
@@ -60,7 +58,6 @@ class CreateOrderUseCase {
       companyId,
       clientId,
       employeeId,
-      number,
       status,
       payDate,
       paymentMethod,

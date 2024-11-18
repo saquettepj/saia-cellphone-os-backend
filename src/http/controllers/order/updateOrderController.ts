@@ -8,10 +8,10 @@ import { EmployeeNotFoundError } from '@/errors/employeeNotFoundError'
 
 interface IUpdateOrderControllerResponse {
   id: string
+  number: number
   companyId: string
   clientId: string
   employeeId: string
-  number: number
   type: string
   status: string
   payDate: Date
@@ -30,7 +30,6 @@ async function updateOrderController(
     companyId,
     clientId,
     employeeId,
-    number,
     type,
     status,
     payDate,
@@ -46,7 +45,6 @@ async function updateOrderController(
       companyId,
       clientId,
       employeeId,
-      number,
       type,
       status,
       payDate,

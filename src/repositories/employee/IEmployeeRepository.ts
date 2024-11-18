@@ -7,6 +7,10 @@ interface IEmployee extends Employee {
 interface IEmployeeRepository {
   findById(id: string): Promise<IEmployee | null>
   findByCPF(CPF: string): Promise<IEmployee | null>
+  findByCPFAndCompanyId(
+    CPF: string,
+    companyId: string,
+  ): Promise<IEmployee | null>
   findAllByCompanyId(
     companyId: string,
     data: Partial<Prisma.EmployeeCreateManyInput>,

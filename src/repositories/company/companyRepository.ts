@@ -42,7 +42,7 @@ class CompanyRepository implements ICompanyRepository {
         employees: true,
         accessToken: true,
         NfeDataTable: true,
-        addresses: true,
+        address: true,
         Nfes: true,
       },
     })
@@ -69,7 +69,7 @@ class CompanyRepository implements ICompanyRepository {
         employees: true,
         accessToken: true,
         NfeDataTable: true,
-        addresses: true,
+        address: true,
         Nfes: true,
       },
     })

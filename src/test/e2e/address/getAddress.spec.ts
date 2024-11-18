@@ -89,7 +89,7 @@ describe('Get Address - (e2e)', () => {
     expect(response.statusCode).toEqual(404)
   })
 
-  it('should return all addresses and match the expected structure', async () => {
+  it('should return address and match the expected structure', async () => {
     const response = await request(app.server)
       .post('/address/list')
       .set('Authorization', `Bearer ${companyToken}`)
@@ -97,6 +97,7 @@ describe('Get Address - (e2e)', () => {
 
     expect(response.body).toEqual({
       id: expect.any(String),
+      country: newAddressObject.country,
       city: newAddressObject.city,
       state: newAddressObject.state,
       neighborhood: newAddressObject.neighborhood,

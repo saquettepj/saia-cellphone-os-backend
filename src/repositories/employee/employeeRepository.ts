@@ -31,8 +31,14 @@ class EmployeeRepository implements IEmployeeRepository {
   }
 
   async findByCPF(CPF: string) {
-    return prisma.employee.findUnique({
+    return prisma.employee.findFirst({
       where: { CPF },
+    })
+  }
+
+  async findByCPFAndCompanyId(CPF: string, companyId: string) {
+    return prisma.employee.findFirst({
+      where: { CPF, companyId },
     })
   }
 

@@ -7,6 +7,7 @@ import { ClientNotFoundError } from '@/errors/clientNotFoundError'
 
 interface IUpdateAddressControllerResponse {
   id: string
+  country: string
   city: string
   state: string
   neighborhood: string
@@ -23,14 +24,23 @@ async function updateAddressController(
 ) {
   const { id: companyId } = request.company
 
-  const { clientId, city, state, neighborhood, street, streetNumber, zipCode } =
-    IUpdateAddressDTO.parse(request.body)
+  const {
+    clientId,
+    country,
+    city,
+    state,
+    neighborhood,
+    street,
+    streetNumber,
+    zipCode,
+  } = IUpdateAddressDTO.parse(request.body)
 
   try {
     const updateAddressUseCase = setupUpdateAddressUseCase()
     const updatedAddress = await updateAddressUseCase.execute({
       companyId,
       clientId,
+      country,
       city,
       state,
       neighborhood,
@@ -40,15 +50,16 @@ async function updateAddressController(
     })
 
     const responseBody: IUpdateAddressControllerResponse = {
-      id: updatedAddress.id,
-      city: updatedAddress.city,
-      state: updatedAddress.state,
-      neighborhood: updatedAddress.neighborhood,
-      street: updatedAddress.street,
-      streetNumber: updatedAddress.streetNumber,
-      zipCode: updatedAddress.zipCode,
-      clientId: updatedAddress.clientId,
-      companyId: updatedAddress.companyId,
+      id: updatedAddress?.id || '',
+      country: updatedAddress?.country || '',
+      city: updatedAddress?.city || '',
+      state: updatedAddress?.state || '',
+      neighborhood: updatedAddress?.neighborhood || '',
+      street: updatedAddress?.street || '',
+      streetNumber: updatedAddress?.streetNumber || '',
+      zipCode: updatedAddress?.zipCode || '',
+      clientId: updatedAddress?.clientId || '',
+      companyId: updatedAddress?.companyId || '',
     }
 
     return reply.status(200).send(responseBody)

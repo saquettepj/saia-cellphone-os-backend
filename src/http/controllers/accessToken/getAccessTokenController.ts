@@ -1,6 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-import { AccessTokenNotFoundError } from '@/errors/accessTokenNotFoundError'
 import { setupGetAccessTokenUseCase } from '@/useCases/accessToken/factory/setupGetAccessTokenUseCase'
 
 interface IGetAccessTokenControllerResponse {
@@ -30,10 +29,6 @@ async function getAccessTokenController(
 
     return reply.status(200).send(responseBody)
   } catch (error) {
-    if (error instanceof AccessTokenNotFoundError) {
-      return reply.status(404).send({ message: error.message })
-    }
-
     throw error
   }
 }

@@ -19,6 +19,8 @@ async function updateEmployeeController(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
+  const { id: companyId } = request.company
+
   const { id } = ISimpleEmployeeDTO.parse(request.params)
   const { name, CPF, phone, role } = IUpdateEmployeeDTO.parse(request.body)
 
@@ -26,6 +28,7 @@ async function updateEmployeeController(
     const updateEmployeeUseCase = setupUpdateEmployeeUseCase()
 
     const updatedEmployee = await updateEmployeeUseCase.execute({
+      companyId,
       id,
       name,
       CPF,

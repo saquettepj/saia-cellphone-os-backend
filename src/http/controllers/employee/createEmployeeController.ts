@@ -3,7 +3,6 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { ICreateEmployeeDTO } from '@/dtos/employee/ICreateEmployeeDTO'
 import { setupCreateEmployeeUseCase } from '@/useCases/employee/factory/setupCreateEmployeeUseCase'
 import { CPFAlreadyExistsError } from '@/errors/CPFAlreadyExistsError'
-import { ISimpleCompanyDTO } from '@/dtos/company/ISimpleCompanyDTO'
 
 interface ICreateEmployeeControllerResponse {
   id: string
@@ -18,7 +17,8 @@ async function createEmployeeController(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const { id: companyId } = ISimpleCompanyDTO.parse(request.company)
+  const { id: companyId } = request.company
+
   const { name, CPF, phone, role } = ICreateEmployeeDTO.parse(request.body)
 
   try {

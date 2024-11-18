@@ -29,7 +29,7 @@ class AddressRepository implements IAddressRepository {
     companyId: string,
     data: Partial<Prisma.AddressCreateManyInput>,
   ) {
-    const addresses = await prisma.address.findMany({
+    const address = await prisma.address.findFirst({
       where: {
         companyId,
         ...(data.id && { id: { contains: data.id } }),
@@ -38,7 +38,7 @@ class AddressRepository implements IAddressRepository {
         ...(data.zipCode && { zipCode: { contains: data.zipCode } }),
       },
     })
-    return addresses
+    return address
   }
 
   async updateByClientId(clientId: string, data: Prisma.AddressUpdateInput) {
@@ -71,13 +71,6 @@ class AddressRepository implements IAddressRepository {
       where: { id },
     })
     return deletedAddress
-  }
-
-  async deleteMany(ids: string[]) {
-    const deletedAddresses = await prisma.address.deleteMany({
-      where: { id: { in: ids } },
-    })
-    return deletedAddresses.count
   }
 
   async create(data: Prisma.AddressUncheckedCreateInput) {

@@ -99,6 +99,7 @@ describe('Create Address - (e2e)', () => {
 
     expect(response.body).toEqual({
       id: expect.any(String),
+      country: newAddressObject.country,
       city: newAddressObject.city,
       state: newAddressObject.state,
       neighborhood: newAddressObject.neighborhood,

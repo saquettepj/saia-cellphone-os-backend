@@ -9,7 +9,6 @@ interface IUpdateOrderUseCaseRequest {
   companyId: string
   clientId?: string
   employeeId?: string
-  number?: number
   type?: string
   status?: string
   payDate?: string
@@ -30,7 +29,6 @@ class UpdateOrderUseCase {
     companyId,
     clientId,
     employeeId,
-    number,
     type,
     status,
     payDate,
@@ -56,7 +54,6 @@ class UpdateOrderUseCase {
       companyId,
       clientId,
       employeeId,
-      number,
       type,
       status,
       payDate,

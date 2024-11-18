@@ -9,7 +9,6 @@ export const ICreateOrderDTO = z
   .object({
     clientId: z.string().uuid(),
     employeeId: z.string().uuid(),
-    number: z.number(),
     type: z.string(),
     status: z.string(),
     payDate: z.string().refine((val) => validateDateOnRequests(val), {

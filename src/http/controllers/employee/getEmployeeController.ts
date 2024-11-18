@@ -3,7 +3,6 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { setupGetEmployeeUseCase } from '@/useCases/employee/factory/setupGetEmployeeUseCase'
 import { EmployeeNotFoundError } from '@/errors/employeeNotFoundError'
 import { IEmployee } from '@/repositories/employee/IEmployeeRepository'
-import { ISimpleCompanyDTO } from '@/dtos/company/ISimpleCompanyDTO'
 import { IGetEmployeeDTO } from '@/dtos/employee/IGetEmployeeDTO'
 
 interface IGetEmployeeControllerResponse {
@@ -14,7 +13,8 @@ async function getEmployeeController(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const { id: companyId } = ISimpleCompanyDTO.parse(request.company)
+  const { id: companyId } = request.company
+
   const { id, CPF, name, role, phone } = IGetEmployeeDTO.parse(request.body)
 
   try {

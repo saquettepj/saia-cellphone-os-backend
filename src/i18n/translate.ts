@@ -1,15 +1,16 @@
-import { TranslationKeysEnum } from "./enums/TranslationKeysEnum";
-import { en } from "./languages/en";
-import { ptBR } from "./languages/pt-br";
+import { TranslationKeysEnum } from './enums/TranslationKeysEnum'
+import { en } from './languages/en'
+import { ptBR } from './languages/pt-br'
+import { getGlobalLocale } from './localeSetting'
 
 const translations = {
   pt: ptBR,
-  en: en
-};
+  en,
+}
 
-export function translate(
-  textKey: TranslationKeysEnum,
-  locale: 'en' | 'pt' = 'pt'
-): string {
-  return translations[locale]?.[textKey] || 'TRANSLATION ERROR';
+export type ILocale = 'en' | 'pt'
+
+export function translate(textKey: TranslationKeysEnum): string {
+  const locale = getGlobalLocale()
+  return translations[locale]?.[textKey] || 'TRANSLATION ERROR'
 }

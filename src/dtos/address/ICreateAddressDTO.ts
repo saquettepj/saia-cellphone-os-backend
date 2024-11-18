@@ -2,6 +2,7 @@ import { z } from 'zod'
 
 export const ICreateAddressDTO = z
   .object({
+    country: z.string(),
     city: z.string(),
     state: z.string(),
     neighborhood: z.string(),

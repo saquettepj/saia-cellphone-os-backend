@@ -19,6 +19,7 @@ async function createClientController(
   reply: FastifyReply,
 ) {
   const { id: companyId } = request.company
+
   const { name, CPF, email, phone } = ICreateClientDTO.parse(request.body)
 
   try {

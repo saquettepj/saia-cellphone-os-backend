@@ -19,7 +19,8 @@ class CreateEmployeeUseCase {
     role,
     companyId,
   }: ICreateEmployeeUseCaseRequest) {
-    const employeeWithSameCPF = await this.employeeRepository.findByCPF(CPF)
+    const employeeWithSameCPF =
+      await this.employeeRepository.findByCPFAndCompanyId(CPF, companyId)
 
     if (employeeWithSameCPF) {
       throw new CPFAlreadyExistsError()

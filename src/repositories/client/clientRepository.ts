@@ -33,12 +33,32 @@ class ClientRepository implements IClientRepository {
   }
 
   async findByCPF(CPF: string) {
-    const client = prisma.client.findUnique({ where: { CPF } })
+    const client = prisma.client.findFirst({ where: { CPF } })
+    return client
+  }
+
+  async findByCPFAndCompanyId(CPF: string, companyId: string) {
+    const client = await prisma.client.findFirst({
+      where: {
+        companyId,
+        CPF,
+      },
+    })
     return client
   }
 
   async findByEmail(email: string) {
-    const client = prisma.client.findUnique({ where: { email } })
+    const client = prisma.client.findFirst({ where: { email } })
+    return client
+  }
+
+  async findByEmailAndCompanyId(email: string, companyId: string) {
+    const client = await prisma.client.findFirst({
+      where: {
+        email,
+        companyId,
+      },
+    })
     return client
   }
 

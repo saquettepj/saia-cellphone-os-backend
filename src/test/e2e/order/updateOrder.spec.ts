@@ -114,7 +114,6 @@ describe('Update Order - (e2e)', () => {
 
     updateOrderData = updateNewOrderTestObject({
       type: 'online',
-      number: 1002,
       status: 'pending',
       paymentMethod: 'credit',
       price: 150.75,
@@ -214,7 +213,6 @@ describe('Update Order - (e2e)', () => {
       id: orderId,
       clientId,
       employeeId,
-      number: updatedOrderData.number,
       type: updatedOrderData.type,
       status: updatedOrderData.status,
       payDate: updatedOrderData.payDate,

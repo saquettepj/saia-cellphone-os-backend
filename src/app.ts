@@ -1,6 +1,5 @@
 import Fastify, { FastifyReply, FastifyRequest } from 'fastify'
 import cors from '@fastify/cors'
-import multer from 'fastify-multer'
 import { PrismaClient } from '@prisma/client'
 import { ZodError } from 'zod'
 
@@ -10,14 +9,15 @@ import { MiddlewareError } from './errors/middlewareError'
 import { filterErrorContent } from './utils/filterErrorContent'
 import { translate } from './i18n/translate'
 import { TranslationKeysEnum } from './i18n/enums/TranslationKeysEnum'
+import { localeMiddleware } from './http/middlewares/global/localeMiddleware'
 
 export const prisma = new PrismaClient()
 
 const app = Fastify()
 
 app.register(cors)
-app.register(multer.contentParser)
 
+app.addHook('preHandler', localeMiddleware)
 app.register(appRoutes)
 
 app.setErrorHandler(

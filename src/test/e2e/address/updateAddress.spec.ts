@@ -137,6 +137,7 @@ describe('Update Address - (e2e)', () => {
 
     expect(response.body).toEqual({
       id: expect.any(String),
+      country: newAddressObject.country,
       city: updatedAddressObject.city,
       state: newAddressObject.state,
       neighborhood: newAddressObject.neighborhood,
@@ -167,6 +168,7 @@ describe('Update Address - (e2e)', () => {
 
     expect(response.body).toEqual({
       id: expect.any(String),
+      country: newAddressObject.country,
       city: updatedAddressObject.city,
       state: newAddressObject.state,
       neighborhood: newAddressObject.neighborhood,

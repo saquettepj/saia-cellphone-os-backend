@@ -2,6 +2,7 @@ import { z } from 'zod'
 
 export const IUpdateAddressDTO = z
   .object({
+    country: z.string().optional(),
     city: z.string().optional(),
     state: z.string().optional(),
     neighborhood: z.string().optional(),

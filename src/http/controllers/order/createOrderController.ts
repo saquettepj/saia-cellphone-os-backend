@@ -30,7 +30,6 @@ async function createOrderController(
   const {
     clientId,
     employeeId,
-    number,
     status,
     payDate,
     paymentMethod,
@@ -47,7 +46,6 @@ async function createOrderController(
       companyId,
       clientId,
       employeeId,
-      number,
       status,
       payDate,
       paymentMethod,

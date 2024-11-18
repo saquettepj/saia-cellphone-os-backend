@@ -259,7 +259,6 @@ describe('Create Order - (e2e)', () => {
       companyId: expect.any(String),
       clientId,
       employeeId,
-      number: orderData.number,
       status: orderData.status,
       payDate: expect.any(String),
       paymentMethod: orderData.paymentMethod,

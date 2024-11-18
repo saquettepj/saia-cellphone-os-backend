@@ -8,7 +8,6 @@ export const IUpdateOrderDTO = z
     companyId: z.string().uuid(),
     clientId: z.string().uuid().optional(),
     employeeId: z.string().uuid().optional(),
-    number: z.number().optional(),
     type: z.string().optional(),
     status: z.string().optional(),
     payDate: z

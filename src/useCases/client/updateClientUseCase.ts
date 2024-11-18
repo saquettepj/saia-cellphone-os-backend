@@ -3,6 +3,7 @@ import { EmailAlreadyExistsError } from '@/errors/emailAlreadyExistsError'
 import { IClientRepository } from '@/repositories/client/IClientRepository'
 
 interface IUpdateClientUseCaseRequest {
+  companyId: string
   id: string
   name?: string
   CPF?: string
@@ -13,9 +14,17 @@ interface IUpdateClientUseCaseRequest {
 class UpdateClientUseCase {
   constructor(private clientRepository: IClientRepository) {}
 
-  async execute({ id, name, CPF, email, phone }: IUpdateClientUseCaseRequest) {
+  async execute({
+    companyId,
+    id,
+    name,
+    CPF,
+    email,
+    phone,
+  }: IUpdateClientUseCaseRequest) {
     if (CPF) {
-      const searchedClientByCPF = await this.clientRepository.findByCPF(CPF)
+      const searchedClientByCPF =
+        await this.clientRepository.findByCPFAndCompanyId(CPF, companyId)
       if (searchedClientByCPF) {
         throw new CPFAlreadyExistsError()
       }
@@ -23,7 +32,7 @@ class UpdateClientUseCase {
 
     if (email) {
       const searchedClientByEmail =
-        await this.clientRepository.findByEmail(email)
+        await this.clientRepository.findByEmailAndCompanyId(email, companyId)
       if (searchedClientByEmail) {
         throw new EmailAlreadyExistsError()
       }

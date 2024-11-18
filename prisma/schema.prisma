@@ -30,7 +30,8 @@ model Company {
   employees             Employee[]
   accessToken           AccessToken?
   NfeDataTable          NfeData?
-  addresses             Address[]
+  addressId             String?
+  address               Address?
   Nfes                  Nfe[]
   createdAt             DateTime     @default(now())
 
@@ -47,7 +48,7 @@ model AccessToken {
 model Employee {
   id        String   @id @default(uuid())
   name      String
-  CPF       String   @unique
+  CPF       String
   phone     String?
   role      String
   companyId String
@@ -55,14 +56,15 @@ model Employee {
   orders    Order[]
   createdAt DateTime @default(now())
 
+  @@unique([companyId, CPF])
   @@map("employee")
 }
 
 model Client {
   id        String   @id @default(uuid())
   name      String
-  CPF       String   @unique
-  email     String   @unique
+  CPF       String
+  email     String
   phone     String?
   companyId String
   company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
@@ -72,11 +74,14 @@ model Client {
   address   Address?
   createdAt DateTime @default(now())
 
+  @@unique([companyId, CPF])
+  @@unique([companyId, email])
   @@map("client")
 }
 
 model Address {
   id           String   @id @default(uuid())
+  country      String
   city         String
   state        String
   neighborhood String
@@ -85,8 +90,8 @@ model Address {
   zipCode      String
   clientId     String?  @unique
   client       Client?  @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  companyId    String?
-  company      Company? @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId    String?  @unique
+  company      Company? @relation(fields: [companyId], references: [id], onDelete: SetNull, onUpdate: Cascade)
 
   @@map("address")
 }
@@ -115,11 +120,13 @@ model Nfe {
   company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
   clientId  String
   client    Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  protocol  String   @unique
-  key       String   @unique
+  protocol  String
+  key       String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@unique([companyId, protocol])
+  @@unique([companyId, key])
   @@map("nfe")
 }
 
@@ -130,10 +137,11 @@ model Product {
   type        String
   price       Float
   condition   String
-  description String      @unique
+  description String
   orders      OrderItem[]
   quantity    Int
 
+  @@unique([companyId, description])
   @@map("product")
 }
 
@@ -145,7 +153,7 @@ model Order {
   client        Client      @relation(fields: [clientId], references: [id])
   employeeId    String
   employee      Employee    @relation(fields: [employeeId], references: [id])
-  number        Int
+  number        Int         @default(autoincrement())
   type          String
   orderItems    OrderItem[]
   status        String
@@ -155,6 +163,7 @@ model Order {
   description   String?
   createdAt     DateTime    @default(now())
 
+  @@unique([companyId, number])
   @@map("order")
 }
 
