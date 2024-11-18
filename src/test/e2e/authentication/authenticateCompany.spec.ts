@@ -9,6 +9,13 @@ import { MiddlewareError } from '@/errors/middlewareError'
 describe('Authentication - (e2e)', () => {
   const invalidTokenMiddlewareError = new MiddlewareError({
     message: translate(TranslationKeysEnum.ERROR_INVALID_TOKEN),
+    name: TranslationKeysEnum.ERROR_INVALID_TOKEN,
+    statusCode: 401,
+  })
+
+  const tokenIsMissingMiddlewareError = new MiddlewareError({
+    message: translate(TranslationKeysEnum.ERROR_TOKEN_MISSING),
+    name: TranslationKeysEnum.ERROR_TOKEN_MISSING,
     statusCode: 401,
   })
 
@@ -25,9 +32,12 @@ describe('Authentication - (e2e)', () => {
       .patch('/email/confirm')
       .send({ emailConfirmationCode: null })
 
-    expect(sendCompanyEmailResponse.statusCode).toEqual(401)
+    expect(sendCompanyEmailResponse.statusCode).toEqual(
+      tokenIsMissingMiddlewareError.statusCode,
+    )
     expect(sendCompanyEmailResponse.body).toEqual({
-      message: translate(TranslationKeysEnum.ERROR_TOKEN_MISSING),
+      message: tokenIsMissingMiddlewareError.message,
+      name: tokenIsMissingMiddlewareError.name,
     })
   })
 
@@ -42,6 +52,7 @@ describe('Authentication - (e2e)', () => {
     )
     expect(sendCompanyEmailResponse.body).toEqual({
       message: invalidTokenMiddlewareError.message,
+      name: invalidTokenMiddlewareError.name,
     })
   })
 })

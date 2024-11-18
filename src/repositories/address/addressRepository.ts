@@ -42,12 +42,8 @@ class AddressRepository implements IAddressRepository {
   }
 
   async updateByClientId(clientId: string, data: Prisma.AddressUpdateInput) {
-    const clientAddress = await prisma.address.findFirst({
-      where: { clientId },
-    })
-
     const updatedAddress = await prisma.address.update({
-      where: { id: clientAddress?.id },
+      where: { clientId },
       data,
     })
 
@@ -63,6 +59,7 @@ class AddressRepository implements IAddressRepository {
       where: { id: companyAddress?.id },
       data,
     })
+
     return updatedAddress
   }
 

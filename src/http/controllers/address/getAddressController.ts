@@ -6,6 +6,7 @@ import { IGetAddressDTO } from '@/dtos/address/IGetAddressDTO'
 
 interface IGetAddressControllerResponse {
   id: string
+  country: string
   city: string
   state: string
   neighborhood: string
@@ -29,6 +30,7 @@ async function getAddressController(
 
     const responseBody: IGetAddressControllerResponse = {
       id: address.id,
+      country: address.country,
       city: address.city,
       state: address.state,
       neighborhood: address.neighborhood,

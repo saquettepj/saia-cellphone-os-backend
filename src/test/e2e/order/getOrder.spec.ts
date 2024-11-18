@@ -119,7 +119,7 @@ describe('Get Orders - (e2e)', () => {
       companyId,
       clientId,
       employeeId,
-      number: orderData.number,
+      number: expect.any(Number),
       type: orderData.type,
       status: orderData.status,
       payDate: orderData.payDate,

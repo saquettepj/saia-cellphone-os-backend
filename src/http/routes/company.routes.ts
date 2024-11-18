@@ -39,17 +39,6 @@ async function companyRoutes(app: FastifyInstance) {
     getCompanyByIdController,
   )
 
-  app.delete(
-    '/company/:id',
-    {
-      preHandler: [
-        companyAuthenticatorMiddleware,
-        adminAuthenticatorMiddleware,
-      ],
-    },
-    deleteCompanyController,
-  )
-
   app.patch(
     '/company',
     {
@@ -59,6 +48,17 @@ async function companyRoutes(app: FastifyInstance) {
       ],
     },
     updateCompanyController,
+  )
+
+  app.delete(
+    '/company/:id',
+    {
+      preHandler: [
+        companyAuthenticatorMiddleware,
+        adminAuthenticatorMiddleware,
+      ],
+    },
+    deleteCompanyController,
   )
 
   app.patch(

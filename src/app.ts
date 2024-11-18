@@ -22,18 +22,13 @@ app.register(appRoutes)
 
 app.setErrorHandler(
   (error: Error, _request: FastifyRequest, reply: FastifyReply) => {
-    if (
-      env.NODE_ENV !== 'production' &&
-      !(error instanceof ZodError) &&
-      error instanceof MiddlewareError
-    ) {
-      console.error(`🔴 Middleware - ${error} 🔴`)
-    } else {
-      // Usar um log externo: Datadog||NewRelic||Sentry
-    }
-
     if (error instanceof MiddlewareError) {
-      return reply.status(error.statusCode).send({ message: error.message })
+      env.NODE_ENV !== 'production' &&
+        console.error(`🔴 Middleware - ${error} 🔴`) // Usar um log externo: Datadog||NewRelic||Sentry
+
+      return reply
+        .status(error.statusCode)
+        .send({ name: error.name, message: error.message })
     }
 
     if (error instanceof ZodError) {
@@ -45,6 +40,7 @@ app.setErrorHandler(
     }
 
     return reply.status(500).send({
+      name: TranslationKeysEnum.ERROR_ON_SERVER,
       status: 'error',
       message: `Internal server error ${filterErrorContent(error.message)}`,
     })

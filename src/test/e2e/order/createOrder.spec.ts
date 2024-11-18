@@ -255,6 +255,7 @@ describe('Create Order - (e2e)', () => {
       .send(orderData)
 
     expect(response.body).toEqual({
+      number: expect.any(Number),
       id: expect.any(String),
       companyId: expect.any(String),
       clientId,

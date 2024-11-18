@@ -210,6 +210,7 @@ describe('Update Order - (e2e)', () => {
 
     expect(response.body).toEqual({
       companyId,
+      number: expect.any(Number),
       id: orderId,
       clientId,
       employeeId,

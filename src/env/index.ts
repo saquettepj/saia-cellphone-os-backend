@@ -21,6 +21,7 @@ const envSchema = z.object({
   AWS_BUCKET_ACCESS_USER_PASS: z.string(),
   ADMIN_ACCOUNT_CNPJ: z.string().optional(),
   ADMIN_ACCOUNT_PASSWORD: z.string().optional(),
+  ADMIN_DELETE_PASSWORD: z.string(),
 })
 
 const _env = envSchema.safeParse(process.env)

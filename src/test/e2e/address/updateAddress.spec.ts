@@ -14,6 +14,7 @@ import { ClientNotFoundError } from '@/errors/clientNotFoundError'
 
 describe('Update Address - (e2e)', () => {
   let companyToken: string
+  let companyId: string
   let clientId: string
 
   const companyJokerRepository = setupCompanyJokerRepository()
@@ -38,7 +39,11 @@ describe('Update Address - (e2e)', () => {
   beforeAll(async () => {
     await app.ready()
 
-    await request(app.server).post('/company').send(newCompanyObject)
+    const newCompany = await request(app.server)
+      .post('/company')
+      .send(newCompanyObject)
+
+    companyId = newCompany.body.id
 
     const authenticateCompanyResponse = await request(app.server)
       .post('/company/authenticate')
@@ -145,7 +150,7 @@ describe('Update Address - (e2e)', () => {
       streetNumber: newAddressObject.streetNumber,
       zipCode: newAddressObject.zipCode,
       clientId,
-      companyId: expect.any(String),
+      companyId: null,
     })
 
     expect(response.statusCode).toEqual(200)
@@ -175,8 +180,8 @@ describe('Update Address - (e2e)', () => {
       street: newAddressObject.street,
       streetNumber: newAddressObject.streetNumber,
       zipCode: newAddressObject.zipCode,
+      companyId,
       clientId: null,
-      companyId: expect.any(String),
     })
 
     expect(response.statusCode).toEqual(200)

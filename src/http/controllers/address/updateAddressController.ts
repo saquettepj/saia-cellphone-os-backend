@@ -6,16 +6,16 @@ import { AddressNotFoundError } from '@/errors/addressNotFoundError'
 import { ClientNotFoundError } from '@/errors/clientNotFoundError'
 
 interface IUpdateAddressControllerResponse {
-  id: string
-  country: string
-  city: string
-  state: string
-  neighborhood: string
-  street: string
-  streetNumber: string
-  zipCode: string
+  id?: string
+  country?: string
+  city?: string
+  state?: string
+  neighborhood?: string
+  street?: string
+  streetNumber?: string
+  zipCode?: string
   clientId?: string | null
-  companyId: string | null
+  companyId?: string | null
 }
 
 async function updateAddressController(
@@ -50,16 +50,16 @@ async function updateAddressController(
     })
 
     const responseBody: IUpdateAddressControllerResponse = {
-      id: updatedAddress?.id || '',
-      country: updatedAddress?.country || '',
-      city: updatedAddress?.city || '',
-      state: updatedAddress?.state || '',
-      neighborhood: updatedAddress?.neighborhood || '',
-      street: updatedAddress?.street || '',
-      streetNumber: updatedAddress?.streetNumber || '',
-      zipCode: updatedAddress?.zipCode || '',
-      clientId: updatedAddress?.clientId || '',
-      companyId: updatedAddress?.companyId || '',
+      id: updatedAddress?.id,
+      country: updatedAddress?.country,
+      city: updatedAddress?.city,
+      state: updatedAddress?.state,
+      neighborhood: updatedAddress?.neighborhood,
+      street: updatedAddress?.street,
+      streetNumber: updatedAddress?.streetNumber,
+      zipCode: updatedAddress?.zipCode,
+      clientId: updatedAddress?.clientId,
+      companyId: updatedAddress?.companyId,
     }
 
     return reply.status(200).send(responseBody)

@@ -45,26 +45,39 @@ class CreateAddressUseCase {
       if (existingClientAddress) {
         throw new ClientHasAddressError()
       }
+
+      const createdAddress = await this.addressRepository.create({
+        country,
+        city,
+        state,
+        neighborhood,
+        street,
+        streetNumber,
+        zipCode,
+        clientId,
+      })
+
+      return createdAddress
     } else {
       const existingCompanyAddress =
         await this.addressRepository.findByCompanyId(companyId)
       if (existingCompanyAddress) {
         throw new CompanyHasAddressError()
       }
-    }
-    const createdAddress = await this.addressRepository.create({
-      country,
-      city,
-      state,
-      neighborhood,
-      street,
-      streetNumber,
-      zipCode,
-      clientId,
-      companyId,
-    })
 
-    return createdAddress
+      const createdAddress = await this.addressRepository.create({
+        country,
+        city,
+        state,
+        neighborhood,
+        street,
+        streetNumber,
+        zipCode,
+        companyId,
+      })
+
+      return createdAddress
+    }
   }
 }
 

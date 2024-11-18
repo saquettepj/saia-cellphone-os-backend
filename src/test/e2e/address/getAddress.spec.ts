@@ -105,7 +105,7 @@ describe('Get Address - (e2e)', () => {
       streetNumber: newAddressObject.streetNumber,
       zipCode: newAddressObject.zipCode,
       clientId,
-      companyId: expect.any(String),
+      companyId: null,
     })
 
     expect(response.statusCode).toEqual(200)

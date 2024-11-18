@@ -76,10 +76,21 @@ describe('Delete company - (e2e)', () => {
     await app.close()
   })
 
+  it('should not allow an admin to delete a company with wrong password', async () => {
+    const response = await request(app.server)
+      .delete(`/company/${companyId}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ password: 'wrong-password' })
+
+    expect(response.body.message).toEqual(deletingError.message)
+    expect(response.statusCode).toEqual(400)
+  })
+
   it('should allow an admin to delete a company', async () => {
     const response = await request(app.server)
       .delete(`/company/${companyId}`)
       .set('Authorization', `Bearer ${adminToken}`)
+      .send({ password: env.ADMIN_DELETE_PASSWORD })
 
     expect(response.statusCode).toEqual(204)
   })
@@ -88,6 +99,7 @@ describe('Delete company - (e2e)', () => {
     const response = await request(app.server)
       .delete(`/company/${companyId}`)
       .set('Authorization', `Bearer ${normalCompanyToken}`)
+      .send({ password: env.ADMIN_DELETE_PASSWORD })
 
     expect(response.body.message).toEqual(companyDeleteMiddlewareError.message)
     expect(response.statusCode).toEqual(companyDeleteMiddlewareError.statusCode)
@@ -99,6 +111,7 @@ describe('Delete company - (e2e)', () => {
     const response = await request(app.server)
       .delete(`/company/${nonExistentCompanyId}`)
       .set('Authorization', `Bearer ${adminToken}`)
+      .send({ password: env.ADMIN_DELETE_PASSWORD })
 
     expect(response.body.message).toEqual(deletingError.message)
     expect(response.statusCode).toEqual(400)

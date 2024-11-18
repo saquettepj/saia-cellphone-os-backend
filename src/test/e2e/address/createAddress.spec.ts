@@ -107,7 +107,7 @@ describe('Create Address - (e2e)', () => {
       streetNumber: newAddressObject.streetNumber,
       zipCode: newAddressObject.zipCode,
       clientId,
-      companyId: expect.any(String),
+      companyId: null,
     })
 
     expect(response.statusCode).toEqual(201)
@@ -134,6 +134,7 @@ describe('Create Address - (e2e)', () => {
 
     expect(response.body).toEqual({
       id: expect.any(String),
+      country: newAddressObject.country,
       city: newAddressObject.city,
       state: newAddressObject.state,
       neighborhood: newAddressObject.neighborhood,

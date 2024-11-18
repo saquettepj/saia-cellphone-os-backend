@@ -32,8 +32,6 @@ class UpdateAddressUseCase {
     clientId,
     companyId,
   }: IUpdateAddressUseCaseRequest) {
-    let updatedAddress
-
     if (clientId || clientId != null) {
       const existingClient =
         await this.clientRepositoryRepository.findById(clientId)
@@ -51,15 +49,20 @@ class UpdateAddressUseCase {
         throw new AddressNotFoundError()
       }
 
-      updatedAddress = await this.addressRepository.updateByClientId(clientId, {
-        country,
-        city,
-        state,
-        neighborhood,
-        street,
-        streetNumber,
-        zipCode,
-      })
+      const updatedAddress = await this.addressRepository.updateByClientId(
+        clientId,
+        {
+          country,
+          city,
+          state,
+          neighborhood,
+          street,
+          streetNumber,
+          zipCode,
+        },
+      )
+
+      return updatedAddress
     } else {
       const existingAddress =
         await this.addressRepository.findByCompanyId(companyId)
@@ -67,7 +70,7 @@ class UpdateAddressUseCase {
         throw new AddressNotFoundError()
       }
 
-      updatedAddress = await this.addressRepository.updateByCompanyId(
+      const updatedAddress = await this.addressRepository.updateByCompanyId(
         companyId,
         {
           country,
@@ -79,9 +82,11 @@ class UpdateAddressUseCase {
           zipCode,
         },
       )
-    }
 
-    return updatedAddress
+      console.log(updatedAddress)
+
+      return updatedAddress
+    }
   }
 }
 
