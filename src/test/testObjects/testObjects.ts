@@ -8,6 +8,7 @@ import { ICreateAddressUseCaseRequest } from '@/useCases/address/createAddressUs
 import { ProductConditionEnum, ProductTypeEnum } from '@/enums/all.enum'
 import { ICreateOrderUseCaseRequest } from '@/useCases/order/createOrderUseCase'
 import { ICreateOrderItemUseCaseRequest } from '@/useCases/orderItem/createOrderItemUseCase'
+import { ICreateSupplierUseCaseRequest } from '@/useCases/supplier/createSupplierUseCase'
 
 let uniqueDescriptionCounter = 1
 
@@ -31,7 +32,10 @@ const createNewProductTestObject = (
     params?.description ||
     `Descrição teste TESTE tEsTe ${uniqueDescriptionCounter++}`,
   price: params?.price || 100.0,
+  cost: params?.cost || 50.0,
   quantity: params?.quantity || 1,
+  localization: params?.localization || 'Localização padrão',
+  supplierId: params?.supplierId || undefined,
 })
 
 const createNewClientTestObject = (
@@ -40,6 +44,16 @@ const createNewClientTestObject = (
   name: params?.name || 'Test Client',
   CPF: params?.CPF || '12345678901',
   email: params?.email || 'clientemail@test.com',
+  phone: params?.phone || '1234567890',
+})
+
+const createNewSupplierTestObject = (
+  params?: Partial<ICreateSupplierUseCaseRequest>,
+) => ({
+  name: params?.name || 'Test Supplier',
+  CNPJ: params?.CNPJ || '12345678000123',
+  CEP: params?.CEP || '12345678',
+  email: params?.email || 'supplieremail@test.com',
   phone: params?.phone || '1234567890',
 })
 
@@ -111,6 +125,7 @@ export {
   createNewCompanyTestObject,
   createNewProductTestObject,
   createNewClientTestObject,
+  createNewSupplierTestObject,
   createNewEmployeeTestObject,
   createNewAddressTestObject,
   createNewOrderTestObject,

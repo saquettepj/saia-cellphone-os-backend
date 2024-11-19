@@ -13,6 +13,9 @@ export const ICreateProductDTO = z
       .max(200)
       .transform((value) => formatUniqueStrings(value)),
     price: z.number(),
+    cost: z.number(),
     quantity: z.number().min(1),
+    localization: z.string().optional(),
+    supplierId: z.string().optional(),
   })
   .strict()

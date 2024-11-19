@@ -1,5 +1,6 @@
 import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
+import { v4 as uuidv4 } from 'uuid'
 
 import { app } from '@/app'
 import {
@@ -12,6 +13,7 @@ import { ProductDescriptionAlreadyExistsError } from '@/errors/productDescriptio
 import { formatUniqueStrings } from '@/utils/formatUniqueStrings'
 import { translate } from '@/i18n/translate'
 import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
+import { SupplierNotFoundError } from '@/errors/supplierNotFoundError'
 
 describe('Create product - (e2e)', () => {
   let validToken: string
@@ -20,6 +22,7 @@ describe('Create product - (e2e)', () => {
 
   const productDescriptionAlreadyExistsError =
     new ProductDescriptionAlreadyExistsError()
+  const supplierNotFoundError = new SupplierNotFoundError()
 
   const emailConfirmationMiddlewareError = new MiddlewareError({
     message: translate(
@@ -68,6 +71,20 @@ describe('Create product - (e2e)', () => {
     await app.close()
   })
 
+  it('should not allow creating a product with a non-existent supplierId', async () => {
+    const newProductObject = createNewProductTestObject({
+      supplierId: uuidv4(),
+    })
+
+    const response = await request(app.server)
+      .post('/product')
+      .set('Authorization', `Bearer ${validToken}`)
+      .send(newProductObject)
+
+    expect(response.body.message).toEqual(supplierNotFoundError.message)
+    expect(response.statusCode).toEqual(404)
+  })
+
   it('should be able to create a product with all attributes', async () => {
     const newProductObject = createNewProductTestObject()
 
@@ -83,7 +100,10 @@ describe('Create product - (e2e)', () => {
       condition: newProductObject.condition,
       description: formatUniqueStrings(newProductObject.description),
       price: newProductObject.price,
+      cost: newProductObject.cost,
       quantity: newProductObject.quantity,
+      localization: newProductObject.localization,
+      supplierId: null,
     })
     expect(response.statusCode).toEqual(201)
   })
@@ -125,7 +145,7 @@ describe('Create product - (e2e)', () => {
 
     const response = await request(app.server)
       .post('/product')
-      .set('Authorization', `Bearer invalidtoken`)
+      .set('Authorization', `Bearer invalidToken`)
       .send(newProductObject)
 
     expect(response.body.message).toEqual(invalidTokenMiddlewareError.message)

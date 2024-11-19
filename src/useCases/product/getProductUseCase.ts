@@ -6,6 +6,11 @@ interface IGetProductsUseCaseRequest {
   type?: string
   condition?: string
   description?: string
+  price?: number
+  cost?: number
+  quantity?: number
+  localization?: string
+  supplierId?: string
 }
 
 class GetProductUseCase {
@@ -17,13 +22,39 @@ class GetProductUseCase {
     type,
     condition,
     description,
+    price,
+    cost,
+    quantity,
+    localization,
+    supplierId,
   }: IGetProductsUseCaseRequest) {
     const searchedProducts = await this.productRepository.findAllByCompanyId(
       companyId,
-      { id, type, condition, description },
+      {
+        id,
+        type,
+        condition,
+        description,
+        price,
+        cost,
+        quantity,
+        localization,
+        supplierId,
+      },
     )
 
-    return searchedProducts
+    return searchedProducts.map((product) => ({
+      id: product.id,
+      companyId: product.companyId,
+      type: product.type,
+      condition: product.condition,
+      description: product.description,
+      price: product.price,
+      cost: product.cost,
+      quantity: product.quantity,
+      localization: product.localization,
+      supplierId: product.supplierId,
+    }))
   }
 }
 

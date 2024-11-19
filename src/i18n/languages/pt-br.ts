@@ -10,8 +10,10 @@ export const ptBR = {
   [TranslationKeysEnum.ERROR_CLIENT_HAS_ADDRESS]:
     'Endereço já existe para este cliente!',
   [TranslationKeysEnum.ERROR_CLIENT_NOT_FOUND]: 'Cliente não encontrado!',
+  [TranslationKeysEnum.ERROR_SUPPLIER_NOT_FOUND]: 'Fornecedor não encontrado!',
   [TranslationKeysEnum.ERROR_COMPANY_CNPJ_ALREADY_EXISTS]:
     'Este CNPJ já existe!',
+  [TranslationKeysEnum.ERROR_CNPJ_ALREADY_EXISTS]: 'Este CNPJ já existe!',
   [TranslationKeysEnum.ERROR_COMPANY_CREDENTIALS]: 'CNPJ ou senha incorretos!',
   [TranslationKeysEnum.ERROR_COMPANY_HAS_ADDRESS]:
     'Endereço já existe para esta empresa!',

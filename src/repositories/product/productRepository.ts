@@ -38,6 +38,13 @@ class ProductRepository implements IProductRepository {
         ...(data.description && {
           description: { contains: data.description },
         }),
+        ...(data.price && { price: data.price }),
+        ...(data.cost && { cost: data.cost }),
+        ...(data.quantity && { quantity: data.quantity }),
+        ...(data.localization && {
+          localization: { contains: data.localization },
+        }),
+        ...(data.supplierId && { supplierId: { contains: data.supplierId } }),
       },
     })
 

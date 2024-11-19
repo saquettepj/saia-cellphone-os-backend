@@ -12,7 +12,10 @@ interface IProductRepository {
     description: string,
     companyId: string,
   ): Promise<Product | null>
-  updateById(id: string, data: Prisma.ProductUpdateInput): Promise<Product>
+  updateById(
+    id: string,
+    data: Prisma.ProductUncheckedUpdateInput,
+  ): Promise<Product>
   delete(id: string): Promise<Product | null>
   deleteMany(ids: string[]): Promise<number>
   create(data: Prisma.ProductUncheckedCreateInput): Promise<Product>

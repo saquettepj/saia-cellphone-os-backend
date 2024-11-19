@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-import { IGetProductDTO } from '@/dtos/product/IGetProductDTO'
 import { setupGetProductUseCase } from '@/useCases/product/factory/setupGetProductUseCase'
+import { IGetProductDTO } from '@/dtos/product/IGetProductDTO'
 
 interface IGetProductControllerResponse {
   products: Array<{
@@ -11,7 +11,10 @@ interface IGetProductControllerResponse {
     condition: string
     description: string
     price: number
+    cost: number
     quantity: number
+    localization?: string | null
+    supplierId?: string | null
   }>
 }
 

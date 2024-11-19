@@ -1,5 +1,6 @@
 import request from 'supertest'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
+import { v4 as uuidv4 } from 'uuid'
 
 import { app } from '@/app'
 import {
@@ -8,6 +9,7 @@ import {
 } from '@/test/testObjects/testObjects'
 import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
 import { ProductDescriptionAlreadyExistsError } from '@/errors/productDescriptionAlreadyExistsError'
+import { SupplierNotFoundError } from '@/errors/supplierNotFoundError'
 
 describe('Update product - (e2e)', () => {
   let companyToken: string
@@ -17,6 +19,7 @@ describe('Update product - (e2e)', () => {
 
   const productDescriptionAlreadyExistsError =
     new ProductDescriptionAlreadyExistsError()
+  const supplierNotFoundError = new SupplierNotFoundError()
 
   const newCompanyObject = createNewCompanyTestObject({
     CNPJ: '11111111111111',
@@ -81,5 +84,19 @@ describe('Update product - (e2e)', () => {
       productDescriptionAlreadyExistsError.message,
     )
     expect(response.statusCode).toEqual(400)
+  })
+
+  it('should not allow updating a product to a non-existent supplierId', async () => {
+    const updateProductObject = {
+      supplierId: uuidv4(),
+    }
+
+    const response = await request(app.server)
+      .patch(`/product/${secondProductId}`)
+      .set('Authorization', `Bearer ${companyToken}`)
+      .send(updateProductObject)
+
+    expect(response.body.message).toEqual(supplierNotFoundError.message)
+    expect(response.statusCode).toEqual(404)
   })
 })

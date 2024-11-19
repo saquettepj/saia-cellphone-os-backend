@@ -4,15 +4,45 @@ export enum AccountTypeEnum {
   NORMAL = 'NORMAL',
   ADMIN = 'ADMIN',
 }
-
 export enum ProductConditionEnum {
-  USED = 'USED',
   NEW = 'NEW',
+  USED = 'GOOD',
+  BAD = 'BAD',
 }
-
 export enum ProductTypeEnum {
   PRODUCT = 'PRODUCT',
   SERVICE = 'SERVICE',
+}
+export enum RoleEnum {
+  TECHNICIAN = 'TECHNICIAN',
+  ATTENDANT = 'ATTENDANT',
+}
+export enum OrderTypeEnum {
+  SERVICE = 'SERVICE',
+  SALE = 'SALE',
+}
+export enum PaymentMethodEnum {
+  CASH = 'CASH',
+  DEBIT_CARD = 'DEBIT_CARD',
+  CREDIT_CARD = 'CREDIT_CARD',
+  ESTIMATE = 'ESTIMATE',
+  INSTALLMENTS = 'INSTALLMENTS',
+}
+export enum OrderStatusEnum {
+  PENDING = 'PENDING',
+  COMPLETED = 'COMPLETED',
+  CANCELED = 'CANCELED',
+  AWAITING_SUPPLY = 'AWAITING_SUPPLY',
+}
+export enum PaymentStatusEnum {
+  OPEN = 'OPEN',
+  ESTIMATED = 'ESTIMATED',
+  INVOICED = 'INVOICED',
+}
+export enum ServiceStatusEnum {
+  PENDING = 'PENDING',
+  COMPLETED = 'COMPLETED',
+  AWAITING_ADJUSTMENT = 'AWAITING_ADJUSTMENT',
 }
 
 export enum NfeDataRegimeTributarioEnum {

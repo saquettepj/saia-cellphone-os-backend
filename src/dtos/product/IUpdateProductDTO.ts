@@ -8,6 +8,7 @@ export const IUpdateProductDTO = z
   .object({
     type: z.nativeEnum(ProductTypeEnum).optional(),
     price: z.number().optional(),
+    cost: z.number().optional(),
     condition: z.nativeEnum(ProductConditionEnum).optional(),
     description: z
       .string()
@@ -15,5 +16,7 @@ export const IUpdateProductDTO = z
       .transform((value) => formatUniqueStrings(value))
       .optional(),
     quantity: z.number().optional(),
+    localization: z.string().optional(),
+    supplierId: z.string().optional(),
   })
   .strict()

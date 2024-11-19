@@ -12,5 +12,10 @@ export const IGetProductDTO = z
       .max(200)
       .transform((value) => formatUniqueStrings(value))
       .optional(),
+    price: z.number().optional(),
+    cost: z.number().optional(),
+    quantity: z.number().optional(),
+    localization: z.string().optional(),
+    supplierId: z.string().optional(),
   })
   .strict()

@@ -1,27 +1,38 @@
 import { IProductRepository } from '@/repositories/product/IProductRepository'
+import { ISupplierRepository } from '@/repositories/supplier/ISupplierRepository'
 import { ProductDescriptionAlreadyExistsError } from '@/errors/productDescriptionAlreadyExistsError'
+import { SupplierNotFoundError } from '@/errors/supplierNotFoundError'
 
 interface IUpdateProductUseCaseRequest {
   id: string
   companyId: string
   type?: string
   price?: number
+  cost?: number
   condition?: string
   description?: string
   quantity?: number
+  localization?: string
+  supplierId?: string
 }
 
 class UpdateProductUseCase {
-  constructor(private productRepository: IProductRepository) {}
+  constructor(
+    private productRepository: IProductRepository,
+    private supplierRepository: ISupplierRepository,
+  ) {}
 
   async execute({
     id,
     companyId,
     type,
     price,
+    cost,
     condition,
     description,
     quantity,
+    localization,
+    supplierId,
   }: IUpdateProductUseCaseRequest) {
     if (description) {
       const existingProduct =
@@ -35,12 +46,24 @@ class UpdateProductUseCase {
       }
     }
 
+    if (supplierId) {
+      const existingSupplier =
+        await this.supplierRepository.findById(supplierId)
+
+      if (!existingSupplier) {
+        throw new SupplierNotFoundError()
+      }
+    }
+
     const result = await this.productRepository.updateById(id, {
       type,
       price,
+      cost,
       condition,
       description,
       quantity,
+      localization,
+      supplierId,
     })
 
     return result

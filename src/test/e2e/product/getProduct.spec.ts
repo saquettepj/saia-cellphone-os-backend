@@ -107,7 +107,10 @@ describe('Get product - (e2e)', () => {
         condition: newProductObject.condition,
         description: formatUniqueStrings(newProductObject.description),
         price: newProductObject.price,
+        cost: newProductObject.cost,
         quantity: newProductObject.quantity,
+        localization: newProductObject.localization,
+        supplierId: null,
       }),
     )
     expect(response.statusCode).toEqual(200)

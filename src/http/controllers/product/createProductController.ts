@@ -3,6 +3,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { ICreateProductDTO } from '@/dtos/product/ICreateProductDTO'
 import { setupCreateProductUseCase } from '@/useCases/product/factory/setupCreateProductUseCase'
 import { ProductDescriptionAlreadyExistsError } from '@/errors/productDescriptionAlreadyExistsError'
+import { SupplierNotFoundError } from '@/errors/supplierNotFoundError'
 
 interface ICreateProductControllerResponse {
   id: string
@@ -11,7 +12,10 @@ interface ICreateProductControllerResponse {
   condition: string
   description: string
   price: number
+  cost: number
   quantity: number
+  localization?: string | null
+  supplierId?: string | null
 }
 
 async function createProductController(
@@ -20,8 +24,16 @@ async function createProductController(
 ) {
   const { id: companyId } = request.company
 
-  const { type, condition, description, price, quantity } =
-    ICreateProductDTO.parse(request.body)
+  const {
+    type,
+    condition,
+    description,
+    price,
+    cost,
+    quantity,
+    localization,
+    supplierId,
+  } = ICreateProductDTO.parse(request.body)
 
   try {
     const createProductUseCase = setupCreateProductUseCase()
@@ -32,7 +44,10 @@ async function createProductController(
       condition,
       description,
       price,
+      cost,
       quantity,
+      localization,
+      supplierId,
     })
 
     const responseBody: ICreateProductControllerResponse = {
@@ -42,13 +57,19 @@ async function createProductController(
       condition: createProductUseCaseReturn.condition,
       description: createProductUseCaseReturn.description,
       price: createProductUseCaseReturn.price,
+      cost: createProductUseCaseReturn.cost,
       quantity: createProductUseCaseReturn.quantity,
+      localization: createProductUseCaseReturn.localization,
+      supplierId: createProductUseCaseReturn.supplierId,
     }
 
     return reply.status(201).send(responseBody)
   } catch (error) {
     if (error instanceof ProductDescriptionAlreadyExistsError) {
       return reply.status(400).send({ message: error.message })
+    }
+    if (error instanceof SupplierNotFoundError) {
+      return reply.status(404).send({ message: error.message })
     }
     throw error
   }

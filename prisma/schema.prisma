@@ -32,6 +32,7 @@ model Company {
   NfeDataTable          NfeData?
   addressId             String?
   address               Address?
+  Supplier              Supplier[]
   Nfes                  Nfe[]
   createdAt             DateTime     @default(now())
 
@@ -45,16 +46,33 @@ model AccessToken {
   activatedAt DateTime?
 }
 
+model Supplier {
+  id        String    @id @default(uuid())
+  companyId String
+  company   Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name      String
+  CNPJ      String
+  CEP       String
+  email     String?
+  phone     String?
+  product   Product[]
+
+  @@unique([companyId, CNPJ])
+  @@unique([companyId, email])
+  @@map("supplier")
+}
+
 model Employee {
-  id        String   @id @default(uuid())
+  id        String    @id @default(uuid())
   name      String
   CPF       String
   phone     String?
   role      String
   companyId String
-  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  company   Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
   orders    Order[]
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
+  Service   Service[]
 
   @@unique([companyId, CPF])
   @@map("employee")
@@ -131,50 +149,75 @@ model Nfe {
 }
 
 model Product {
-  id          String      @id @default(uuid())
-  companyId   String
-  company     Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  type        String
-  price       Float
-  condition   String
-  description String
-  orders      OrderItem[]
-  quantity    Int
+  id           String      @id @default(uuid())
+  companyId    String
+  company      Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  supplierId   String?     @unique
+  supplier     Supplier?   @relation(fields: [supplierId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  type         String
+  cost         Float
+  price        Float
+  condition    String
+  description  String
+  localization String?
+  orders       OrderItem[]
+  quantity     Int
 
   @@unique([companyId, description])
   @@map("product")
 }
 
 model Order {
-  id            String      @id @default(uuid())
-  companyId     String
-  company       Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  clientId      String
-  client        Client      @relation(fields: [clientId], references: [id])
-  employeeId    String
-  employee      Employee    @relation(fields: [employeeId], references: [id])
-  number        Int         @default(autoincrement())
-  type          String
-  orderItems    OrderItem[]
-  status        String
-  payDate       DateTime
-  paymentMethod String
-  price         Float
-  description   String?
-  createdAt     DateTime    @default(now())
+  id                   String      @id @default(uuid())
+  companyId            String
+  company              Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  clientId             String
+  client               Client      @relation(fields: [clientId], references: [id])
+  employeeId           String
+  employee             Employee    @relation(fields: [employeeId], references: [id])
+  IMEI                 String
+  number               Int         @default(autoincrement())
+  type                 String
+  orderItems           OrderItem[]
+  status               String
+  paymentStatus        String
+  payDate              DateTime?
+  closingDate          DateTime?
+  paymentMethod        String
+  firstDueDate         DateTime?
+  dueDate              Int?
+  numberOfInstallments Int?
+  interest             Float
+  price                Float
+  description          String?
+  createdAt            DateTime    @default(now())
 
   @@unique([companyId, number])
   @@map("order")
 }
 
 model OrderItem {
-  id              String  @id @default(uuid())
+  id              String    @id @default(uuid())
   orderId         String
-  order           Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  order           Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
   productId       String
-  product         Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  product         Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
   quantity        Int
+  discount        Float
   initialQuantity Int
+  Service         Service[]
 
   @@map("order_item")
+}
+
+model Service {
+  id          String     @id @default(uuid())
+  orderItemId String?
+  orderItem   OrderItem? @relation(fields: [orderItemId], references: [id], onDelete: Cascade)
+  employeeId  String?
+  employee    Employee?  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  status      String     @default("PENDING")
+  report      String?
+
+  @@map("service")
 }
