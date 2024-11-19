@@ -1,7 +1,7 @@
 import { DeleteOrderUseCase } from '../deleteOrderUseCase'
 
 import { OrderRepository } from '@/repositories/order/orderRepository'
-import { OrderItemRepository } from '@/repositories/orderItem/OrderItemRepository'
+import { OrderItemRepository } from '@/repositories/orderItem/orderItemRepository'
 import { ProductRepository } from '@/repositories/product/productRepository'
 
 function setupDeleteOrderUseCase() {

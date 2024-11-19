@@ -1,7 +1,7 @@
 import { DeleteOrderItemUseCase } from '../deleteOrderItemUseCase'
 
 import { ProductRepository } from '@/repositories/product/productRepository'
-import { OrderItemRepository } from '@/repositories/orderItem/OrderItemRepository'
+import { OrderItemRepository } from '@/repositories/orderItem/orderItemRepository'
 
 function setupDeleteOrderItemUseCase() {
   const orderItemRepository = new OrderItemRepository()

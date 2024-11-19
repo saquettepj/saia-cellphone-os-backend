@@ -10,6 +10,7 @@ export const en = {
     'Address already exists for this client!',
   [TranslationKeysEnum.ERROR_CLIENT_NOT_FOUND]: 'Client not found!',
   [TranslationKeysEnum.ERROR_SUPPLIER_NOT_FOUND]: 'Supplier not found!',
+  [TranslationKeysEnum.ERROR_SERVICE_NOT_FOUND]: 'Service not found!',
   [TranslationKeysEnum.ERROR_COMPANY_CNPJ_ALREADY_EXISTS]:
     'This CNPJ already exists!',
   [TranslationKeysEnum.ERROR_CNPJ_ALREADY_EXISTS]: 'This CNPJ already exists!',

@@ -1,7 +1,7 @@
 import { DeleteManyOrderItemUseCase } from '../deleteManyOrderItemUseCase'
 
 import { ProductRepository } from '@/repositories/product/productRepository'
-import { OrderItemRepository } from '@/repositories/orderItem/OrderItemRepository'
+import { OrderItemRepository } from '@/repositories/orderItem/orderItemRepository'
 
 function setupDeleteManyOrderItemUseCase() {
   const orderItemRepository = new OrderItemRepository()

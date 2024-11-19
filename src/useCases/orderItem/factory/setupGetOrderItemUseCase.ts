@@ -1,6 +1,6 @@
 import { GetOrderItemUseCase } from '../getOrderItemUseCase'
 
-import { OrderItemRepository } from '@/repositories/orderItem/OrderItemRepository'
+import { OrderItemRepository } from '@/repositories/orderItem/orderItemRepository'
 
 function setupGetOrderItemUseCase() {
   const orderItemRepository = new OrderItemRepository()
