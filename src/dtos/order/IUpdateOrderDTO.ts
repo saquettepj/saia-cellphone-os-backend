@@ -1,6 +1,7 @@
 import { z } from 'zod'
 
 import {
+  OrderStatusEnum,
   OrderTypeEnum,
   PaymentMethodEnum,
   PaymentStatusEnum,
@@ -14,7 +15,7 @@ export const IUpdateOrderDTO = z
     clientId: z.string().uuid().optional(),
     employeeId: z.string().uuid().optional(),
     type: z.nativeEnum(OrderTypeEnum).optional(),
-    status: z.string().optional(),
+    status: z.nativeEnum(OrderStatusEnum).optional(),
     payDate: z
       .string()
       .refine((val) => validateDateOnRequests(val), {

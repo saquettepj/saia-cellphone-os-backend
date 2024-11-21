@@ -4,6 +4,7 @@ import { ICreateOrderItemOnOrderDTO } from '../orderItems/ICreateOrderItemOnOrde
 
 import { validateDateOnRequests } from '@/utils/validateDateOnRequests'
 import {
+  OrderStatusEnum,
   OrderTypeEnum,
   PaymentMethodEnum,
   PaymentStatusEnum,
@@ -16,7 +17,7 @@ export const ICreateOrderDTO = z
     clientId: z.string().uuid(),
     employeeId: z.string().uuid(),
     type: z.nativeEnum(OrderTypeEnum),
-    status: z.string(),
+    status: z.nativeEnum(OrderStatusEnum),
     payDate: z
       .string()
       .refine((val) => validateDateOnRequests(val), {
