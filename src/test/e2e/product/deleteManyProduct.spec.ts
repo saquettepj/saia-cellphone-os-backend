@@ -22,6 +22,7 @@ describe('Delete many products - (e2e)', () => {
 
   const authenticateCompanyMiddlewareError = new MiddlewareError({
     message: translate(TranslationKeysEnum.ERROR_TOKEN_MISSING),
+    name: TranslationKeysEnum.ERROR_TOKEN_MISSING,
     statusCode: 401,
   })
 
@@ -29,6 +30,7 @@ describe('Delete many products - (e2e)', () => {
     message: translate(
       TranslationKeysEnum.ERROR_PREREQUISITE_EMAIL_CONFIRMATION,
     ),
+    name: TranslationKeysEnum.ERROR_PREREQUISITE_EMAIL_CONFIRMATION,
     statusCode: 401,
   })
 
@@ -115,9 +117,10 @@ describe('Delete many products - (e2e)', () => {
       .set('Authorization', `Bearer ${otherCompanyToken}`)
       .send({ ids: [productId1, productId2] })
 
-    expect(response.body.message).toEqual(
-      emailConfirmationMiddlewareError.message,
-    )
+    expect(response.body).toEqual({
+      message: emailConfirmationMiddlewareError.message,
+      name: emailConfirmationMiddlewareError.name,
+    })
     expect(response.statusCode).toEqual(
       emailConfirmationMiddlewareError.statusCode,
     )
@@ -128,9 +131,10 @@ describe('Delete many products - (e2e)', () => {
       .post('/product/delete-by-ids')
       .send({ ids: [productId1, productId2] })
 
-    expect(response.body.message).toEqual(
-      authenticateCompanyMiddlewareError.message,
-    )
+    expect(response.body).toEqual({
+      message: authenticateCompanyMiddlewareError.message,
+      name: authenticateCompanyMiddlewareError.name,
+    })
     expect(response.statusCode).toEqual(
       authenticateCompanyMiddlewareError.statusCode,
     )

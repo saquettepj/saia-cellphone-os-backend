@@ -24,6 +24,7 @@ describe('Update access token - (e2e)', () => {
 
   const authenticateMiddlewareError = new MiddlewareError({
     message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
+    name: TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED,
     statusCode: 401,
   })
 
@@ -85,7 +86,10 @@ describe('Update access token - (e2e)', () => {
       .set('Authorization', `Bearer ${normalCompanyToken}`)
       .send({ companyId: normalCompanyId })
 
-    expect(response.body.message).toEqual(authenticateMiddlewareError.message)
+    expect(response.body).toEqual({
+      message: authenticateMiddlewareError.message,
+      name: authenticateMiddlewareError.name,
+    })
     expect(response.statusCode).toEqual(authenticateMiddlewareError.statusCode)
   })
 
@@ -97,7 +101,10 @@ describe('Update access token - (e2e)', () => {
       .set('Authorization', `Bearer ${adminToken}`)
       .send({ companyId: normalCompanyId })
 
-    expect(response.body.message).toEqual(accessTokenNotFoundError.message)
+    expect(response.body).toEqual({
+      message: accessTokenNotFoundError.message,
+      name: accessTokenNotFoundError.name,
+    })
     expect(response.statusCode).toEqual(404)
   })
 
@@ -112,9 +119,10 @@ describe('Update access token - (e2e)', () => {
       .set('Authorization', `Bearer ${adminToken}`)
       .send({ companyId: normalCompanyId })
 
-    expect(response.body.message).toEqual(
-      anAccessTokenAlreadyHasCompanyIdError.message,
-    )
+    expect(response.body).toEqual({
+      message: anAccessTokenAlreadyHasCompanyIdError.message,
+      name: anAccessTokenAlreadyHasCompanyIdError.name,
+    })
     expect(response.statusCode).toEqual(400)
   })
 
@@ -126,7 +134,10 @@ describe('Update access token - (e2e)', () => {
       .set('Authorization', `Bearer ${adminToken}`)
       .send({ companyId: nonExistingCompanyId })
 
-    expect(response.body.message).toEqual(companyNotFoundError.message)
+    expect(response.body).toEqual({
+      message: companyNotFoundError.message,
+      name: companyNotFoundError.name,
+    })
     expect(response.statusCode).toEqual(404)
   })
 
@@ -157,9 +168,10 @@ describe('Update access token - (e2e)', () => {
       .set('Authorization', `Bearer ${adminToken}`)
       .send({ companyId: normalCompanyId })
 
-    expect(response.body.message).toEqual(
-      thisAccessTokenAlreadyHasCompanyIdError.message,
-    )
+    expect(response.body).toEqual({
+      message: thisAccessTokenAlreadyHasCompanyIdError.message,
+      name: thisAccessTokenAlreadyHasCompanyIdError.name,
+    })
     expect(response.statusCode).toEqual(400)
   })
 })

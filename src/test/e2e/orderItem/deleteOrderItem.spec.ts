@@ -36,6 +36,7 @@ describe('Delete OrderItem - (e2e)', () => {
   const orderItemNotFoundError = new MiddlewareError({
     statusCode: 404,
     message: translate(TranslationKeysEnum.ERROR_ORDER_ITEM_NOT_FOUND),
+    name: TranslationKeysEnum.ERROR_ORDER_ITEM_NOT_FOUND,
   })
 
   beforeAll(async () => {
@@ -116,7 +117,10 @@ describe('Delete OrderItem - (e2e)', () => {
       .delete(`/order-item/${invalidOrderItemId}`)
       .set('Authorization', `Bearer ${companyToken}`)
 
-    expect(response.body.message).toEqual(orderItemNotFoundError.message)
+    expect(response.body).toEqual({
+      message: orderItemNotFoundError.message,
+      name: orderItemNotFoundError.name,
+    })
     expect(response.statusCode).toEqual(orderItemNotFoundError.statusCode)
   })
 

@@ -8,7 +8,6 @@ import { MiddlewareError } from '@/errors/middlewareError'
 import { EmailAlreadyConfirmedError } from '@/errors/emailAlreadyConfirmedError'
 import { generateRandomNumber } from '@/utils/randomNumberGenerator'
 import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
-import { EmailNotFoundError } from '@/errors/emailNotFoundError'
 import { translate } from '@/i18n/translate'
 import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
@@ -19,12 +18,11 @@ describe('Email Confirmation - (e2e)', () => {
 
   const authenticateCompanyMiddlewareError = new MiddlewareError({
     message: translate(TranslationKeysEnum.ERROR_TOKEN_MISSING),
+    name: TranslationKeysEnum.ERROR_TOKEN_MISSING,
     statusCode: 401,
   })
 
   const emailAlreadyConfirmedError = new EmailAlreadyConfirmedError()
-
-  const emailNotFoundError = new EmailNotFoundError()
 
   const newCompanyObject = createNewCompanyTestObject({
     CNPJ: '33333333333333',
@@ -64,9 +62,10 @@ describe('Email Confirmation - (e2e)', () => {
     expect(response.statusCode).toEqual(
       authenticateCompanyMiddlewareError.statusCode,
     )
-    expect(response.body.message).toEqual(
-      authenticateCompanyMiddlewareError.message,
-    )
+    expect(response.body).toEqual({
+      message: authenticateCompanyMiddlewareError.message,
+      name: authenticateCompanyMiddlewareError.name,
+    })
   })
 
   it('should not confirm email already confirmed', async () => {
@@ -97,7 +96,10 @@ describe('Email Confirmation - (e2e)', () => {
         emailConfirmationCode: generateRandomNumber(6),
       })
 
-    expect(response.body.message).toEqual(emailAlreadyConfirmedError.message)
+    expect(response.body).toEqual({
+      message: emailAlreadyConfirmedError.message,
+      name: emailAlreadyConfirmedError.name,
+    })
     expect(response.statusCode).toEqual(400)
   })
 })

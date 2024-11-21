@@ -82,7 +82,10 @@ describe('Create Employee - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send(newEmployeeObject)
 
-    expect(response.body.message).toEqual(cpfAlreadyExistsError.message)
+    expect(response.body).toEqual({
+      message: cpfAlreadyExistsError.message,
+      name: cpfAlreadyExistsError.name,
+    })
     expect(response.statusCode).toEqual(409)
   })
 })

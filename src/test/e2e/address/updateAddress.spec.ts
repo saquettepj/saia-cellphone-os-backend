@@ -96,7 +96,10 @@ describe('Update Address - (e2e)', () => {
         city: 'New City',
       })
 
-    expect(response.body.message).toEqual(clientNotFoundError.message)
+    expect(response.body).toEqual({
+      message: clientNotFoundError.message,
+      name: clientNotFoundError.name,
+    })
     expect(response.statusCode).toEqual(404)
   })
 
@@ -108,7 +111,10 @@ describe('Update Address - (e2e)', () => {
         city: 'New City',
       })
 
-    expect(response.body.message).toEqual(addressNotFoundError.message)
+    expect(response.body).toEqual({
+      message: addressNotFoundError.message,
+      name: addressNotFoundError.name,
+    })
     expect(response.statusCode).toEqual(404)
   })
 
@@ -123,7 +129,10 @@ describe('Update Address - (e2e)', () => {
         city: 'New City',
       })
 
-    expect(response.body.message).toEqual(clientNotFoundError.message)
+    expect(response.body).toEqual({
+      message: clientNotFoundError.message,
+      name: clientNotFoundError.name,
+    })
     expect(response.statusCode).toEqual(404)
   })
 

@@ -38,6 +38,7 @@ describe('Update OrderItem - (e2e)', () => {
   const orderItemNotFoundError = new MiddlewareError({
     statusCode: 404,
     message: translate(TranslationKeysEnum.ERROR_ORDER_ITEM_NOT_FOUND),
+    name: TranslationKeysEnum.ERROR_ORDER_ITEM_NOT_FOUND,
   })
 
   beforeAll(async () => {
@@ -123,7 +124,10 @@ describe('Update OrderItem - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send(updateData)
 
-    expect(response.body.message).toEqual(orderItemNotFoundError.message)
+    expect(response.body).toEqual({
+      message: orderItemNotFoundError.message,
+      name: orderItemNotFoundError.name,
+    })
     expect(response.statusCode).toEqual(orderItemNotFoundError.statusCode)
   })
 

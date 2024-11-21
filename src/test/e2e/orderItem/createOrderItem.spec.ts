@@ -42,11 +42,13 @@ describe('Create OrderItem - (e2e)', () => {
   const orderNotFoundError = new MiddlewareError({
     statusCode: 404,
     message: translate(TranslationKeysEnum.ERROR_ORDER_NOT_FOUND),
+    name: TranslationKeysEnum.ERROR_ORDER_NOT_FOUND,
   })
 
   const productNotFoundError = new MiddlewareError({
     message: translate(TranslationKeysEnum.ERROR_PRODUCT_NOT_FOUND),
     statusCode: 404,
+    name: TranslationKeysEnum.ERROR_PRODUCT_NOT_FOUND,
   })
 
   beforeAll(async () => {
@@ -136,7 +138,10 @@ describe('Create OrderItem - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send(orderItemData)
 
-    expect(response.body.message).toEqual(orderNotFoundError.message)
+    expect(response.body).toEqual({
+      message: orderNotFoundError.message,
+      name: orderNotFoundError.name,
+    })
     expect(response.statusCode).toEqual(orderNotFoundError.statusCode)
   })
 
@@ -153,7 +158,10 @@ describe('Create OrderItem - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send(orderItemData)
 
-    expect(response.body.message).toEqual(productNotFoundError.message)
+    expect(response.body).toEqual({
+      message: productNotFoundError.message,
+      name: productNotFoundError.name,
+    })
     expect(response.statusCode).toEqual(productNotFoundError.statusCode)
   })
 
@@ -174,7 +182,10 @@ describe('Create OrderItem - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send(orderItemData)
 
-    expect(response.body.message).toEqual(duplicateOrderItemError.message)
+    expect(response.body).toEqual({
+      message: duplicateOrderItemError.message,
+      name: duplicateOrderItemError.name,
+    })
     expect(response.statusCode).toEqual(400)
   })
 

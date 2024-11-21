@@ -9,10 +9,7 @@ import {
   createNewOrderTestObject,
   createNewProductTestObject,
 } from '@/test/testObjects/testObjects'
-import {
-  setupCompanyJokerRepository,
-  setupProductJokerRepository,
-} from '@/test/utils/jokerRepository'
+import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
 
 describe('Get Orders - (e2e)', () => {
   let companyToken: string
@@ -24,7 +21,6 @@ describe('Get Orders - (e2e)', () => {
   let orderData: ReturnType<typeof createNewOrderTestObject>
 
   const companyJokerRepository = setupCompanyJokerRepository()
-  const productJokerRepository = setupProductJokerRepository()
 
   const newCompanyObject = createNewCompanyTestObject({
     CNPJ: '11111111111111',

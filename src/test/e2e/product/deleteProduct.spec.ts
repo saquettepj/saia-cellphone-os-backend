@@ -24,6 +24,7 @@ describe('Delete product - (e2e)', () => {
   const productCheckerByCompanyMiddlewareError = new MiddlewareError({
     statusCode: 401,
     message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
+    name: TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED,
   })
 
   const newCompanyObject2 = createNewCompanyTestObject({
@@ -91,28 +92,29 @@ describe('Delete product - (e2e)', () => {
   })
 
   it('should not be able to delete a product if the requester is not the owner', async () => {
-    const deleteProductResponse = await request(app.server)
+    const response = await request(app.server)
       .delete(`/product/${productId}`)
       .set('Authorization', `Bearer ${companyToken2}`)
       .send()
 
-    expect(deleteProductResponse.body.message).toEqual(
-      productCheckerByCompanyMiddlewareError.message,
-    )
-    expect(deleteProductResponse.statusCode).toEqual(
+    expect(response.body).toEqual({
+      message: productCheckerByCompanyMiddlewareError.message,
+      name: productCheckerByCompanyMiddlewareError.name,
+    })
+    expect(response.statusCode).toEqual(
       productCheckerByCompanyMiddlewareError.statusCode,
     )
   })
 
   it('should be able to delete a product', async () => {
-    const deleteProductResponse = await request(app.server)
+    const response = await request(app.server)
       .delete(`/product/${productId}`)
       .set('Authorization', `Bearer ${companyToken}`)
       .send()
 
-    expect(deleteProductResponse.body).toEqual({
+    expect(response.body).toEqual({
       id: productId,
     })
-    expect(deleteProductResponse.statusCode).toEqual(200)
+    expect(response.statusCode).toEqual(200)
   })
 })

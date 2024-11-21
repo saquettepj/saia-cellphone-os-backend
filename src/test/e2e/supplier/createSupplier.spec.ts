@@ -66,7 +66,10 @@ describe('Create Supplier - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send({ ...newSupplierObject, email: 'newemail@test.com' })
 
-    expect(response.body.message).toEqual(cnpjAlreadyExistsError.message)
+    expect(response.body).toEqual({
+      message: cnpjAlreadyExistsError.message,
+      name: cnpjAlreadyExistsError.name,
+    })
     expect(response.statusCode).toEqual(409)
   })
 
@@ -81,7 +84,10 @@ describe('Create Supplier - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send({ ...newSupplierObject, CNPJ: '98765432000109' })
 
-    expect(response.body.message).toEqual(emailAlreadyExistsError.message)
+    expect(response.body).toEqual({
+      message: emailAlreadyExistsError.message,
+      name: emailAlreadyExistsError.name,
+    })
     expect(response.statusCode).toEqual(409)
   })
 

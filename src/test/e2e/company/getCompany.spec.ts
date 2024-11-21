@@ -14,6 +14,7 @@ describe('Get company list - (e2e)', () => {
 
   const authenticateMiddlewareError = new MiddlewareError({
     message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
+    name: TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED,
     statusCode: 401,
   })
 
@@ -86,7 +87,10 @@ describe('Get company list - (e2e)', () => {
       .get('/company')
       .set('Authorization', `Bearer ${normalCompanyAccessToken}`)
 
-    expect(response.body.message).toEqual(authenticateMiddlewareError.message)
+    expect(response.body).toEqual({
+      message: authenticateMiddlewareError.message,
+      name: authenticateMiddlewareError.name,
+    })
     expect(response.statusCode).toEqual(authenticateMiddlewareError.statusCode)
   })
 })

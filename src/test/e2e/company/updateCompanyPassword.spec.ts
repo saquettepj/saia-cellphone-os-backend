@@ -125,7 +125,10 @@ describe('Update company password - (e2e)', () => {
       .send(updatePasswordData)
 
     expect(response.statusCode).toEqual(401)
-    expect(response.body.message).toEqual(companyCredentialsError.message)
+    expect(response.body).toEqual({
+      message: companyCredentialsError.message,
+      name: companyCredentialsError.name,
+    })
   })
 
   it('should return error when password confirmation does not match', async () => {
@@ -156,9 +159,10 @@ describe('Update company password - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send(updatePasswordData)
 
-    expect(response.body.message).toEqual(
-      passwordConfirmationIsDifferentError.message,
-    )
+    expect(response.body).toEqual({
+      message: passwordConfirmationIsDifferentError.message,
+      name: passwordConfirmationIsDifferentError.name,
+    })
     expect(response.statusCode).toEqual(400)
   })
 
@@ -201,7 +205,10 @@ describe('Update company password - (e2e)', () => {
       .set('Authorization', `Bearer ${otherCompanyToken}`)
       .send(updatePasswordData)
 
-    expect(response.body.message).toEqual(companyCredentialsError.message)
+    expect(response.body).toEqual({
+      message: companyCredentialsError.message,
+      name: companyCredentialsError.name,
+    })
     expect(response.statusCode).toEqual(401)
   })
 })

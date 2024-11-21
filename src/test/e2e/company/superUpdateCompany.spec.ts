@@ -21,6 +21,7 @@ describe('Super Update Company - (e2e)', () => {
 
   const authenticateMiddlewareError = new MiddlewareError({
     message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
+    name: TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED,
     statusCode: 401,
   })
 
@@ -85,7 +86,10 @@ describe('Super Update Company - (e2e)', () => {
       .set('Authorization', `Bearer ${adminAccessToken}`)
       .send(updateData)
 
-    expect(response.body.message).toEqual(companyNotFoundError.message)
+    expect(response.body).toEqual({
+      message: companyNotFoundError.message,
+      name: companyNotFoundError.name,
+    })
     expect(response.statusCode).toEqual(404)
   })
 
@@ -95,7 +99,10 @@ describe('Super Update Company - (e2e)', () => {
       .set('Authorization', `Bearer ${adminAccessToken}`)
       .send({ ...updateData, email: newCompanyObject.email })
 
-    expect(response.body.message).toEqual(emailExistsError.message)
+    expect(response.body).toEqual({
+      message: emailExistsError.message,
+      name: emailExistsError.name,
+    })
     expect(response.statusCode).toEqual(409)
   })
 
@@ -105,7 +112,10 @@ describe('Super Update Company - (e2e)', () => {
       .set('Authorization', `Bearer ${adminAccessToken}`)
       .send({ ...updateData, CNPJ: newCompanyObject.CNPJ })
 
-    expect(response.body.message).toEqual(companyCNPJExistsError.message)
+    expect(response.body).toEqual({
+      message: companyCNPJExistsError.message,
+      name: companyCNPJExistsError.name,
+    })
     expect(response.statusCode).toEqual(409)
   })
 
@@ -115,7 +125,10 @@ describe('Super Update Company - (e2e)', () => {
       .set('Authorization', `Bearer ${nonAdminAccessToken}`)
       .send(updateData)
 
-    expect(response.body.message).toEqual(authenticateMiddlewareError.message)
+    expect(response.body).toEqual({
+      message: authenticateMiddlewareError.message,
+      name: authenticateMiddlewareError.name,
+    })
     expect(response.statusCode).toEqual(authenticateMiddlewareError.statusCode)
   })
 

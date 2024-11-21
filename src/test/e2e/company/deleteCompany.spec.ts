@@ -32,6 +32,7 @@ describe('Delete company - (e2e)', () => {
   const companyDeleteMiddlewareError = new MiddlewareError({
     statusCode: 401,
     message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
+    name: TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED,
   })
 
   beforeAll(async () => {
@@ -82,7 +83,10 @@ describe('Delete company - (e2e)', () => {
       .set('Authorization', `Bearer ${adminToken}`)
       .send({ password: 'wrong-password' })
 
-    expect(response.body.message).toEqual(deletingError.message)
+    expect(response.body).toEqual({
+      message: deletingError.message,
+      name: deletingError.name,
+    })
     expect(response.statusCode).toEqual(400)
   })
 
@@ -101,7 +105,10 @@ describe('Delete company - (e2e)', () => {
       .set('Authorization', `Bearer ${normalCompanyToken}`)
       .send({ password: env.ADMIN_DELETE_PASSWORD })
 
-    expect(response.body.message).toEqual(companyDeleteMiddlewareError.message)
+    expect(response.body).toEqual({
+      message: companyDeleteMiddlewareError.message,
+      name: companyDeleteMiddlewareError.name,
+    })
     expect(response.statusCode).toEqual(companyDeleteMiddlewareError.statusCode)
   })
 
@@ -113,7 +120,10 @@ describe('Delete company - (e2e)', () => {
       .set('Authorization', `Bearer ${adminToken}`)
       .send({ password: env.ADMIN_DELETE_PASSWORD })
 
-    expect(response.body.message).toEqual(deletingError.message)
+    expect(response.body).toEqual({
+      message: deletingError.message,
+      name: deletingError.name,
+    })
     expect(response.statusCode).toEqual(400)
   })
 })

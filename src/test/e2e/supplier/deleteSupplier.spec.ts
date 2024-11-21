@@ -21,6 +21,7 @@ describe('Delete Supplier - (e2e)', () => {
   const notAllowedError = new MiddlewareError({
     statusCode: 401,
     message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
+    name: TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED,
   })
 
   const newCompanyObject = createNewCompanyTestObject({
@@ -94,7 +95,10 @@ describe('Delete Supplier - (e2e)', () => {
       .delete(`/supplier/${supplierId}`)
       .set('Authorization', `Bearer ${secondCompanyToken}`)
 
-    expect(response.body.message).toEqual(notAllowedError.message)
+    expect(response.body).toEqual({
+      message: notAllowedError.message,
+      name: notAllowedError.name,
+    })
     expect(response.statusCode).toEqual(notAllowedError.statusCode)
   })
 

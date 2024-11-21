@@ -131,7 +131,10 @@ describe('Delete Many OrderItems - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send({ ids: invalidOrderItemIds })
 
-    expect(response.body.message).toEqual(orderItemNotFoundError.message)
+    expect(response.body).toEqual({
+      message: orderItemNotFoundError.message,
+      name: orderItemNotFoundError.name,
+    })
     expect(response.statusCode).toEqual(404)
   })
 

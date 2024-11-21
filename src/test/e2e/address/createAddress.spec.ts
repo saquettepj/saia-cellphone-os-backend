@@ -84,7 +84,10 @@ describe('Create Address - (e2e)', () => {
         clientId: nonExistentClientId,
       })
 
-    expect(response.body.message).toEqual(clientNotFoundError.message)
+    expect(response.body).toEqual({
+      message: clientNotFoundError.message,
+      name: clientNotFoundError.name,
+    })
     expect(response.statusCode).toEqual(404)
   })
 
@@ -122,7 +125,10 @@ describe('Create Address - (e2e)', () => {
         clientId,
       })
 
-    expect(response.body.message).toEqual(clientHasAddressError.message)
+    expect(response.body).toEqual({
+      message: clientHasAddressError.message,
+      name: clientHasAddressError.name,
+    })
     expect(response.statusCode).toEqual(400)
   })
 
@@ -154,7 +160,10 @@ describe('Create Address - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send(newAddressObject)
 
-    expect(response.body.message).toEqual(companyHasAddressError.message)
+    expect(response.body).toEqual({
+      message: companyHasAddressError.message,
+      name: companyHasAddressError.name,
+    })
     expect(response.statusCode).toEqual(400)
   })
 })

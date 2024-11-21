@@ -80,9 +80,10 @@ describe('Update product - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send(updateProductObject)
 
-    expect(response.body.message).toEqual(
-      productDescriptionAlreadyExistsError.message,
-    )
+    expect(response.body).toEqual({
+      message: productDescriptionAlreadyExistsError.message,
+      name: productDescriptionAlreadyExistsError.name,
+    })
     expect(response.statusCode).toEqual(400)
   })
 
@@ -96,7 +97,10 @@ describe('Update product - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send(updateProductObject)
 
-    expect(response.body.message).toEqual(supplierNotFoundError.message)
+    expect(response.body).toEqual({
+      message: supplierNotFoundError.message,
+      name: supplierNotFoundError.name,
+    })
     expect(response.statusCode).toEqual(404)
   })
 })

@@ -81,7 +81,10 @@ describe('Update company - (e2e)', () => {
       .set('Authorization', `Bearer ${validToken}`)
       .send(updateData)
 
-    expect(response.body.message).toEqual(emailAlreadyExistsError.message)
+    expect(response.body).toEqual({
+      message: emailAlreadyExistsError.message,
+      name: emailAlreadyExistsError.name,
+    })
     expect(response.statusCode).toEqual(409)
   })
 })

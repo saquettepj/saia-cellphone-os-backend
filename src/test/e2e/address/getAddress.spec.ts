@@ -85,7 +85,10 @@ describe('Get Address - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send({ clientId: nonExistentClientId })
 
-    expect(response.body.message).toEqual(addressNotFoundError.message)
+    expect(response.body).toEqual({
+      message: addressNotFoundError.message,
+      name: addressNotFoundError.name,
+    })
     expect(response.statusCode).toEqual(404)
   })
 

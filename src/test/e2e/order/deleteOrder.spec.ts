@@ -42,11 +42,13 @@ describe('Delete Order - (e2e)', () => {
   const orderNotFoundError = new MiddlewareError({
     statusCode: 404,
     message: translate(TranslationKeysEnum.ERROR_ORDER_NOT_FOUND),
+    name: TranslationKeysEnum.ERROR_ORDER_NOT_FOUND,
   })
 
   const requestNotAllowedError = new MiddlewareError({
     statusCode: 401,
     message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
+    name: TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED,
   })
 
   beforeAll(async () => {
@@ -142,7 +144,10 @@ describe('Delete Order - (e2e)', () => {
       .delete(`/order/${invalidOrderId}`)
       .set('Authorization', `Bearer ${companyToken}`)
 
-    expect(response.body.message).toEqual(orderNotFoundError.message)
+    expect(response.body).toEqual({
+      message: orderNotFoundError.message,
+      name: orderNotFoundError.name,
+    })
     expect(response.statusCode).toEqual(orderNotFoundError.statusCode)
   })
 
@@ -151,7 +156,10 @@ describe('Delete Order - (e2e)', () => {
       .delete(`/order/${orderId}`)
       .set('Authorization', `Bearer ${secondCompanyToken}`)
 
-    expect(response.body.message).toEqual(requestNotAllowedError.message)
+    expect(response.body).toEqual({
+      message: requestNotAllowedError.message,
+      name: requestNotAllowedError.name,
+    })
     expect(response.statusCode).toEqual(requestNotAllowedError.statusCode)
   })
 

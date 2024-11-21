@@ -54,7 +54,10 @@ describe('Create company - (e2e)', () => {
       passwordConfirmation: 'ValidPass1!',
     })
 
-    expect(response.body.message).toEqual(companyCNPJAlreadyExistsError.message)
+    expect(response.body).toEqual({
+      message: companyCNPJAlreadyExistsError.message,
+      name: companyCNPJAlreadyExistsError.name,
+    })
     expect(response.statusCode).toEqual(409)
   })
 
@@ -67,7 +70,10 @@ describe('Create company - (e2e)', () => {
       passwordConfirmation: 'ValidPass1!',
     })
 
-    expect(response.body.message).toEqual(emailAlreadyExistsError.message)
+    expect(response.body).toEqual({
+      message: emailAlreadyExistsError.message,
+      name: emailAlreadyExistsError.name,
+    })
     expect(response.statusCode).toEqual(409)
   })
 })

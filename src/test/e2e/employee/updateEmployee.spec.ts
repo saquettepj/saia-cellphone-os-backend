@@ -23,6 +23,7 @@ describe('Update Employee - (e2e)', () => {
   const notAllowedError = new MiddlewareError({
     statusCode: 401,
     message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
+    name: TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED,
   })
 
   const newCompanyObject = createNewCompanyTestObject({
@@ -115,7 +116,10 @@ describe('Update Employee - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send(updateEmployeeObject)
 
-    expect(response.body.message).toEqual(cpfAlreadyExistsError.message)
+    expect(response.body).toEqual({
+      message: cpfAlreadyExistsError.message,
+      name: cpfAlreadyExistsError.name,
+    })
     expect(response.statusCode).toEqual(409)
   })
 
@@ -124,7 +128,10 @@ describe('Update Employee - (e2e)', () => {
       .patch(`/employee/${employeeId}`)
       .set('Authorization', `Bearer ${secondCompanyToken}`)
 
-    expect(response.body.message).toEqual(notAllowedError.message)
+    expect(response.body).toEqual({
+      message: notAllowedError.message,
+      name: notAllowedError.name,
+    })
     expect(response.statusCode).toEqual(notAllowedError.statusCode)
   })
 

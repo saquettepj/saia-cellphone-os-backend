@@ -28,11 +28,13 @@ describe('Create product - (e2e)', () => {
     message: translate(
       TranslationKeysEnum.ERROR_PREREQUISITE_EMAIL_CONFIRMATION,
     ),
+    name: TranslationKeysEnum.ERROR_PREREQUISITE_EMAIL_CONFIRMATION,
     statusCode: 401,
   })
 
   const invalidTokenMiddlewareError = new MiddlewareError({
     message: translate(TranslationKeysEnum.ERROR_INVALID_TOKEN),
+    name: TranslationKeysEnum.ERROR_INVALID_TOKEN,
     statusCode: 401,
   })
 
@@ -81,7 +83,10 @@ describe('Create product - (e2e)', () => {
       .set('Authorization', `Bearer ${validToken}`)
       .send(newProductObject)
 
-    expect(response.body.message).toEqual(supplierNotFoundError.message)
+    expect(response.body).toEqual({
+      message: supplierNotFoundError.message,
+      name: supplierNotFoundError.name,
+    })
     expect(response.statusCode).toEqual(404)
   })
 
@@ -132,9 +137,10 @@ describe('Create product - (e2e)', () => {
       .set('Authorization', `Bearer ${unconfirmedToken}`)
       .send(newProductObject)
 
-    expect(response.body.message).toEqual(
-      emailConfirmationMiddlewareError.message,
-    )
+    expect(response.body).toEqual({
+      message: emailConfirmationMiddlewareError.message,
+      name: emailConfirmationMiddlewareError.name,
+    })
     expect(response.statusCode).toEqual(
       emailConfirmationMiddlewareError.statusCode,
     )
@@ -148,7 +154,10 @@ describe('Create product - (e2e)', () => {
       .set('Authorization', `Bearer invalidToken`)
       .send(newProductObject)
 
-    expect(response.body.message).toEqual(invalidTokenMiddlewareError.message)
+    expect(response.body).toEqual({
+      message: invalidTokenMiddlewareError.message,
+      name: invalidTokenMiddlewareError.name,
+    })
     expect(response.statusCode).toEqual(invalidTokenMiddlewareError.statusCode)
   })
 
@@ -166,9 +175,10 @@ describe('Create product - (e2e)', () => {
       .set('Authorization', `Bearer ${validToken}`)
       .send(duplicateProductObject)
 
-    expect(response.body.message).toEqual(
-      productDescriptionAlreadyExistsError.message,
-    )
+    expect(response.body).toEqual({
+      message: productDescriptionAlreadyExistsError.message,
+      name: productDescriptionAlreadyExistsError.name,
+    })
     expect(response.statusCode).toEqual(400)
   })
 })

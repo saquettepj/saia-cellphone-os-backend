@@ -18,6 +18,7 @@ describe('Get Suppliers - (e2e)', () => {
 
   const authenticateCompanyMiddlewareError = new MiddlewareError({
     message: translate(TranslationKeysEnum.ERROR_TOKEN_MISSING),
+    name: TranslationKeysEnum.ERROR_TOKEN_MISSING,
     statusCode: 401,
   })
 
@@ -81,9 +82,10 @@ describe('Get Suppliers - (e2e)', () => {
     expect(response.statusCode).toEqual(
       authenticateCompanyMiddlewareError.statusCode,
     )
-    expect(response.body.message).toEqual(
-      authenticateCompanyMiddlewareError.message,
-    )
+    expect(response.body).toEqual({
+      message: authenticateCompanyMiddlewareError.message,
+      name: authenticateCompanyMiddlewareError.name,
+    })
   })
 
   it('should list suppliers and return the expected response structure', async () => {

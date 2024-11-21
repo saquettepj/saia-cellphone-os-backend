@@ -20,6 +20,7 @@ describe('Delete access token - (e2e)', () => {
 
   const authenticateMiddlewareError = new MiddlewareError({
     message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
+    name: TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED,
     statusCode: 401,
   })
 
@@ -73,7 +74,10 @@ describe('Delete access token - (e2e)', () => {
       .delete(`/access-token/${accessTokenId}`)
       .set('Authorization', `Bearer ${normalCompanyToken}`)
 
-    expect(response.body.message).toEqual(authenticateMiddlewareError.message)
+    expect(response.body).toEqual({
+      message: authenticateMiddlewareError.message,
+      name: authenticateMiddlewareError.name,
+    })
     expect(response.statusCode).toEqual(authenticateMiddlewareError.statusCode)
   })
 
@@ -84,7 +88,10 @@ describe('Delete access token - (e2e)', () => {
       .delete(`/access-token/${nonExistingTokenId}`)
       .set('Authorization', `Bearer ${adminToken}`)
 
-    expect(response.body.message).toEqual(deletingError.message)
+    expect(response.body).toEqual({
+      message: deletingError.message,
+      name: deletingError.name,
+    })
     expect(response.statusCode).toEqual(400)
   })
 

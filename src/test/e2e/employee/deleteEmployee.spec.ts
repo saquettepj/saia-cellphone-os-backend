@@ -22,6 +22,7 @@ describe('Delete Employee - (e2e)', () => {
   const notAllowedError = new MiddlewareError({
     statusCode: 401,
     message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
+    name: TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED,
   })
 
   const employeeNotFoundError = new EmployeeNotFoundError()
@@ -96,7 +97,10 @@ describe('Delete Employee - (e2e)', () => {
       .delete(`/employee/${employeeId}`)
       .set('Authorization', `Bearer ${secondCompanyToken}`)
 
-    expect(response.body.message).toEqual(notAllowedError.message)
+    expect(response.body).toEqual({
+      message: notAllowedError.message,
+      name: notAllowedError.name,
+    })
     expect(response.statusCode).toEqual(notAllowedError.statusCode)
   })
 
@@ -107,7 +111,10 @@ describe('Delete Employee - (e2e)', () => {
       .delete(`/employee/${nonExistentEmployeeId}`)
       .set('Authorization', `Bearer ${companyToken}`)
 
-    expect(response.body.message).toEqual(employeeNotFoundError.message)
+    expect(response.body).toEqual({
+      message: employeeNotFoundError.message,
+      name: employeeNotFoundError.name,
+    })
     expect(response.statusCode).toEqual(404)
   })
 

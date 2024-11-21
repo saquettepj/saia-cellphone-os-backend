@@ -87,7 +87,10 @@ describe('Delete Address - (e2e)', () => {
       .delete(`/address/${nonExistentAddressId}`)
       .set('Authorization', `Bearer ${companyToken}`)
 
-    expect(response.body.message).toEqual(addressNotFoundError.message)
+    expect(response.body).toEqual({
+      message: addressNotFoundError.message,
+      name: addressNotFoundError.name,
+    })
     expect(response.statusCode).toEqual(404)
   })
 

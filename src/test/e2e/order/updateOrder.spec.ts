@@ -55,16 +55,19 @@ describe('Update Order - (e2e)', () => {
   const employeeNotFoundError = new MiddlewareError({
     statusCode: 404,
     message: translate(TranslationKeysEnum.ERROR_EMPLOYEE_NOT_FOUND),
+    name: TranslationKeysEnum.ERROR_EMPLOYEE_NOT_FOUND,
   })
 
   const clientNotFoundError = new MiddlewareError({
     statusCode: 404,
     message: translate(TranslationKeysEnum.ERROR_CLIENT_NOT_FOUND),
+    name: TranslationKeysEnum.ERROR_CLIENT_NOT_FOUND,
   })
 
   const requestNotAllowedError = new MiddlewareError({
     statusCode: 401,
     message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
+    name: TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED,
   })
 
   beforeAll(async () => {
@@ -212,7 +215,10 @@ describe('Update Order - (e2e)', () => {
         description: 'invalid update',
       })
 
-    expect(response.body.message).toEqual(requestNotAllowedError.message)
+    expect(response.body).toEqual({
+      message: requestNotAllowedError.message,
+      name: requestNotAllowedError.name,
+    })
     expect(response.statusCode).toEqual(requestNotAllowedError.statusCode)
   })
 
@@ -228,7 +234,10 @@ describe('Update Order - (e2e)', () => {
         employeeId: invalidEmployeeId,
       })
 
-    expect(response.body.message).toEqual(employeeNotFoundError.message)
+    expect(response.body).toEqual({
+      message: employeeNotFoundError.message,
+      name: employeeNotFoundError.name,
+    })
     expect(response.statusCode).toEqual(employeeNotFoundError.statusCode)
   })
 
@@ -240,7 +249,10 @@ describe('Update Order - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send({ ...updateOrderData, clientId: invalidClientId })
 
-    expect(response.body.message).toEqual(clientNotFoundError.message)
+    expect(response.body).toEqual({
+      message: clientNotFoundError.message,
+      name: clientNotFoundError.name,
+    })
     expect(response.statusCode).toEqual(clientNotFoundError.statusCode)
   })
 
@@ -250,7 +262,10 @@ describe('Update Order - (e2e)', () => {
       .set('Authorization', `Bearer ${secondCompanyToken}`)
       .send({ status: 'updated status' })
 
-    expect(response.body.message).toEqual(requestNotAllowedError.message)
+    expect(response.body).toEqual({
+      message: requestNotAllowedError.message,
+      name: requestNotAllowedError.name,
+    })
     expect(response.statusCode).toEqual(requestNotAllowedError.statusCode)
   })
 

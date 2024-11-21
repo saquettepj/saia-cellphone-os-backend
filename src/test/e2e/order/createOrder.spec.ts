@@ -28,21 +28,25 @@ describe('Create Order - (e2e)', () => {
   const clientNotFoundMiddlewareError = new MiddlewareError({
     statusCode: 404,
     message: translate(TranslationKeysEnum.ERROR_CLIENT_NOT_FOUND),
+    name: TranslationKeysEnum.ERROR_CLIENT_NOT_FOUND,
   })
 
   const employeeNotFoundMiddlewareError = new MiddlewareError({
     statusCode: 404,
     message: translate(TranslationKeysEnum.ERROR_EMPLOYEE_NOT_FOUND),
+    name: TranslationKeysEnum.ERROR_EMPLOYEE_NOT_FOUND,
   })
 
   const productNotFoundMiddlewareError = new MiddlewareError({
     statusCode: 404,
     message: translate(TranslationKeysEnum.ERROR_PRODUCTS_NOT_FOUND),
+    name: TranslationKeysEnum.ERROR_PRODUCTS_NOT_FOUND,
   })
 
   const employeeNotBelongsToCompanyError = new MiddlewareError({
     statusCode: 401,
     message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
+    name: TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED,
   })
 
   const duplicateOrderItemError = new DuplicateOrderItemError()
@@ -157,7 +161,10 @@ describe('Create Order - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send(orderData)
 
-    expect(response.body.message).toEqual(clientNotFoundMiddlewareError.message)
+    expect(response.body).toEqual({
+      message: clientNotFoundMiddlewareError.message,
+      name: clientNotFoundMiddlewareError.name,
+    })
     expect(response.statusCode).toEqual(
       clientNotFoundMiddlewareError.statusCode,
     )
@@ -175,9 +182,10 @@ describe('Create Order - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send(orderData)
 
-    expect(response.body.message).toEqual(
-      employeeNotFoundMiddlewareError.message,
-    )
+    expect(response.body).toEqual({
+      message: employeeNotFoundMiddlewareError.message,
+      name: employeeNotFoundMiddlewareError.name,
+    })
     expect(response.statusCode).toEqual(
       employeeNotFoundMiddlewareError.statusCode,
     )
@@ -195,9 +203,10 @@ describe('Create Order - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send(orderData)
 
-    expect(response.body.message).toEqual(
-      productNotFoundMiddlewareError.message,
-    )
+    expect(response.body).toEqual({
+      message: productNotFoundMiddlewareError.message,
+      name: productNotFoundMiddlewareError.name,
+    })
     expect(response.statusCode).toEqual(
       productNotFoundMiddlewareError.statusCode,
     )
@@ -215,9 +224,10 @@ describe('Create Order - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send(orderData)
 
-    expect(response.body.message).toEqual(
-      employeeNotBelongsToCompanyError.message,
-    )
+    expect(response.body).toEqual({
+      message: employeeNotBelongsToCompanyError.message,
+      name: employeeNotBelongsToCompanyError.name,
+    })
     expect(response.statusCode).toEqual(
       employeeNotBelongsToCompanyError.statusCode,
     )
@@ -238,7 +248,10 @@ describe('Create Order - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send(orderData)
 
-    expect(response.body.message).toEqual(duplicateOrderItemError.message)
+    expect(response.body).toEqual({
+      message: duplicateOrderItemError.message,
+      name: duplicateOrderItemError.name,
+    })
     expect(response.statusCode).toEqual(400)
   })
 

@@ -21,6 +21,7 @@ describe('Get Company By ID - (e2e)', () => {
 
   const notAllowedError = new MiddlewareError({
     message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
+    name: TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED,
     statusCode: 401,
   })
 
@@ -83,7 +84,10 @@ describe('Get Company By ID - (e2e)', () => {
       .get(`/company/${targetCompanyId}`)
       .set('Authorization', `Bearer ${nonAdminAccessToken}`)
 
-    expect(response.body.message).toEqual(notAllowedError.message)
+    expect(response.body).toEqual({
+      message: notAllowedError.message,
+      name: notAllowedError.name,
+    })
     expect(response.statusCode).toEqual(notAllowedError.statusCode)
   })
 
@@ -94,7 +98,10 @@ describe('Get Company By ID - (e2e)', () => {
       .get(`/company/${nonExistentUuid}`)
       .set('Authorization', `Bearer ${adminAccessToken}`)
 
-    expect(response.body.message).toEqual(companyNotFoundError.message)
+    expect(response.body).toEqual({
+      message: companyNotFoundError.message,
+      name: companyNotFoundError.name,
+    })
     expect(response.statusCode).toEqual(404)
   })
 

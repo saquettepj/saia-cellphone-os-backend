@@ -25,6 +25,7 @@ describe('Update Supplier - (e2e)', () => {
   const notAllowedError = new MiddlewareError({
     statusCode: 401,
     message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
+    name: TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED,
   })
 
   const newCompanyObject = createNewCompanyTestObject({
@@ -107,7 +108,10 @@ describe('Update Supplier - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send(updateSupplierObject)
 
-    expect(response.body.message).toEqual(cnpjAlreadyExistsError.message)
+    expect(response.body).toEqual({
+      message: cnpjAlreadyExistsError.message,
+      name: cnpjAlreadyExistsError.name,
+    })
     expect(response.statusCode).toEqual(409)
   })
 
@@ -125,7 +129,10 @@ describe('Update Supplier - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send(updateSupplierObject)
 
-    expect(response.body.message).toEqual(emailAlreadyExistsError.message)
+    expect(response.body).toEqual({
+      message: emailAlreadyExistsError.message,
+      name: emailAlreadyExistsError.name,
+    })
     expect(response.statusCode).toEqual(409)
   })
 
@@ -143,7 +150,10 @@ describe('Update Supplier - (e2e)', () => {
       .set('Authorization', `Bearer ${secondCompanyToken}`)
       .send(updateSupplierObject)
 
-    expect(response.body.message).toEqual(notAllowedError.message)
+    expect(response.body).toEqual({
+      message: notAllowedError.message,
+      name: notAllowedError.name,
+    })
     expect(response.statusCode).toEqual(notAllowedError.statusCode)
   })
 

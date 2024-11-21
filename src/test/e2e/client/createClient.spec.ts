@@ -66,7 +66,10 @@ describe('Create Client - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send({ ...newClientObject, email: 'newemail@test.com' })
 
-    expect(response.body.message).toEqual(cpfAlreadyExistsError.message)
+    expect(response.body).toEqual({
+      message: cpfAlreadyExistsError.message,
+      name: cpfAlreadyExistsError.name,
+    })
     expect(response.statusCode).toEqual(409)
   })
 
@@ -81,7 +84,10 @@ describe('Create Client - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send({ ...newClientObject, CPF: '98765432109' })
 
-    expect(response.body.message).toEqual(emailAlreadyExistsError.message)
+    expect(response.body).toEqual({
+      message: emailAlreadyExistsError.message,
+      name: emailAlreadyExistsError.name,
+    })
     expect(response.statusCode).toEqual(409)
   })
 
