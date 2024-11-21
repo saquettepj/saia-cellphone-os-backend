@@ -7,6 +7,7 @@ import {
   createNewEmployeeTestObject,
 } from '@/test/testObjects/testObjects'
 import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
+import { RoleEnum } from '@/enums/all.enum'
 
 describe('Get Employees - (e2e)', () => {
   let companyToken: string
@@ -23,7 +24,7 @@ describe('Get Employees - (e2e)', () => {
     name: 'John Doe',
     CPF: '12345678901',
     phone: '1234567890',
-    role: 'Manager',
+    role: RoleEnum.TECHNICIAN,
   })
 
   beforeAll(async () => {

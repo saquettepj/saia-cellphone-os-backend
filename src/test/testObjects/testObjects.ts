@@ -12,6 +12,7 @@ import {
   PaymentStatusEnum,
   ProductConditionEnum,
   ProductTypeEnum,
+  RoleEnum,
 } from '@/enums/all.enum'
 import { ICreateOrderUseCaseRequest } from '@/useCases/order/createOrderUseCase'
 import { ICreateOrderItemUseCaseRequest } from '@/useCases/orderItem/createOrderItemUseCase'
@@ -71,7 +72,7 @@ const createNewEmployeeTestObject = (
   name: params?.name || 'Test Employee',
   CPF: params?.CPF || '12005678901',
   phone: params?.phone || '1234567890',
-  role: params?.role || 'Manager',
+  role: params?.role || RoleEnum.ATTENDANT,
 })
 
 const createNewAddressTestObject = (

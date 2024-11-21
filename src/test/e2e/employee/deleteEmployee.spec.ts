@@ -11,6 +11,7 @@ import { MiddlewareError } from '@/errors/middlewareError'
 import { EmployeeNotFoundError } from '@/errors/employeeNotFoundError'
 import { translate } from '@/i18n/translate'
 import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
+import { RoleEnum } from '@/enums/all.enum'
 
 describe('Delete Employee - (e2e)', () => {
   let companyToken: string
@@ -41,7 +42,7 @@ describe('Delete Employee - (e2e)', () => {
     name: 'John Doe',
     CPF: '12345678901',
     phone: '1234567890',
-    role: 'Manager',
+    role: RoleEnum.TECHNICIAN,
   })
 
   beforeAll(async () => {

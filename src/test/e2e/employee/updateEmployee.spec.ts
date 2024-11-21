@@ -11,6 +11,7 @@ import { CPFAlreadyExistsError } from '@/errors/CPFAlreadyExistsError'
 import { MiddlewareError } from '@/errors/middlewareError'
 import { translate } from '@/i18n/translate'
 import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
+import { RoleEnum } from '@/enums/all.enum'
 
 describe('Update Employee - (e2e)', () => {
   let companyToken: string
@@ -40,14 +41,14 @@ describe('Update Employee - (e2e)', () => {
     name: 'John Doe',
     CPF: '12345678901',
     phone: '1234567890',
-    role: 'Manager',
+    role: RoleEnum.TECHNICIAN,
   })
 
   const secondEmployeeObject = createNewEmployeeTestObject({
     name: 'Jane Doe',
     CPF: '09876543210',
     phone: '0987654321',
-    role: 'Developer',
+    role: RoleEnum.TECHNICIAN,
   })
 
   beforeAll(async () => {
@@ -108,7 +109,7 @@ describe('Update Employee - (e2e)', () => {
       name: 'Updated Employee',
       CPF: secondEmployeeObject.CPF,
       phone: '1111111111',
-      role: 'Manager',
+      role: RoleEnum.TECHNICIAN,
     })
 
     const response = await request(app.server)
@@ -140,7 +141,7 @@ describe('Update Employee - (e2e)', () => {
       name: 'Updated Employee',
       CPF: '98765432109',
       phone: '1111111111',
-      role: 'Manager',
+      role: RoleEnum.TECHNICIAN,
     })
 
     const response = await request(app.server)

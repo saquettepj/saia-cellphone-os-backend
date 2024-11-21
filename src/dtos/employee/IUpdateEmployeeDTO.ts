@@ -1,5 +1,7 @@
 import { z } from 'zod'
 
+import { RoleEnum } from '@/enums/all.enum'
+
 export const IUpdateEmployeeDTO = z
   .object({
     name: z.string().optional(),
@@ -9,6 +11,6 @@ export const IUpdateEmployeeDTO = z
       .regex(/^[0-9]+$/)
       .optional(),
     phone: z.string().optional(),
-    role: z.string().optional(),
+    role: z.nativeEnum(RoleEnum).optional(),
   })
   .strict()
