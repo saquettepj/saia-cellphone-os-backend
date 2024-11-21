@@ -24,6 +24,7 @@ model Company {
   passwordHash          String
   payDate               DateTime?
   termsDate             DateTime?
+  lists                 String[]
   products              Product[]
   orders                Order[]
   clients               Client[]
@@ -109,7 +110,7 @@ model Address {
   clientId     String?  @unique
   client       Client?  @relation(fields: [clientId], references: [id], onDelete: Cascade)
   companyId    String?  @unique
-  company      Company? @relation(fields: [companyId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  company      Company? @relation(fields: [companyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("address")
 }
@@ -175,7 +176,7 @@ model Order {
   client               Client      @relation(fields: [clientId], references: [id])
   employeeId           String
   employee             Employee    @relation(fields: [employeeId], references: [id])
-  IMEI                 String
+  IMEI                 String?
   number               Int         @default(autoincrement())
   type                 String
   orderItems           OrderItem[]
@@ -187,7 +188,7 @@ model Order {
   firstDueDate         DateTime?
   dueDate              Int?
   numberOfInstallments Int?
-  interest             Float
+  interest             Float?
   price                Float
   description          String?
   createdAt            DateTime    @default(now())
@@ -197,26 +198,26 @@ model Order {
 }
 
 model OrderItem {
-  id              String    @id @default(uuid())
+  id              String   @id @default(uuid())
   orderId         String
-  order           Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  order           Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
   productId       String
-  product         Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  product         Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   quantity        Int
-  discount        Float
+  discount        Float?
   initialQuantity Int
-  Service         Service[]
+  service         Service?
 
   @@map("order_item")
 }
 
 model Service {
   id          String     @id @default(uuid())
-  orderItemId String?
-  orderItem   OrderItem? @relation(fields: [orderItemId], references: [id], onDelete: Cascade)
+  orderItemId String?    @unique
+  orderItem   OrderItem? @relation(fields: [orderItemId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   employeeId  String?
   employee    Employee?  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
-  status      String     @default("PENDING")
+  status      String?    @default("PENDING")
   report      String?
 
   @@map("service")

@@ -5,6 +5,7 @@ import { IProductRepository } from '@/repositories/product/IProductRepository'
 
 interface IUpdateOrderItemUseCaseRequest {
   id: string
+  discount?: number
   quantity?: number
 }
 
@@ -14,7 +15,7 @@ class UpdateOrderItemUseCase {
     private productRepository: IProductRepository,
   ) {}
 
-  async execute({ id, quantity }: IUpdateOrderItemUseCaseRequest) {
+  async execute({ id, quantity, discount }: IUpdateOrderItemUseCaseRequest) {
     const orderItem = await this.orderItemRepository.findById(id)
     if (!orderItem) {
       throw new OrderItemNotFoundError()
@@ -50,6 +51,7 @@ class UpdateOrderItemUseCase {
 
     const updatedOrderItem = await this.orderItemRepository.updateById(id, {
       quantity,
+      discount,
     })
 
     return updatedOrderItem

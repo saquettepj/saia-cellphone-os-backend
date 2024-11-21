@@ -67,13 +67,19 @@ async function createAddressController(
     return reply.status(201).send(responseBody)
   } catch (error) {
     if (error instanceof ClientNotFoundError) {
-      return reply.status(404).send({ message: error.message })
+      return reply
+        .status(404)
+        .send({ message: error.message, name: error.name })
     }
     if (error instanceof ClientHasAddressError) {
-      return reply.status(400).send({ message: error.message })
+      return reply
+        .status(400)
+        .send({ message: error.message, name: error.name })
     }
     if (error instanceof CompanyHasAddressError) {
-      return reply.status(400).send({ message: error.message })
+      return reply
+        .status(400)
+        .send({ message: error.message, name: error.name })
     }
     throw error
   }

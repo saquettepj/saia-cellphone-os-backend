@@ -13,6 +13,7 @@ import { superUpdateCompanyController } from '../controllers/company/superUpdate
 import { updateCompanyTermsController } from '../controllers/company/updateCompanyTermsController'
 import { companyCheckerByCompanyMiddleware } from '../middlewares/companyCheckerByCompanyMiddleware'
 import { getCompanyByIdController } from '../controllers/company/getCompanyByIdController'
+import { updateCompanyListsController } from '../controllers/company/updateCompanyListsController'
 
 async function companyRoutes(app: FastifyInstance) {
   app.post('/company', createCompanyController)
@@ -89,6 +90,14 @@ async function companyRoutes(app: FastifyInstance) {
       preHandler: [companyAuthenticatorMiddleware],
     },
     updateCompanyTermsController,
+  )
+
+  app.patch(
+    '/company/update-lists',
+    {
+      preHandler: [companyAuthenticatorMiddleware],
+    },
+    updateCompanyListsController,
   )
 
   app.post('/company/authenticate', authenticateCompanyController)

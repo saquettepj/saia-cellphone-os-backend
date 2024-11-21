@@ -17,11 +17,12 @@ class OrderRepository implements IOrderRepository {
 
   async findAllByCompanyId(
     companyId: string,
-    data: Partial<Prisma.OrderCreateManyInput> & { productIds?: string[] },
+    data: Partial<Prisma.OrderCreateManyInput>,
   ): Promise<IOrder[]> {
     const searchedOrders = await prisma.order.findMany({
       where: {
         companyId,
+        ...(data.IMEI && { IMEI: { contains: data.IMEI } }),
         ...(data.clientId && { clientId: { contains: data.clientId } }),
         ...(data.employeeId && { employeeId: { contains: data.employeeId } }),
         ...(data.number && { number: data.number }),
@@ -31,16 +32,17 @@ class OrderRepository implements IOrderRepository {
         ...(data.paymentMethod && {
           paymentMethod: { contains: data.paymentMethod },
         }),
+        ...(data.paymentStatus && {
+          paymentStatus: { contains: data.paymentStatus },
+        }),
+        ...(data.dueDate && { dueDate: data.dueDate }),
+        ...(data.numberOfInstallments && {
+          numberOfInstallments: data.numberOfInstallments,
+        }),
+        ...(data.interest && { interest: data.interest }),
         ...(data.price && { price: data.price }),
         ...(data.description && {
           description: { contains: data.description },
-        }),
-        ...(data.productIds && {
-          orderItems: {
-            some: {
-              productId: { in: data.productIds },
-            },
-          },
         }),
       },
       include: {
@@ -55,9 +57,6 @@ class OrderRepository implements IOrderRepository {
     const updatedOrder = await prisma.order.update({
       where: { id },
       data,
-      include: {
-        orderItems: true,
-      },
     })
     return updatedOrder
   }
@@ -80,7 +79,7 @@ class OrderRepository implements IOrderRepository {
     return deletedOrders.count
   }
 
-  async create(data: ICreateOrder) {
+  async create(data: ICreateOrder): Promise<IOrder> {
     const createdOrder = await prisma.order.create({
       data: {
         ...data,
@@ -89,14 +88,33 @@ class OrderRepository implements IOrderRepository {
             productId: item.productId,
             quantity: item.quantity,
             initialQuantity: item.initialQuantity,
+            discount: item.discount,
+            service: item.service
+              ? {
+                  create: {
+                    employeeId: item.service.employeeId,
+                  },
+                }
+              : undefined,
           })),
         },
       },
       include: {
-        orderItems: true,
+        orderItems: {
+          include: {
+            service: true,
+          },
+        },
       },
     })
-    return createdOrder
+
+    return {
+      ...createdOrder,
+      orderItems: createdOrder.orderItems.map((item) => ({
+        ...item,
+        service: item.service || undefined,
+      })),
+    }
   }
 }
 

@@ -6,9 +6,9 @@ import { IGetServiceDTO } from '@/dtos/service/IGetServiceDTO'
 interface IGetServiceControllerResponse {
   services: Array<{
     id: string
-    orderItemId: string
-    employeeId: string
-    status: string
+    orderItemId: string | null
+    employeeId: string | null
+    status: string | null
     report?: string | null
   }>
 }

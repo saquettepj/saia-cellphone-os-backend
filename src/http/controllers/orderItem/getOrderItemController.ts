@@ -8,6 +8,7 @@ interface IGetOrderItemControllerResponse {
     id: string
     orderId: string
     productId: string
+    discount: number | null
     quantity: number
   }>
 }
@@ -16,7 +17,7 @@ async function getOrderItemController(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const { id, orderId, productId, quantity } = IGetOrderItemDTO.parse(
+  const { id, orderId, discount, productId, quantity } = IGetOrderItemDTO.parse(
     request.body,
   )
 
@@ -27,6 +28,7 @@ async function getOrderItemController(
       id,
       orderId,
       productId,
+      discount,
       quantity,
     })
 

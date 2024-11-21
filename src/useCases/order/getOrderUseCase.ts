@@ -2,6 +2,7 @@ import { IOrderRepository } from '@/repositories/order/IOrderRepository'
 
 interface IGetOrdersUseCaseRequest {
   companyId: string
+  IMEI?: string
   clientId?: string
   employeeId?: string
   number?: number
@@ -9,9 +10,12 @@ interface IGetOrdersUseCaseRequest {
   status?: string
   payDate?: string
   paymentMethod?: string
+  paymentStatus?: string
+  dueDate?: number
+  numberOfInstallments?: number
+  interest?: number
   price?: number
   description?: string
-  orderItems?: Array<{ productId: string }>
 }
 
 class GetOrderUseCase {
@@ -19,6 +23,7 @@ class GetOrderUseCase {
 
   async execute({
     companyId,
+    IMEI,
     clientId,
     employeeId,
     number,
@@ -26,25 +31,30 @@ class GetOrderUseCase {
     status,
     payDate,
     paymentMethod,
+    paymentStatus,
+    dueDate,
+    numberOfInstallments,
+    interest,
     price,
     description,
-    orderItems,
   }: IGetOrdersUseCaseRequest) {
-    const productIds = orderItems?.map((item) => item.productId)
-
     const searchedOrders = await this.orderRepository.findAllByCompanyId(
       companyId,
       {
         clientId,
+        IMEI,
         employeeId,
         number,
         type,
         status,
         payDate,
         paymentMethod,
+        paymentStatus,
+        dueDate,
+        numberOfInstallments,
+        interest,
         price,
         description,
-        productIds,
       },
     )
 
@@ -52,4 +62,4 @@ class GetOrderUseCase {
   }
 }
 
-export { GetOrderUseCase }
+export { GetOrderUseCase, IGetOrdersUseCaseRequest }

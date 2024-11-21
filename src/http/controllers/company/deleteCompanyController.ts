@@ -19,7 +19,9 @@ async function deleteCompanyController(
     return reply.status(204).send()
   } catch (error) {
     if (error instanceof DeletingError) {
-      return reply.status(400).send({ message: error.message })
+      return reply
+        .status(400)
+        .send({ message: error.message, name: error.name })
     }
 
     throw error

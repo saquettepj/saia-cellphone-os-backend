@@ -20,11 +20,13 @@ describe('Create access token - (e2e)', () => {
 
   const companyNotFoundError = new MiddlewareError({
     message: translate(TranslationKeysEnum.ERROR_COMPANY_NOT_FOUND),
+    name: TranslationKeysEnum.ERROR_COMPANY_NOT_FOUND,
     statusCode: 404,
   })
 
   const authenticateMiddlewareError = new MiddlewareError({
     message: translate(TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED),
+    name: TranslationKeysEnum.ERROR_REQUEST_NOT_ALLOWED,
     statusCode: 401,
   })
 
@@ -74,7 +76,10 @@ describe('Create access token - (e2e)', () => {
       .post('/access-token')
       .set('Authorization', `Bearer ${normalCompanyToken}`)
 
-    expect(response.body.message).toEqual(authenticateMiddlewareError.message)
+    expect(response.body).toEqual({
+      message: authenticateMiddlewareError.message,
+      name: authenticateMiddlewareError.name,
+    })
     expect(response.statusCode).toEqual(authenticateMiddlewareError.statusCode)
   })
 
@@ -86,7 +91,10 @@ describe('Create access token - (e2e)', () => {
       .set('Authorization', `Bearer ${adminToken}`)
       .send({ companyId: nonExistingCompanyId })
 
-    expect(response.body.message).toEqual(companyNotFoundError.message)
+    expect(response.body).toEqual({
+      message: companyNotFoundError.message,
+      name: companyNotFoundError.name,
+    })
     expect(response.statusCode).toEqual(companyNotFoundError.statusCode)
   })
 
@@ -143,9 +151,10 @@ describe('Create access token - (e2e)', () => {
       .set('Authorization', `Bearer ${adminToken}`)
       .send(testAccessTokenObject)
 
-    expect(response.body.message).toEqual(
-      accessTokenAlreadyHasCompanyIdError.message,
-    )
+    expect(response.body).toEqual({
+      message: accessTokenAlreadyHasCompanyIdError.message,
+      name: accessTokenAlreadyHasCompanyIdError.name,
+    })
     expect(response.statusCode).toEqual(400)
   })
 })

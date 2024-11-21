@@ -5,10 +5,18 @@ import { ICreateProductUseCaseRequest } from '@/useCases/product/createProductUs
 import { ICreateClientUseCaseRequest } from '@/useCases/client/createClientUseCase'
 import { ICreateEmployeeUseCaseRequest } from '@/useCases/employee/createEmployeeUseCase'
 import { ICreateAddressUseCaseRequest } from '@/useCases/address/createAddressUseCase'
-import { ProductConditionEnum, ProductTypeEnum } from '@/enums/all.enum'
+import {
+  OrderStatusEnum,
+  OrderTypeEnum,
+  PaymentMethodEnum,
+  PaymentStatusEnum,
+  ProductConditionEnum,
+  ProductTypeEnum,
+} from '@/enums/all.enum'
 import { ICreateOrderUseCaseRequest } from '@/useCases/order/createOrderUseCase'
 import { ICreateOrderItemUseCaseRequest } from '@/useCases/orderItem/createOrderItemUseCase'
 import { ICreateSupplierUseCaseRequest } from '@/useCases/supplier/createSupplierUseCase'
+import { ICreateServiceUseCaseRequest } from '@/useCases/service/createServiceUseCase'
 
 let uniqueDescriptionCounter = 1
 
@@ -61,7 +69,7 @@ const createNewEmployeeTestObject = (
   params?: Partial<ICreateEmployeeUseCaseRequest>,
 ) => ({
   name: params?.name || 'Test Employee',
-  CPF: params?.CPF || '12345678901',
+  CPF: params?.CPF || '12005678901',
   phone: params?.phone || '1234567890',
   role: params?.role || 'Manager',
 })
@@ -82,31 +90,49 @@ const createNewAddressTestObject = (
 const createNewOrderTestObject = (
   params?: Partial<ICreateOrderUseCaseRequest>,
 ) => ({
+  IMEI: params?.IMEI || '123456789012345',
   clientId: params?.clientId || uuidv4(),
   employeeId: params?.employeeId || uuidv4(),
-  type: params?.type || 'sale',
-  status: params?.status || 'pending',
+  type: params?.type || OrderTypeEnum.SALE,
+  status: params?.status || OrderStatusEnum.PENDING,
   payDate: params?.payDate || new Date().toISOString(),
-  paymentMethod: params?.paymentMethod || 'credit',
+  paymentMethod: params?.paymentMethod || PaymentMethodEnum.CREDIT_CARD,
+  paymentStatus: params?.paymentStatus || PaymentStatusEnum.OPEN,
+  firstDueDate: params?.firstDueDate || undefined,
+  dueDate: params?.dueDate || undefined,
+  numberOfInstallments: params?.numberOfInstallments || undefined,
+  interest: params?.interest || undefined,
   price: params?.price || 100.0,
   description: params?.description || 'Order description',
   orderItems: params?.orderItems || [
-    { productId: params?.orderItems?.[0]?.productId || uuidv4(), quantity: 1 },
+    {
+      productId: params?.orderItems?.[0]?.productId || uuidv4(),
+      quantity: params?.orderItems?.[0]?.quantity || 1,
+      discount: params?.orderItems?.[0]?.discount || 0,
+      service: params?.orderItems?.[0]?.service || {
+        employeeId: params?.orderItems?.[0]?.service?.employeeId || null,
+      },
+    },
   ],
 })
 
 const updateNewOrderTestObject = (
   params?: Partial<ICreateOrderUseCaseRequest>,
 ) => ({
-  companyId: params?.companyId || uuidv4(),
+  IMEI: params?.IMEI || '123456789012345',
   clientId: params?.clientId || uuidv4(),
   employeeId: params?.employeeId || uuidv4(),
-  type: params?.type || 'sale',
-  status: params?.status || 'pending',
+  type: params?.type || OrderTypeEnum.SALE,
+  status: params?.status || OrderStatusEnum.CANCELED,
   payDate: params?.payDate || new Date().toISOString(),
-  paymentMethod: params?.paymentMethod || 'credit',
-  price: params?.price || 100.0,
-  description: params?.description || 'Order description',
+  paymentMethod: params?.paymentMethod || PaymentMethodEnum.DEBIT_CARD,
+  paymentStatus: params?.paymentStatus || PaymentStatusEnum.INVOICED,
+  firstDueDate: params?.firstDueDate || undefined,
+  dueDate: params?.dueDate || undefined,
+  numberOfInstallments: params?.numberOfInstallments || undefined,
+  interest: params?.interest || undefined,
+  price: params?.price || undefined,
+  description: params?.description || undefined,
 })
 
 const createNewOrderItemTestObject = (
@@ -114,7 +140,17 @@ const createNewOrderItemTestObject = (
 ) => ({
   orderId: params?.orderId || uuidv4(),
   productId: params?.productId || uuidv4(),
+  discount: params?.discount || undefined,
   quantity: params?.quantity || 1,
+})
+
+const createNewServiceTestObject = (
+  params?: Partial<ICreateServiceUseCaseRequest>,
+) => ({
+  orderItemId: params?.orderItemId || uuidv4(),
+  employeeId: params?.employeeId || uuidv4(),
+  status: params?.status || undefined,
+  report: params?.status || undefined,
 })
 
 const createNewAccessTokenTestObject = (params?: { companyId?: string }) => ({
@@ -131,5 +167,6 @@ export {
   createNewOrderTestObject,
   updateNewOrderTestObject,
   createNewOrderItemTestObject,
+  createNewServiceTestObject,
   createNewAccessTokenTestObject,
 }

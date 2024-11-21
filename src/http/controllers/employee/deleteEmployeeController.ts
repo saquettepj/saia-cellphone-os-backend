@@ -17,7 +17,9 @@ async function deleteEmployeeController(
     return reply.status(204).send()
   } catch (error) {
     if (error instanceof EmployeeNotFoundError) {
-      return reply.status(404).send({ message: error.message })
+      return reply
+        .status(404)
+        .send({ message: error.message, name: error.name })
     }
 
     throw error

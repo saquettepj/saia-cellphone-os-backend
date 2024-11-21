@@ -15,6 +15,11 @@ import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
 import { MiddlewareError } from '@/errors/middlewareError'
 import { translate } from '@/i18n/translate'
 import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
+import {
+  OrderStatusEnum,
+  OrderTypeEnum,
+  PaymentMethodEnum,
+} from '@/enums/all.enum'
 
 describe('Update Order - (e2e)', () => {
   let companyToken: string
@@ -24,6 +29,10 @@ describe('Update Order - (e2e)', () => {
   let productId: string
   let orderId: string
   let secondCompanyToken: string
+  let secondClientId: string
+  let secondEmployeeId: string
+  let secondProductId: string
+  let secondOrderId: string
   let orderData: ReturnType<typeof createNewOrderTestObject>
   let updateOrderData: ReturnType<typeof updateNewOrderTestObject>
 
@@ -112,10 +121,16 @@ describe('Update Order - (e2e)', () => {
       orderItems: [{ productId, quantity: 2 }],
     })
 
+    orderData = createNewOrderTestObject({
+      clientId,
+      employeeId,
+      orderItems: [{ productId, quantity: 2 }],
+    })
+
     updateOrderData = updateNewOrderTestObject({
-      type: 'online',
-      status: 'pending',
-      paymentMethod: 'credit',
+      type: OrderTypeEnum.SERVICE,
+      status: OrderStatusEnum.CANCELED,
+      paymentMethod: PaymentMethodEnum.ESTIMATE,
       price: 150.75,
       description: 'desc',
     })
@@ -148,10 +163,57 @@ describe('Update Order - (e2e)', () => {
       .send({
         emailConfirmationCode: secondCompanyJoker?.emailConfirmationCode,
       })
+
+    const secondCreateClientResponse = await request(app.server)
+      .post('/client')
+      .set('Authorization', `Bearer ${secondCompanyToken}`)
+      .send(newClientObject)
+
+    secondClientId = secondCreateClientResponse.body.id
+
+    const secondCreateEmployeeResponse = await request(app.server)
+      .post('/employee')
+      .set('Authorization', `Bearer ${secondCompanyToken}`)
+      .send(newEmployeeObject)
+
+    secondEmployeeId = secondCreateEmployeeResponse.body.id
+
+    const secondCreateProductResponse = await request(app.server)
+      .post('/product')
+      .set('Authorization', `Bearer ${secondCompanyToken}`)
+      .send(newProductObject)
+
+    secondProductId = secondCreateProductResponse.body.id
+
+    const secondOrderData = createNewOrderTestObject({
+      clientId: secondClientId,
+      employeeId: secondEmployeeId,
+      orderItems: [{ productId: secondProductId, quantity: 2 }],
+    })
+
+    const secondCreateOrderResponse = await request(app.server)
+      .post('/order')
+      .set('Authorization', `Bearer ${secondCompanyToken}`)
+      .send(secondOrderData)
+
+    secondOrderId = secondCreateOrderResponse.body.id
   })
 
   afterAll(async () => {
     await app.close()
+  })
+
+  it('should not allow an authenticated company to update an order belonging to another company', async () => {
+    const response = await request(app.server)
+      .patch(`/order/${secondOrderId}`)
+      .set('Authorization', `Bearer ${companyToken}`)
+      .send({
+        status: OrderStatusEnum.CANCELED,
+        description: 'invalid update',
+      })
+
+    expect(response.body.message).toEqual(requestNotAllowedError.message)
+    expect(response.statusCode).toEqual(requestNotAllowedError.statusCode)
   })
 
   it('should return error when updating an order with a non-existent employee', async () => {
@@ -164,7 +226,6 @@ describe('Update Order - (e2e)', () => {
         ...updateOrderData,
         clientId: undefined,
         employeeId: invalidEmployeeId,
-        companyId,
       })
 
     expect(response.body.message).toEqual(employeeNotFoundError.message)
@@ -214,10 +275,16 @@ describe('Update Order - (e2e)', () => {
       employeeId,
       type: updatedOrderData.type,
       status: updatedOrderData.status,
+      paymentStatus: updateOrderData.paymentStatus,
       payDate: updatedOrderData.payDate,
       paymentMethod: updatedOrderData.paymentMethod,
       price: updatedOrderData.price,
       description: updatedOrderData.description,
+      closingDate: null,
+      firstDueDate: orderData.firstDueDate || null,
+      dueDate: orderData.dueDate || null,
+      interest: orderData.interest || null,
+      numberOfInstallments: orderData.numberOfInstallments || null,
     })
     expect(response.statusCode).toEqual(200)
   })

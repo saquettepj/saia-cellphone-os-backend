@@ -83,8 +83,6 @@ class UpdateAddressUseCase {
         },
       )
 
-      console.log(updatedAddress)
-
       return updatedAddress
     }
   }

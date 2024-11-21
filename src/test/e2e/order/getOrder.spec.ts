@@ -17,7 +17,6 @@ import {
 describe('Get Orders - (e2e)', () => {
   let companyToken: string
   let companyId: string | undefined
-  let initialQuantity: number | undefined
   let clientId: string
   let employeeId: string
   let productId: string
@@ -84,10 +83,6 @@ describe('Get Orders - (e2e)', () => {
 
     productId = createProductResponse.body.id
 
-    const newProductJoker = await productJokerRepository.findById(productId)
-
-    initialQuantity = newProductJoker?.quantity
-
     orderData = createNewOrderTestObject({
       clientId,
       employeeId,
@@ -115,25 +110,33 @@ describe('Get Orders - (e2e)', () => {
     expect(response.body.orders).toBeInstanceOf(Array)
     expect(response.body.orders.length).toBeGreaterThan(0)
     expect(response.body.orders[0]).toEqual({
-      id: orderId,
+      number: expect.any(Number),
+      id: expect.any(String),
       companyId,
       clientId,
       employeeId,
-      number: expect.any(Number),
-      type: orderData.type,
       status: orderData.status,
-      payDate: orderData.payDate,
+      paymentStatus: orderData.paymentStatus,
+      payDate: expect.any(String),
+      createdAt: expect.any(String),
       paymentMethod: orderData.paymentMethod,
       price: orderData.price,
+      type: orderData.type,
       description: orderData.description,
-      createdAt: expect.any(String),
+      closingDate: null,
+      firstDueDate: orderData.firstDueDate || null,
+      dueDate: orderData.dueDate || null,
+      interest: orderData.interest || null,
+      numberOfInstallments: orderData.numberOfInstallments || null,
       orderItems: [
         {
           id: expect.any(String),
           orderId,
-          productId,
+          discount: orderData.orderItems[0].discount || null,
+          productId: orderData.orderItems[0].productId,
           quantity: orderData.orderItems[0].quantity,
-          initialQuantity,
+          initialQuantity: newProductObject.quantity,
+          service: null,
         },
       ],
     })

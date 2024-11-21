@@ -29,10 +29,14 @@ async function deleteOrderItemController(
     return reply.status(200).send(responseBody)
   } catch (error) {
     if (error instanceof OrderItemNotFoundError) {
-      return reply.status(404).send({ message: error.message })
+      return reply
+        .status(404)
+        .send({ message: error.message, name: error.name })
     }
     if (error instanceof ProductNotFoundError) {
-      return reply.status(404).send({ message: error.message })
+      return reply
+        .status(404)
+        .send({ message: error.message, name: error.name })
     }
 
     throw error

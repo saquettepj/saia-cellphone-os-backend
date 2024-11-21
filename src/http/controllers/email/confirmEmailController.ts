@@ -22,10 +22,14 @@ async function confirmEmailController(
     return reply.status(200).send()
   } catch (error) {
     if (error instanceof EmailAlreadyConfirmedError) {
-      return reply.status(400).send({ message: error.message })
+      return reply
+        .status(400)
+        .send({ message: error.message, name: error.name })
     }
     if (error instanceof InvalidEmailConfirmationCodeError) {
-      return reply.status(400).send({ message: error.message })
+      return reply
+        .status(400)
+        .send({ message: error.message, name: error.name })
     }
   }
 }

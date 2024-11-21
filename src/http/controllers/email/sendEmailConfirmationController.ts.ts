@@ -18,10 +18,14 @@ async function sendEmailConfirmationController(
     return reply.status(200).send()
   } catch (error) {
     if (error instanceof EmailAlreadyConfirmedError) {
-      return reply.status(400).send({ message: error.message })
+      return reply
+        .status(400)
+        .send({ message: error.message, name: error.name })
     }
     if (error instanceof EmailNotFoundError) {
-      return reply.status(400).send({ message: error.message })
+      return reply
+        .status(400)
+        .send({ message: error.message, name: error.name })
     }
   }
 }

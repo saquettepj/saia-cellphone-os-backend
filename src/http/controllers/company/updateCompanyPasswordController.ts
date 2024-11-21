@@ -25,10 +25,14 @@ async function updateCompanyPasswordController(
     return reply.status(200).send()
   } catch (error) {
     if (error instanceof CompanyCredentialsError) {
-      return reply.status(401).send({ message: error.message })
+      return reply
+        .status(401)
+        .send({ message: error.message, name: error.name })
     }
     if (error instanceof PasswordConfirmationIsDifferentError) {
-      return reply.status(400).send({ message: error.message })
+      return reply
+        .status(400)
+        .send({ message: error.message, name: error.name })
     }
 
     throw error

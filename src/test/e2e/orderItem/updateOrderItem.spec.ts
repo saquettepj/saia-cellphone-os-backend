@@ -129,17 +129,19 @@ describe('Update OrderItem - (e2e)', () => {
 
   it('should update an OrderItem and adjust the product quantity accordingly', async () => {
     const quantityToUpdate = 3
+    const discountToUpdate = 0.8
     const quantityDifference = quantityToUpdate - 2
 
     const response = await request(app.server)
       .patch(`/order-item/${orderItemId}`)
       .set('Authorization', `Bearer ${companyToken}`)
-      .send({ quantity: quantityToUpdate })
+      .send({ quantity: quantityToUpdate, discount: discountToUpdate })
 
     expect(response.body).toEqual({
       id: orderItemId,
       orderId,
       productId,
+      discount: discountToUpdate,
       quantity: quantityToUpdate,
     })
     expect(response.statusCode).toEqual(200)

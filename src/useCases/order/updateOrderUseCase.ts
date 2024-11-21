@@ -6,7 +6,6 @@ import { IOrderRepository } from '@/repositories/order/IOrderRepository'
 
 interface IUpdateOrderUseCaseRequest {
   id: string
-  companyId: string
   clientId?: string
   employeeId?: string
   type?: string
@@ -15,6 +14,12 @@ interface IUpdateOrderUseCaseRequest {
   paymentMethod?: string
   price?: number
   description?: string
+  IMEI?: string
+  paymentStatus?: string
+  firstDueDate?: string
+  dueDate?: number
+  numberOfInstallments?: number
+  interest?: number
 }
 
 class UpdateOrderUseCase {
@@ -26,7 +31,6 @@ class UpdateOrderUseCase {
 
   async execute({
     id,
-    companyId,
     clientId,
     employeeId,
     type,
@@ -35,6 +39,12 @@ class UpdateOrderUseCase {
     paymentMethod,
     price,
     description,
+    IMEI,
+    paymentStatus,
+    firstDueDate,
+    dueDate,
+    numberOfInstallments,
+    interest,
   }: IUpdateOrderUseCaseRequest) {
     if (clientId) {
       const clientExists = await this.clientRepository.findById(clientId)
@@ -51,7 +61,6 @@ class UpdateOrderUseCase {
     }
 
     const updatedOrder = await this.orderRepository.updateById(id, {
-      companyId,
       clientId,
       employeeId,
       type,
@@ -60,6 +69,12 @@ class UpdateOrderUseCase {
       paymentMethod,
       price,
       description,
+      IMEI,
+      paymentStatus,
+      firstDueDate,
+      dueDate,
+      numberOfInstallments,
+      interest,
     })
 
     return updatedOrder

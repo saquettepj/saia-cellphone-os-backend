@@ -31,7 +31,9 @@ async function createAccessTokenController(
     return reply.status(201).send(responseBody)
   } catch (error) {
     if (error instanceof AnAccessTokenAlreadyHasCompanyIdError) {
-      return reply.status(400).send({ message: error.message })
+      return reply
+        .status(400)
+        .send({ message: error.message, name: error.name })
     }
     throw error
   }

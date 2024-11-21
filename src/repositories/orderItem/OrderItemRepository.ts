@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client'
 
-import { IOrderItemRepository } from './IOrderItemRepository'
+import { ICreateOrderItem, IOrderItemRepository } from './IOrderItemRepository'
 
 import { prisma } from '@/app'
 
@@ -30,8 +30,31 @@ class OrderItemRepository implements IOrderItemRepository {
     })
   }
 
-  async create(data: Prisma.OrderItemUncheckedCreateInput) {
-    return await prisma.orderItem.create({ data })
+  async create(data: ICreateOrderItem) {
+    const createdOrderItem = await prisma.orderItem.create({
+      data: {
+        orderId: data.orderId,
+        productId: data.productId,
+        quantity: data.quantity,
+        initialQuantity: data.initialQuantity,
+        discount: data.discount,
+        service: data.service
+          ? {
+              create: {
+                employeeId: data.service.employeeId,
+              },
+            }
+          : undefined,
+      },
+      include: {
+        service: true,
+      },
+    })
+
+    return {
+      ...createdOrderItem,
+      service: createdOrderItem.service || undefined,
+    }
   }
 
   async updateById(id: string, data: Prisma.OrderItemUpdateInput) {

@@ -10,44 +10,31 @@ import {
   createNewOrderItemTestObject,
   createNewOrderTestObject,
   createNewProductTestObject,
+  createNewServiceTestObject,
 } from '@/test/testObjects/testObjects'
-import {
-  setupCompanyJokerRepository,
-  setupProductJokerRepository,
-} from '@/test/utils/jokerRepository'
-import { MiddlewareError } from '@/errors/middlewareError'
-import { DuplicateOrderItemError } from '@/errors/duplicateOrderItemError'
-import { translate } from '@/i18n/translate'
-import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
+import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
+import { ServiceStatusEnum } from '@/enums/all.enum'
+import { EmployeeNotFoundError } from '@/errors/employeeNotFoundError'
+import { OrderItemNotFoundError } from '@/errors/orderItemNotFoundError'
 
-describe('Create OrderItem - (e2e)', () => {
+describe('Create Service - (e2e)', () => {
   let companyToken: string
-  let initialProductQuantity: number | undefined
   let clientId: string
   let employeeId: string
   let productId: string
   let secondProductId: string
   let orderId: string
+  let orderItemId: string
 
   const companyJokerRepository = setupCompanyJokerRepository()
-  const productJokerRepository = setupProductJokerRepository()
 
   const newCompanyObject = createNewCompanyTestObject({
     CNPJ: '11111111111111',
     email: 'company@test.com',
   })
 
-  const duplicateOrderItemError = new DuplicateOrderItemError()
-
-  const orderNotFoundError = new MiddlewareError({
-    statusCode: 404,
-    message: translate(TranslationKeysEnum.ERROR_ORDER_NOT_FOUND),
-  })
-
-  const productNotFoundError = new MiddlewareError({
-    message: translate(TranslationKeysEnum.ERROR_PRODUCT_NOT_FOUND),
-    statusCode: 404,
-  })
+  const employeeNotFoundError = new EmployeeNotFoundError()
+  const orderItemNotFoundError = new OrderItemNotFoundError()
 
   beforeAll(async () => {
     await app.ready()
@@ -102,9 +89,6 @@ describe('Create OrderItem - (e2e)', () => {
 
     secondProductId = secondProductResponse.body.id
 
-    const newProductJoker = await productJokerRepository.findById(productId)
-    initialProductQuantity = newProductJoker?.quantity
-
     const orderData = createNewOrderTestObject({
       clientId,
       employeeId,
@@ -117,98 +101,82 @@ describe('Create OrderItem - (e2e)', () => {
       .send(orderData)
 
     orderId = createOrderResponse.body.id
+
+    const orderItemData = createNewOrderItemTestObject({
+      orderId,
+      productId: secondProductId,
+      quantity: 1,
+    })
+
+    const createOrderItemResponse = await request(app.server)
+      .post('/order-item')
+      .set('Authorization', `Bearer ${companyToken}`)
+      .send(orderItemData)
+
+    orderItemId = createOrderItemResponse.body.id
   })
 
   afterAll(async () => {
     await app.close()
   })
 
-  it('should not allow creating an OrderItem for a non-existent order', async () => {
-    const invalidOrderId = uuidv4()
-    const orderItemData = createNewOrderItemTestObject({
-      orderId: invalidOrderId,
-      productId,
-      quantity: 1,
+  it('should not create a service with a non-existent order item', async () => {
+    const invalidOrderItemId = uuidv4()
+    const newServiceData = createNewServiceTestObject({
+      orderItemId: invalidOrderItemId,
+      employeeId,
     })
 
     const response = await request(app.server)
-      .post('/order-item')
+      .post('/service')
       .set('Authorization', `Bearer ${companyToken}`)
-      .send(orderItemData)
+      .send(newServiceData)
 
-    expect(response.body.message).toEqual(orderNotFoundError.message)
-    expect(response.statusCode).toEqual(orderNotFoundError.statusCode)
+    expect(response.body).toEqual({
+      message: orderItemNotFoundError.message,
+      name: orderItemNotFoundError.name,
+    })
+    expect(response.statusCode).toEqual(404)
   })
 
-  it('should not allow creating an OrderItem with a non-existent product', async () => {
-    const invalidProductId = uuidv4()
-    const orderItemData = createNewOrderItemTestObject({
-      orderId,
-      productId: invalidProductId,
-      quantity: 1,
+  it('should not create a service with a non-existent employee ID', async () => {
+    const invalidEmployeeId = uuidv4()
+
+    const newServiceData = createNewServiceTestObject({
+      orderItemId,
+      employeeId: invalidEmployeeId,
     })
 
     const response = await request(app.server)
-      .post('/order-item')
+      .post('/service')
       .set('Authorization', `Bearer ${companyToken}`)
-      .send(orderItemData)
+      .send(newServiceData)
 
-    expect(response.body.message).toEqual(productNotFoundError.message)
-    expect(response.statusCode).toEqual(productNotFoundError.statusCode)
+    expect(response.body).toEqual({
+      message: employeeNotFoundError.message,
+      name: employeeNotFoundError.name,
+    })
+    expect(response.statusCode).toEqual(404)
   })
 
-  it('should not allow creating a duplicate OrderItem for the same product in the same order', async () => {
-    const orderItemData = createNewOrderItemTestObject({
-      orderId,
-      productId,
-      quantity: 1,
+  it('should create an service with the expected attributes', async () => {
+    const newServiceData = createNewServiceTestObject({
+      orderItemId,
+      employeeId,
     })
 
-    await request(app.server)
-      .post('/order-item')
-      .set('Authorization', `Bearer ${companyToken}`)
-      .send(orderItemData)
-
     const response = await request(app.server)
-      .post('/order-item')
+      .post('/service')
       .set('Authorization', `Bearer ${companyToken}`)
-      .send(orderItemData)
-
-    expect(response.body.message).toEqual(duplicateOrderItemError.message)
-    expect(response.statusCode).toEqual(400)
-  })
-
-  it('should create an OrderItem and update the product quantity accordingly', async () => {
-    const quantityToReduce = 1
-    const orderItemData = createNewOrderItemTestObject({
-      orderId,
-      productId: secondProductId,
-      quantity: quantityToReduce,
-    })
-
-    const createdProduct =
-      await productJokerRepository.findById(secondProductId)
-
-    const response = await request(app.server)
-      .post('/order-item')
-      .set('Authorization', `Bearer ${companyToken}`)
-      .send(orderItemData)
+      .send(newServiceData)
 
     expect(response.body).toEqual({
       id: expect.any(String),
-      orderId,
-      productId: secondProductId,
-      discount: null,
-      quantity: quantityToReduce,
-      initialQuantity: createdProduct?.quantity,
+      orderItemId,
+      employeeId,
+      report: null,
+      status: ServiceStatusEnum.PENDING,
     })
     expect(response.statusCode).toEqual(201)
-
-    const updatedProduct =
-      await productJokerRepository.findById(secondProductId)
-
-    expect(updatedProduct?.quantity).toEqual(
-      Math.max(initialProductQuantity! - quantityToReduce, 0),
-    )
   })
 })

@@ -46,15 +46,21 @@ async function superUpdateCompanyController(
     return reply.status(200).send(responseBody)
   } catch (error) {
     if (error instanceof CompanyNotFoundError) {
-      return reply.status(404).send({ message: error.message })
+      return reply
+        .status(404)
+        .send({ message: error.message, name: error.name })
     }
 
     if (error instanceof CompanyCNPJAlreadyExistsError) {
-      return reply.status(409).send({ message: error.message })
+      return reply
+        .status(409)
+        .send({ message: error.message, name: error.name })
     }
 
     if (error instanceof EmailAlreadyExistsError) {
-      return reply.status(409).send({ message: error.message })
+      return reply
+        .status(409)
+        .send({ message: error.message, name: error.name })
     }
 
     throw error

@@ -50,7 +50,9 @@ async function createNfeDataController(
     return reply.status(201).send(responseBody)
   } catch (error) {
     if (error instanceof OnlyOneEntityError) {
-      return reply.status(400).send({ message: error.message })
+      return reply
+        .status(400)
+        .send({ message: error.message, name: error.name })
     }
     throw error
   }

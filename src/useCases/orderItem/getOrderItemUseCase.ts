@@ -4,6 +4,7 @@ interface IGetOrderItemsUseCaseRequest {
   id?: string
   orderId?: string
   productId?: string
+  discount?: number
   quantity?: number
 }
 
@@ -14,12 +15,14 @@ class GetOrderItemUseCase {
     id,
     orderId,
     productId,
+    discount,
     quantity,
   }: IGetOrderItemsUseCaseRequest) {
     const searchCriteria = {
       ...(id && { id }),
       ...(orderId && { orderId }),
       ...(productId && { productId }),
+      ...(discount && { discount }),
       ...(quantity && { quantity }),
     }
 

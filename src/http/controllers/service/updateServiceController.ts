@@ -8,9 +8,9 @@ import { EmployeeNotFoundError } from '@/errors/employeeNotFoundError'
 
 interface IUpdateServiceControllerResponse {
   id: string
-  orderItemId: string
-  employeeId: string
-  status: string
+  orderItemId: string | null
+  employeeId: string | null
+  status: string | null
   report?: string | null
 }
 
@@ -46,10 +46,14 @@ async function updateServiceController(
     return reply.status(200).send(responseBody)
   } catch (error) {
     if (error instanceof OrderItemNotFoundError) {
-      return reply.status(404).send({ message: error.message })
+      return reply
+        .status(404)
+        .send({ message: error.message, name: error.name })
     }
     if (error instanceof EmployeeNotFoundError) {
-      return reply.status(404).send({ message: error.message })
+      return reply
+        .status(404)
+        .send({ message: error.message, name: error.name })
     }
     throw error
   }

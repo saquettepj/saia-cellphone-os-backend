@@ -36,7 +36,9 @@ async function authenticateCompanyController(
     return reply.status(200).send(responseBody)
   } catch (error) {
     if (error instanceof CompanyCredentialsError) {
-      return reply.status(401).send({ message: error.message })
+      return reply
+        .status(401)
+        .send({ message: error.message, name: error.name })
     }
 
     throw error

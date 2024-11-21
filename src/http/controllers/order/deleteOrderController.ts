@@ -24,7 +24,9 @@ async function deleteOrderController(
     return reply.status(200).send(responseBody)
   } catch (error) {
     if (error instanceof DeletingError) {
-      return reply.status(400).send({ message: error.message })
+      return reply
+        .status(400)
+        .send({ message: error.message, name: error.name })
     }
     throw error
   }

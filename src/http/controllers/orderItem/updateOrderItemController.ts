@@ -10,6 +10,7 @@ interface IUpdateOrderItemControllerResponse {
   id: string
   orderId: string
   productId: string
+  discount: number | null
   quantity: number
 }
 
@@ -18,7 +19,7 @@ async function updateOrderItemController(
   reply: FastifyReply,
 ) {
   const { id } = ISimpleOrderItemDTO.parse(request.params)
-  const { quantity } = IUpdateOrderItemDTO.parse(request.body)
+  const { quantity, discount } = IUpdateOrderItemDTO.parse(request.body)
 
   try {
     const updateOrderItemUseCase = setupUpdateOrderItemUseCase()
@@ -26,22 +27,28 @@ async function updateOrderItemController(
     const updateOrderItemUseCaseReturn = await updateOrderItemUseCase.execute({
       id,
       quantity,
+      discount,
     })
 
     const responseBody: IUpdateOrderItemControllerResponse = {
       id: updateOrderItemUseCaseReturn.id,
       orderId: updateOrderItemUseCaseReturn.orderId,
       productId: updateOrderItemUseCaseReturn.productId,
+      discount: updateOrderItemUseCaseReturn.discount,
       quantity: updateOrderItemUseCaseReturn.quantity,
     }
 
     return reply.status(200).send(responseBody)
   } catch (error) {
     if (error instanceof OrderItemNotFoundError) {
-      return reply.status(404).send({ message: error.message })
+      return reply
+        .status(404)
+        .send({ message: error.message, name: error.name })
     }
     if (error instanceof ProductNotFoundError) {
-      return reply.status(404).send({ message: error.message })
+      return reply
+        .status(404)
+        .send({ message: error.message, name: error.name })
     }
     throw error
   }

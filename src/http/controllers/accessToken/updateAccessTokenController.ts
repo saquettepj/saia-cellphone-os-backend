@@ -21,19 +21,27 @@ async function updateAccessTokenController(
     return reply.status(204).send()
   } catch (error) {
     if (error instanceof AccessTokenNotFoundError) {
-      return reply.status(404).send({ message: error.message })
+      return reply
+        .status(404)
+        .send({ message: error.message, name: error.name })
     }
 
     if (error instanceof AnAccessTokenAlreadyHasCompanyIdError) {
-      return reply.status(400).send({ message: error.message })
+      return reply
+        .status(400)
+        .send({ message: error.message, name: error.name })
     }
 
     if (error instanceof ThisAccessTokenAlreadyHasCompanyIdError) {
-      return reply.status(400).send({ message: error.message })
+      return reply
+        .status(400)
+        .send({ message: error.message, name: error.name })
     }
 
     if (error instanceof CompanyNotFoundError) {
-      return reply.status(404).send({ message: error.message })
+      return reply
+        .status(404)
+        .send({ message: error.message, name: error.name })
     }
 
     throw error

@@ -14,10 +14,16 @@ interface IUpdateOrderControllerResponse {
   employeeId: string
   type: string
   status: string
-  payDate: Date
+  payDate: Date | null
   paymentMethod: string
   price: number
   description?: string | null
+  paymentStatus: string
+  closingDate: Date | null
+  firstDueDate: Date | null
+  dueDate: number | null
+  numberOfInstallments: number | null
+  interest: number | null
 }
 
 async function updateOrderController(
@@ -27,28 +33,39 @@ async function updateOrderController(
   const { id } = ISimpleOrderDTO.parse(request.params)
 
   const {
-    companyId,
+    IMEI,
     clientId,
     employeeId,
     type,
     status,
     payDate,
     paymentMethod,
+    paymentStatus,
+    firstDueDate,
+    dueDate,
+    numberOfInstallments,
+    interest,
     price,
     description,
   } = IUpdateOrderDTO.parse(request.body)
 
   try {
     const updateOrderUseCase = setupUpdateOrderUseCase()
+
     const updatedOrder = await updateOrderUseCase.execute({
       id,
-      companyId,
+      IMEI,
       clientId,
       employeeId,
       type,
       status,
       payDate,
       paymentMethod,
+      paymentStatus,
+      firstDueDate,
+      dueDate,
+      numberOfInstallments,
+      interest,
       price,
       description,
     })
@@ -65,15 +82,25 @@ async function updateOrderController(
       paymentMethod: updatedOrder.paymentMethod,
       price: updatedOrder.price,
       description: updatedOrder.description,
+      paymentStatus: updatedOrder.paymentStatus,
+      closingDate: updatedOrder.closingDate,
+      firstDueDate: updatedOrder.firstDueDate,
+      dueDate: updatedOrder.dueDate,
+      numberOfInstallments: updatedOrder.numberOfInstallments,
+      interest: updatedOrder.interest,
     }
 
     return reply.status(200).send(responseBody)
   } catch (error) {
     if (error instanceof ClientNotFoundError) {
-      return reply.status(404).send({ message: error.message })
+      return reply
+        .status(404)
+        .send({ message: error.message, name: error.name })
     }
     if (error instanceof EmployeeNotFoundError) {
-      return reply.status(404).send({ message: error.message })
+      return reply
+        .status(404)
+        .send({ message: error.message, name: error.name })
     }
     throw error
   }

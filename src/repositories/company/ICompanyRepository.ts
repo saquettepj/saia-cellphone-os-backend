@@ -8,6 +8,7 @@ import {
   Order,
   Prisma,
   Product,
+  Supplier,
 } from '@prisma/client'
 
 interface ICompany extends Company {
@@ -18,6 +19,7 @@ interface ICompany extends Company {
   products?: Product[] | null
   orders?: Order[] | null
   Nfes?: Nfe[] | null
+  suppliers?: Supplier[] | null
 }
 
 interface ICompanyRepository {

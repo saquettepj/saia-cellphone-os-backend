@@ -6,24 +6,25 @@ import {
   createNewClientTestObject,
   createNewCompanyTestObject,
   createNewEmployeeTestObject,
+  createNewOrderItemTestObject,
   createNewOrderTestObject,
   createNewProductTestObject,
+  createNewServiceTestObject,
 } from '@/test/testObjects/testObjects'
-import {
-  setupCompanyJokerRepository,
-  setupProductJokerRepository,
-} from '@/test/utils/jokerRepository'
+import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
+import { ServiceStatusEnum } from '@/enums/all.enum'
 
-describe('Get OrderItems - (e2e)', () => {
+describe('Get Service - (e2e)', () => {
   let companyToken: string
   let clientId: string
   let employeeId: string
   let productId: string
+  let secondProductId: string
   let orderId: string
-  let initialProductQuantity: number | undefined
+  let orderItemId: string
+  let serviceId: string
 
   const companyJokerRepository = setupCompanyJokerRepository()
-  const productJokerRepository = setupProductJokerRepository()
 
   const newCompanyObject = createNewCompanyTestObject({
     CNPJ: '11111111111111',
@@ -76,13 +77,17 @@ describe('Get OrderItems - (e2e)', () => {
 
     productId = createProductResponse.body.id
 
-    const product = await productJokerRepository.findById(productId)
-    initialProductQuantity = product?.quantity
+    const secondProductResponse = await request(app.server)
+      .post('/product')
+      .set('Authorization', `Bearer ${companyToken}`)
+      .send(createNewProductTestObject({ description: 'second' }))
+
+    secondProductId = secondProductResponse.body.id
 
     const orderData = createNewOrderTestObject({
       clientId,
       employeeId,
-      orderItems: [{ productId, discount: 0.5, quantity: 2 }],
+      orderItems: [{ productId, quantity: 2 }],
     })
 
     const createOrderResponse = await request(app.server)
@@ -91,27 +96,53 @@ describe('Get OrderItems - (e2e)', () => {
       .send(orderData)
 
     orderId = createOrderResponse.body.id
+
+    const orderItemData = createNewOrderItemTestObject({
+      orderId,
+      productId: secondProductId,
+      quantity: 1,
+    })
+
+    const createOrderItemResponse = await request(app.server)
+      .post('/order-item')
+      .set('Authorization', `Bearer ${companyToken}`)
+      .send(orderItemData)
+
+    orderItemId = createOrderItemResponse.body.id
+
+    const serviceData = createNewServiceTestObject({
+      orderItemId,
+      employeeId,
+    })
+
+    const createServiceResponse = await request(app.server)
+      .post('/service')
+      .set('Authorization', `Bearer ${companyToken}`)
+      .send(serviceData)
+
+    serviceId = createServiceResponse.body.id
   })
 
   afterAll(async () => {
     await app.close()
   })
 
-  it('should list the order items and return the expected structure', async () => {
+  it('should be able to list the created service with the expected attributes', async () => {
     const response = await request(app.server)
-      .post('/order-item/list')
+      .post('/service/list')
       .set('Authorization', `Bearer ${companyToken}`)
-      .send({ orderId })
+      .send({ employeeId })
 
-    console.log(response.body)
-
-    expect(response.body.orderItems[0]).toEqual({
-      id: expect.any(String),
-      orderId,
-      productId,
-      discount: 0.5,
-      quantity: 2,
-      initialQuantity: initialProductQuantity,
+    expect(response.body).toEqual({
+      services: [
+        {
+          id: serviceId,
+          orderItemId,
+          employeeId,
+          status: ServiceStatusEnum.PENDING,
+          report: null,
+        },
+      ],
     })
     expect(response.statusCode).toEqual(200)
   })

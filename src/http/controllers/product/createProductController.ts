@@ -66,10 +66,14 @@ async function createProductController(
     return reply.status(201).send(responseBody)
   } catch (error) {
     if (error instanceof ProductDescriptionAlreadyExistsError) {
-      return reply.status(400).send({ message: error.message })
+      return reply
+        .status(400)
+        .send({ message: error.message, name: error.name })
     }
     if (error instanceof SupplierNotFoundError) {
-      return reply.status(404).send({ message: error.message })
+      return reply
+        .status(404)
+        .send({ message: error.message, name: error.name })
     }
     throw error
   }

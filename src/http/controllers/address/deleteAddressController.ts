@@ -17,7 +17,9 @@ async function deleteAddressController(
     return reply.status(204).send()
   } catch (error) {
     if (error instanceof AddressNotFoundError) {
-      return reply.status(404).send({ message: error.message })
+      return reply
+        .status(404)
+        .send({ message: error.message, name: error.name })
     }
 
     throw error

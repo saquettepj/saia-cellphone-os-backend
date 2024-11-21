@@ -25,22 +25,26 @@ async function getCompanyController(
         name: company.name,
         createdAt: company.createdAt,
         emailChecked: company.emailChecked,
-        payDate: company.payDate,
-        termsDate: company.termsDate,
+        payDate: company.payDate || null,
+        termsDate: company.termsDate || null,
         accessToken: company.accessToken || null,
         address: company.address || null,
-        employees: company.employees || null,
-        clients: company.clients || null,
-        products: company.products || null,
-        orders: company.orders || null,
-        Nfes: company.Nfes || null,
+        employees: company.employees || [],
+        clients: company.clients || [],
+        products: company.products || [],
+        orders: company.orders || [],
+        Nfes: company.Nfes || [],
+        suppliers: company.suppliers || [],
+        lists: company.lists || [],
       })),
     }
 
     return reply.status(200).send(responseBody)
   } catch (error) {
     if (error instanceof CompanyNotFoundError) {
-      return reply.status(404).send({ message: error.message })
+      return reply
+        .status(404)
+        .send({ message: error.message, name: error.name })
     }
 
     throw error

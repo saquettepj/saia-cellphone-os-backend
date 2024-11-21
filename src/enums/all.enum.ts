@@ -38,6 +38,7 @@ export enum PaymentStatusEnum {
   OPEN = 'OPEN',
   ESTIMATED = 'ESTIMATED',
   INVOICED = 'INVOICED',
+  FULFILLED = 'FULFILLED',
 }
 export enum ServiceStatusEnum {
   PENDING = 'PENDING',

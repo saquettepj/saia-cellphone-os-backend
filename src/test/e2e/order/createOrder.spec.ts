@@ -246,7 +246,7 @@ describe('Create Order - (e2e)', () => {
     const orderData = createNewOrderTestObject({
       clientId,
       employeeId,
-      orderItems: [{ productId, quantity: 2 }],
+      orderItems: [{ productId, quantity: 1 }],
     })
 
     const response = await request(app.server)
@@ -261,15 +261,27 @@ describe('Create Order - (e2e)', () => {
       clientId,
       employeeId,
       status: orderData.status,
+      paymentStatus: orderData.paymentStatus,
       payDate: expect.any(String),
       paymentMethod: orderData.paymentMethod,
       price: orderData.price,
       type: orderData.type,
       description: orderData.description,
+      closingDate: null,
+      firstDueDate: orderData.firstDueDate || null,
+      dueDate: orderData.dueDate || null,
+      interest: orderData.interest || null,
+      numberOfInstallments: orderData.numberOfInstallments || null,
+      createdAt: expect.any(String),
       orderItems: [
         {
-          productId,
-          quantity: 2,
+          discount: orderData.orderItems[0].discount || null,
+          productId: orderData.orderItems[0].productId,
+          quantity: orderData.orderItems[0].quantity,
+          initialQuantity: newProductObject.quantity,
+          service: {
+            employeeId: orderData.orderItems[0].service?.employeeId || null,
+          },
         },
       ],
     })
