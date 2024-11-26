@@ -31,7 +31,6 @@ model Company {
   employees             Employee[]
   accessToken           AccessToken?
   NfeDataTable          NfeData?
-  addressId             String?
   address               Address?
   Supplier              Supplier[]
   Nfes                  Nfe[]
@@ -89,7 +88,6 @@ model Client {
   company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
   orders    Order[]
   Nfes      Nfe[]
-  addressId String?
   address   Address?
   createdAt DateTime @default(now())
 

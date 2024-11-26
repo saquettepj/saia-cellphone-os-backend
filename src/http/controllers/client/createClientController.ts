@@ -12,6 +12,16 @@ interface ICreateCompanyControllerResponse {
   CPF: string
   email: string
   phone: string | null
+  address?: {
+    country: string
+    city: string
+    state: string
+    neighborhood: string
+    street: string
+    streetNumber: string
+    zipCode: string
+    clientId: string | null
+  } | null
 }
 
 async function createClientController(
@@ -20,7 +30,9 @@ async function createClientController(
 ) {
   const { id: companyId } = request.company
 
-  const { name, CPF, email, phone } = ICreateClientDTO.parse(request.body)
+  const { name, CPF, email, phone, address } = ICreateClientDTO.parse(
+    request.body,
+  )
 
   try {
     const createClientUseCase = setupCreateClientUseCase()
@@ -30,6 +42,7 @@ async function createClientController(
       CPF,
       email,
       phone,
+      address,
     })
 
     const responseBody: ICreateCompanyControllerResponse = {
@@ -39,6 +52,7 @@ async function createClientController(
       CPF: createClientUseCaseReturn.CPF,
       email: createClientUseCaseReturn.email,
       phone: createClientUseCaseReturn.phone,
+      address: createClientUseCaseReturn.address,
     }
 
     return reply.status(201).send(responseBody)

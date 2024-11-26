@@ -111,6 +111,7 @@ describe('Create Client - (e2e)', () => {
       CPF: clientObject.CPF,
       email: clientObject.email,
       phone: clientObject.phone,
+      address: null,
     })
     expect(response.statusCode).toEqual(201)
   })

@@ -1,4 +1,8 @@
-import { Client, Prisma } from '@prisma/client'
+import { Address, Client, Prisma } from '@prisma/client'
+
+interface IClient extends Client {
+  address?: Address | null
+}
 
 interface IClientRepository {
   findById(id: string): Promise<Client | null>
@@ -12,8 +16,12 @@ interface IClientRepository {
   findAllByCompanyId(
     companyId: string,
     data: Partial<Prisma.ClientCreateManyInput>,
-  ): Promise<Client[]>
-  create(data: Prisma.ClientUncheckedCreateInput): Promise<Client>
+  ): Promise<IClient[]>
+  create(
+    data: Prisma.ClientUncheckedCreateInput & {
+      address?: Prisma.AddressUncheckedCreateInput | null
+    },
+  ): Promise<IClient>
   updateById(id: string, data: Prisma.ClientUpdateInput): Promise<Client>
   delete(id: string): Promise<Client | null>
   deleteMany(ids: string[]): Promise<number>

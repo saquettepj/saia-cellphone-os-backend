@@ -12,6 +12,7 @@ interface IAuthenticateCompanyUseCaseRequest {
 
 interface IAuthenticateCompanyUseCaseReturn {
   company: {
+    id: string
     name: string
     email: string
     accountType: string
@@ -43,6 +44,7 @@ class AuthenticateCompanyUseCase {
 
     const authenticateData: IAuthenticateCompanyUseCaseReturn = {
       company: {
+        id: searchedCompany.id,
         name: searchedCompany.name,
         email: searchedCompany.email,
         accountType: searchedCompany.accountType,

@@ -10,9 +10,26 @@ class ClientRepository implements IClientRepository {
     return client
   }
 
-  async create(data: Prisma.ClientUncheckedCreateInput) {
-    const newClient = await prisma.client.create({ data })
-    return newClient
+  async create(
+    data: Prisma.ClientUncheckedCreateInput & {
+      address?: Prisma.AddressUncheckedCreateInput | null
+    },
+  ) {
+    const createdClient = await prisma.client.create({
+      data: {
+        ...data,
+        address: data.address
+          ? {
+              create: data.address,
+            }
+          : undefined,
+      },
+      include: {
+        address: true,
+      },
+    })
+
+    return createdClient
   }
 
   async updateById(id: string, data: Prisma.ClientUpdateInput) {

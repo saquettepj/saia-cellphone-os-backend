@@ -10,6 +10,16 @@ interface IGetClientControllerResponse {
   CPF: string
   email: string
   phone: string | null
+  address?: {
+    country: string
+    city: string
+    state: string
+    neighborhood: string
+    street: string
+    streetNumber: string
+    zipCode: string
+    clientId: string | null
+  } | null
 }
 
 async function getClientController(
@@ -39,6 +49,7 @@ async function getClientController(
         CPF: getClientUseCaseReturn.CPF,
         email: getClientUseCaseReturn.email,
         phone: getClientUseCaseReturn.phone,
+        address: getClientUseCaseReturn.address,
       }))
 
     return reply.status(200).send(responseBody)

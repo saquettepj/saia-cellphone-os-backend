@@ -8,6 +8,15 @@ interface ICreateClientUseCaseRequest {
   email: string
   phone?: string
   companyId: string
+  address?: {
+    country: string
+    city: string
+    state: string
+    neighborhood: string
+    street: string
+    streetNumber: string
+    zipCode: string
+  }
 }
 
 class CreateClientUseCase {
@@ -19,6 +28,7 @@ class CreateClientUseCase {
     email,
     phone,
     companyId,
+    address,
   }: ICreateClientUseCaseRequest) {
     const searchedCPF = await this.clientRepository.findByCPFAndCompanyId(
       CPF,
@@ -43,6 +53,7 @@ class CreateClientUseCase {
       email,
       phone,
       companyId,
+      address,
     })
 
     return newClient

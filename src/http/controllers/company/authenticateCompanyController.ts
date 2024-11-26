@@ -6,9 +6,12 @@ import { setupAuthenticateCompanyUseCase } from '@/useCases/company/factory/setu
 
 interface IAuthenticateCompanyControllerResponse {
   company: {
+    id: string
     name: string
     email: string
     accountType: string
+    payDate: Date | null
+    termsDate: Date | null
   }
   token: string
 }

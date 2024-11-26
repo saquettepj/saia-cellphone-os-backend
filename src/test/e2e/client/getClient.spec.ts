@@ -3,6 +3,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 import { app } from '@/app'
 import {
+  createNewAddressTestObject,
   createNewClientTestObject,
   createNewCompanyTestObject,
 } from '@/test/testObjects/testObjects'
@@ -28,6 +29,8 @@ describe('Get Clients - (e2e)', () => {
   })
 
   const newClientObject1 = createNewClientTestObject()
+
+  const newAddressObject1 = createNewAddressTestObject()
 
   const newClientObject2 = createNewClientTestObject({
     name: 'Test Client 2',
@@ -63,7 +66,7 @@ describe('Get Clients - (e2e)', () => {
     await request(app.server)
       .post('/client')
       .set('Authorization', `Bearer ${companyToken}`)
-      .send(newClientObject1)
+      .send({ ...newClientObject1, address: newAddressObject1 })
 
     await request(app.server)
       .post('/client')
@@ -102,6 +105,18 @@ describe('Get Clients - (e2e)', () => {
           CPF: newClientObject1.CPF,
           email: newClientObject1.email,
           phone: newClientObject1.phone,
+          address: {
+            id: expect.any(String),
+            country: newAddressObject1.country,
+            city: newAddressObject1.city,
+            state: newAddressObject1.state,
+            neighborhood: newAddressObject1.neighborhood,
+            street: newAddressObject1.street,
+            streetNumber: newAddressObject1.streetNumber,
+            zipCode: newAddressObject1.zipCode,
+            clientId: expect.any(String),
+            companyId: null,
+          },
         },
         {
           id: expect.any(String),
@@ -110,6 +125,7 @@ describe('Get Clients - (e2e)', () => {
           CPF: newClientObject2.CPF,
           email: newClientObject2.email,
           phone: newClientObject2.phone,
+          address: null,
         },
       ]),
     )
