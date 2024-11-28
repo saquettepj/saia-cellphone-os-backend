@@ -16,6 +16,6 @@ export const ICreateProductDTO = z
     cost: z.number(),
     quantity: z.number().min(1),
     localization: z.string().optional(),
-    supplierId: z.string().optional(),
+    supplierId: z.string().uuid().optional(),
   })
   .strict()

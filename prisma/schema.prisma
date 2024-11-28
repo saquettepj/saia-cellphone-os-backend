@@ -32,7 +32,7 @@ model Company {
   accessToken           AccessToken?
   NfeDataTable          NfeData?
   address               Address?
-  Supplier              Supplier[]
+  suppliers             Supplier[]
   Nfes                  Nfe[]
   createdAt             DateTime     @default(now())
 
@@ -55,7 +55,7 @@ model Supplier {
   CEP       String
   email     String?
   phone     String?
-  product   Product[]
+  products  Product[]
 
   @@unique([companyId, CNPJ])
   @@unique([companyId, email])

@@ -43,6 +43,11 @@ class CompanyRepository implements ICompanyRepository {
             address: true,
           },
         },
+        suppliers: {
+          include: {
+            products: true,
+          },
+        },
         employees: true,
         accessToken: true,
         NfeDataTable: true,

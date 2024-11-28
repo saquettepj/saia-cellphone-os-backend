@@ -17,6 +17,6 @@ export const IUpdateProductDTO = z
       .optional(),
     quantity: z.number().optional(),
     localization: z.string().optional(),
-    supplierId: z.string().optional(),
+    supplierId: z.string().uuid().optional(),
   })
   .strict()
