@@ -128,6 +128,8 @@ describe('Get Service - (e2e)', () => {
   })
 
   it('should be able to list the created service with the expected attributes', async () => {
+    const employeeProps = createNewEmployeeTestObject()
+
     const response = await request(app.server)
       .post('/service/list')
       .set('Authorization', `Bearer ${companyToken}`)
@@ -139,6 +141,15 @@ describe('Get Service - (e2e)', () => {
           id: serviceId,
           orderItemId,
           employeeId,
+          employee: {
+            id: expect.any(String),
+            name: employeeProps.name,
+            CPF: employeeProps.CPF,
+            phone: employeeProps.phone,
+            role: employeeProps.role,
+            companyId: expect.any(String),
+            createdAt: expect.any(String),
+          },
           status: ServiceStatusEnum.PENDING,
           report: null,
         },

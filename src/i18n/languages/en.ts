@@ -24,7 +24,7 @@ export const en = {
   [TranslationKeysEnum.ERROR_CPF_ALREADY_EXISTS]: 'This CPF already exists!',
   [TranslationKeysEnum.ERROR_DELETING]: 'Deleting error!',
   [TranslationKeysEnum.ERROR_DUPLICATE_ORDER_ITEM]:
-    'OrderItem with this productId already exists in the order!',
+    'There are duplicate items in the order!',
   [TranslationKeysEnum.ERROR_EMAIL_ALREADY_CONFIRMED]:
     'Email already confirmed!',
   [TranslationKeysEnum.ERROR_EMAIL_ALREADY_EXISTS]:

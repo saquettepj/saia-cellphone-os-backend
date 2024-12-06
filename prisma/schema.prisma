@@ -151,7 +151,7 @@ model Product {
   id           String      @id @default(uuid())
   companyId    String
   company      Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  supplierId   String?     @unique
+  supplierId   String?
   supplier     Supplier?   @relation(fields: [supplierId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   type         String
   cost         Float

@@ -2,13 +2,15 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 
 import { setupGetServiceUseCase } from '@/useCases/service/factory/setupGetServiceUseCase'
 import { IGetServiceDTO } from '@/dtos/service/IGetServiceDTO'
+import { IEmployee } from '@/repositories/employee/IEmployeeRepository'
 
 interface IGetServiceControllerResponse {
   services: Array<{
     id: string
-    orderItemId: string | null
-    employeeId: string | null
-    status: string | null
+    orderItemId?: string | null
+    employeeId?: string | null
+    employee?: IEmployee | null
+    status?: string | null
     report?: string | null
   }>
 }

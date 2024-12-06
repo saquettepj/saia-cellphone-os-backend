@@ -30,6 +30,7 @@ class GetServiceUseCase {
       id: service.id,
       orderItemId: service.orderItemId,
       employeeId: service.employeeId,
+      employee: service.employee,
       status: service.status,
       report: service.report,
     }))

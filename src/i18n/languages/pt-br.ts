@@ -26,7 +26,7 @@ export const ptBR = {
   [TranslationKeysEnum.ERROR_CPF_ALREADY_EXISTS]: 'Este CPF já existe!',
   [TranslationKeysEnum.ERROR_DELETING]: 'Erro ao excluir!',
   [TranslationKeysEnum.ERROR_DUPLICATE_ORDER_ITEM]:
-    'OrderItem com este productId já existe na ordem!',
+    'Existem itens duplicados na ordem!',
   [TranslationKeysEnum.ERROR_EMAIL_ALREADY_CONFIRMED]: 'E-mail já confirmado!',
   [TranslationKeysEnum.ERROR_EMAIL_ALREADY_EXISTS]: 'Este e-mail já existe!',
   [TranslationKeysEnum.ERROR_EMPLOYEE_NOT_FOUND]: 'Funcionário não encontrado!',

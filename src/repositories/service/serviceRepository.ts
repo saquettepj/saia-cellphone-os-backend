@@ -34,9 +34,16 @@ class ServiceRepository implements IServiceRepository {
         ...(data.orderItemId && {
           orderItemId: { contains: data.orderItemId },
         }),
-        ...(data.employeeId && { employeeId: { contains: data.employeeId } }),
+        ...(data.employeeId && {
+          employee: {
+            id: { contains: data.employeeId },
+          },
+        }),
         ...(data.status && { status: { contains: data.status } }),
         ...(data.report && { report: { contains: data.report } }),
+      },
+      include: {
+        employee: true,
       },
     })
 

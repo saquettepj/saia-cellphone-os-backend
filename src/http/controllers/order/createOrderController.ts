@@ -8,8 +8,8 @@ import { EmployeeNotFoundError } from '@/errors/employeeNotFoundError'
 interface ICreateOrderControllerResponse {
   id: string
   companyId: string
-  clientId: string
-  employeeId: string
+  clientId?: string | null
+  employeeId?: string | null
   number: number
   type: string
   status: string

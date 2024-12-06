@@ -80,41 +80,41 @@ class OrderRepository implements IOrderRepository {
   }
 
   async create(data: ICreateOrder): Promise<IOrder> {
-    const createdOrder = await prisma.order.create({
-      data: {
-        ...data,
-        orderItems: {
-          create: data.orderItems?.map((item) => ({
-            productId: item.productId,
-            quantity: item.quantity,
-            initialQuantity: item.initialQuantity,
-            discount: item.discount,
-            service: item.service
-              ? {
-                  create: {
-                    employeeId: item.service.employeeId,
-                  },
-                }
-              : undefined,
-          })),
-        },
-      },
-      include: {
-        orderItems: {
-          include: {
-            service: true,
+    return await prisma.$transaction(async (prisma) => {
+      const createdOrder = await prisma.order.create({
+        data: {
+          ...data,
+          orderItems: {
+            create: data.orderItems?.map((item) => ({
+              productId: item.productId,
+              quantity: item.quantity,
+              initialQuantity: item.initialQuantity,
+              discount: item.discount,
+              service: {
+                create: {
+                  employeeId: item?.service?.employeeId || undefined,
+                },
+              },
+            })),
           },
         },
-      },
-    })
+        include: {
+          orderItems: {
+            include: {
+              service: true,
+            },
+          },
+        },
+      })
 
-    return {
-      ...createdOrder,
-      orderItems: createdOrder.orderItems.map((item) => ({
-        ...item,
-        service: item.service || undefined,
-      })),
-    }
+      return {
+        ...createdOrder,
+        orderItems: createdOrder.orderItems.map((item) => ({
+          ...item,
+          service: item.service || undefined,
+        })),
+      }
+    })
   }
 }
 

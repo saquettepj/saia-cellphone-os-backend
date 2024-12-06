@@ -103,8 +103,6 @@ describe('Get OrderItems - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send({ orderId })
 
-    console.log(response.body)
-
     expect(response.body.orderItems[0]).toEqual({
       id: expect.any(String),
       orderId,

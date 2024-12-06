@@ -34,6 +34,7 @@ class CompanyRepository implements ICompanyRepository {
             orderItems: {
               include: {
                 product: true,
+                service: true,
               },
             },
           },
@@ -70,6 +71,7 @@ class CompanyRepository implements ICompanyRepository {
             orderItems: {
               include: {
                 product: true,
+                service: true,
               },
             },
           },

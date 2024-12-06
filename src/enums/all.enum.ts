@@ -22,6 +22,7 @@ export enum OrderTypeEnum {
   SALE = 'SALE',
 }
 export enum PaymentMethodEnum {
+  PIX = 'PIX',
   CASH = 'CASH',
   DEBIT_CARD = 'DEBIT_CARD',
   CREDIT_CARD = 'CREDIT_CARD',
