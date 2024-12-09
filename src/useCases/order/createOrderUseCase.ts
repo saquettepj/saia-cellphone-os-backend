@@ -25,7 +25,7 @@ interface ICreateOrderUseCaseRequest {
     productId: string
     quantity: number
     discount?: number
-    service?: { employeeId: string }
+    service?: { employeeId?: string | null }
   }[]
 }
 

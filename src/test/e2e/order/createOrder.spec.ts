@@ -288,11 +288,13 @@ describe('Create Order - (e2e)', () => {
       createdAt: expect.any(String),
       orderItems: [
         {
+          id: expect.any(String),
           discount: orderData.orderItems[0].discount || null,
           productId: orderData.orderItems[0].productId,
           quantity: orderData.orderItems[0].quantity,
           initialQuantity: newProductObject.quantity,
           service: {
+            id: expect.any(String),
             employeeId: orderData.orderItems[0].service?.employeeId || null,
           },
         },

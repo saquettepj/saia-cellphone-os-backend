@@ -25,12 +25,17 @@ interface ICreateOrderControllerResponse {
   description?: string | null
   createdAt: Date
   orderItems?: Array<{
+    id: string
     productId: string
     quantity: number
     initialQuantity: number
     discount?: number | null
     service?: {
-      employeeId: string | null
+      id: string
+      orderItemId?: string | null
+      employeeId?: string | null
+      status?: string | null
+      report?: string | null
     }
   }>
 }
@@ -101,13 +106,15 @@ async function createOrderController(
       description: createOrderUseCaseReturn.description,
       createdAt: createOrderUseCaseReturn.createdAt,
       orderItems: createOrderUseCaseReturn.orderItems.map((item) => ({
+        id: item.id,
         productId: item.productId,
         quantity: item.quantity,
         initialQuantity: item.initialQuantity,
         discount: item?.discount,
         service: item?.service
           ? {
-              employeeId: item.service.employeeId,
+              id: item.service.id,
+              employeeId: item?.service?.employeeId,
             }
           : undefined,
       })),
