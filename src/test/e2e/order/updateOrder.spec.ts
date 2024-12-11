@@ -277,6 +277,12 @@ describe('Update Order - (e2e)', () => {
       companyId,
     })
 
+    const orderPrice = Math.max(
+      (newProductObject.price - (orderData.orderItems[0].discount || 0)) *
+        orderData.orderItems[0].quantity,
+      0,
+    )
+
     const response = await request(app.server)
       .patch(`/order/${orderId}`)
       .set('Authorization', `Bearer ${companyToken}`)
@@ -293,7 +299,7 @@ describe('Update Order - (e2e)', () => {
       paymentStatus: updateOrderData.paymentStatus,
       payDate: updatedOrderData.payDate,
       paymentMethod: updatedOrderData.paymentMethod,
-      price: updatedOrderData.price,
+      price: orderPrice,
       description: updatedOrderData.description,
       closingDate: null,
       firstDueDate: orderData.firstDueDate || null,

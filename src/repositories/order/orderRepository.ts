@@ -79,7 +79,7 @@ class OrderRepository implements IOrderRepository {
     return deletedOrders.count
   }
 
-  async create(data: ICreateOrder): Promise<IOrder> {
+  async create(data: ICreateOrder) {
     return await prisma.$transaction(async (prisma) => {
       const createdOrder = await prisma.order.create({
         data: {
@@ -87,6 +87,7 @@ class OrderRepository implements IOrderRepository {
           orderItems: {
             create: data.orderItems?.map((item) => ({
               productId: item.productId,
+              registeredProductPrice: item.registeredProductPrice,
               quantity: item.quantity,
               initialQuantity: item.initialQuantity,
               discount: item.discount,

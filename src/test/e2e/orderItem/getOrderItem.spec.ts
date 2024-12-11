@@ -98,6 +98,8 @@ describe('Get OrderItems - (e2e)', () => {
   })
 
   it('should list the order items and return the expected structure', async () => {
+    const newProductObject = createNewProductTestObject()
+
     const response = await request(app.server)
       .post('/order-item/list')
       .set('Authorization', `Bearer ${companyToken}`)
@@ -107,6 +109,7 @@ describe('Get OrderItems - (e2e)', () => {
       id: expect.any(String),
       orderId,
       productId,
+      registeredProductPrice: newProductObject.price,
       discount: 0.5,
       quantity: 2,
       initialQuantity: initialProductQuantity,

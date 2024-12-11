@@ -1,5 +1,8 @@
 import { z } from 'zod'
 
+import { IUpdateOrderItemOnOrderDTO } from '../orderItems/IUpdateOrderItemOnOrderDTO'
+
+import { validateDateOnRequests } from '@/utils/validateDateOnRequests'
 import {
   OrderStatusEnum,
   OrderTypeEnum,
@@ -7,7 +10,6 @@ import {
   PaymentStatusEnum,
   ValidateMessagesEnum,
 } from '@/enums/all.enum'
-import { validateDateOnRequests } from '@/utils/validateDateOnRequests'
 
 export const IUpdateOrderDTO = z
   .object({
@@ -33,7 +35,33 @@ export const IUpdateOrderDTO = z
     dueDate: z.number().min(1).optional(),
     numberOfInstallments: z.number().min(1).optional(),
     interest: z.number().min(0).optional(),
-    price: z.number().optional(),
     description: z.string().optional(),
+    orderItems: z.array(IUpdateOrderItemOnOrderDTO).nonempty().optional(),
   })
   .strict()
+  .refine(
+    (data) =>
+      data.paymentMethod !== PaymentMethodEnum.INSTALLMENTS ||
+      (data.firstDueDate &&
+        data.dueDate &&
+        data.numberOfInstallments &&
+        data.interest !== undefined),
+    {
+      message:
+        'Fields firstDueDate, dueDate, numberOfInstallments, and interest are required for the payment method INSTALLMENTS.',
+      path: ['paymentMethod'],
+    },
+  )
+  .refine(
+    (data) =>
+      data.paymentMethod === PaymentMethodEnum.INSTALLMENTS ||
+      (!data.firstDueDate &&
+        !data.dueDate &&
+        !data.numberOfInstallments &&
+        !data.interest),
+    {
+      message:
+        'Fields firstDueDate, dueDate, numberOfInstallments, and interest must be undefined for payment methods other than INSTALLMENTS.',
+      path: ['paymentMethod'],
+    },
+  )

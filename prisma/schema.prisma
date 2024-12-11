@@ -196,15 +196,16 @@ model Order {
 }
 
 model OrderItem {
-  id              String   @id @default(uuid())
-  orderId         String
-  order           Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  productId       String
-  product         Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  quantity        Int
-  discount        Float?
-  initialQuantity Int
-  service         Service?
+  id                     String   @id @default(uuid())
+  orderId                String
+  order                  Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId              String
+  product                Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  registeredProductPrice Float
+  quantity               Int
+  discount               Float?
+  initialQuantity        Int
+  service                Service?
 
   @@map("order_item")
 }

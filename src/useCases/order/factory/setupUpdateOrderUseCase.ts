@@ -1,16 +1,16 @@
 import { UpdateOrderUseCase } from '../updateOrderUseCase'
 
-import { OrderRepository } from '@/repositories/order/orderRepository'
 import { ClientRepository } from '@/repositories/client/clientRepository'
 import { EmployeeRepository } from '@/repositories/employee/employeeRepository'
+import { PrismaTransaction } from '@/utils/transaction'
 
 function setupUpdateOrderUseCase() {
-  const orderRepository = new OrderRepository()
   const clientRepository = new ClientRepository()
   const employeeRepository = new EmployeeRepository()
+  const transactionService = new PrismaTransaction()
 
   const updateOrderUseCase = new UpdateOrderUseCase(
-    orderRepository,
+    transactionService, // Injeção do serviço de transação
     clientRepository,
     employeeRepository,
   )

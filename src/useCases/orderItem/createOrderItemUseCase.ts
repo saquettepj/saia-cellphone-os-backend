@@ -11,7 +11,7 @@ interface ICreateOrderItemUseCaseRequest {
   quantity: number
   discount?: number
   service?: {
-    employeeId: string
+    employeeId?: string | null
   }
 }
 
@@ -61,6 +61,7 @@ class CreateOrderItemUseCase {
     const orderItem = await this.orderItemRepository.create({
       orderId,
       productId,
+      registeredProductPrice: product.price,
       quantity,
       initialQuantity: product.quantity,
       discount,

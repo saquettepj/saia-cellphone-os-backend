@@ -262,6 +262,12 @@ describe('Create Order - (e2e)', () => {
       orderItems: [{ productId, quantity: 1 }],
     })
 
+    const orderPrice = Math.max(
+      (newProductObject.price - (orderData.orderItems[0].discount || 0)) *
+        orderData.orderItems[0].quantity,
+      0,
+    )
+
     const response = await request(app.server)
       .post('/order')
       .set('Authorization', `Bearer ${companyToken}`)
@@ -277,7 +283,7 @@ describe('Create Order - (e2e)', () => {
       paymentStatus: orderData.paymentStatus,
       payDate: expect.any(String),
       paymentMethod: orderData.paymentMethod,
-      price: orderData.price,
+      price: orderPrice,
       type: orderData.type,
       description: orderData.description,
       closingDate: null,
@@ -291,6 +297,7 @@ describe('Create Order - (e2e)', () => {
           id: expect.any(String),
           discount: orderData.orderItems[0].discount || null,
           productId: orderData.orderItems[0].productId,
+          registeredProductPrice: newProductObject.price,
           quantity: orderData.orderItems[0].quantity,
           initialQuantity: newProductObject.quantity,
           service: {

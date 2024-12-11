@@ -27,6 +27,7 @@ interface ICreateOrderControllerResponse {
   orderItems?: Array<{
     id: string
     productId: string
+    registeredProductPrice: number
     quantity: number
     initialQuantity: number
     discount?: number | null
@@ -54,7 +55,6 @@ async function createOrderController(
     payDate,
     paymentMethod,
     paymentStatus,
-    price,
     description,
     firstDueDate,
     dueDate,
@@ -76,7 +76,6 @@ async function createOrderController(
       payDate,
       paymentMethod,
       paymentStatus,
-      price,
       description,
       firstDueDate,
       dueDate,
@@ -108,6 +107,7 @@ async function createOrderController(
       orderItems: createOrderUseCaseReturn.orderItems.map((item) => ({
         id: item.id,
         productId: item.productId,
+        registeredProductPrice: item.registeredProductPrice,
         quantity: item.quantity,
         initialQuantity: item.initialQuantity,
         discount: item?.discount,

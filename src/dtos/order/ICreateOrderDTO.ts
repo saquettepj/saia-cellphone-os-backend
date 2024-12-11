@@ -35,7 +35,6 @@ export const ICreateOrderDTO = z
     dueDate: z.number().min(1).optional(),
     numberOfInstallments: z.number().min(1).optional(),
     interest: z.number().min(0).optional(),
-    price: z.number(),
     description: z.string().default(''),
     orderItems: z.array(ICreateOrderItemOnOrderDTO).nonempty(),
   })

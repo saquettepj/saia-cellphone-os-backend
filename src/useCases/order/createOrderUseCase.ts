@@ -5,6 +5,13 @@ import { IEmployeeRepository } from '@/repositories/employee/IEmployeeRepository
 import { IOrderRepository } from '@/repositories/order/IOrderRepository'
 import { IProductRepository } from '@/repositories/product/IProductRepository'
 
+interface ICreateOrderItemOnOrderRequest {
+  productId: string
+  quantity: number
+  discount?: number
+  service?: { employeeId?: string | null }
+}
+
 interface ICreateOrderUseCaseRequest {
   companyId: string
   IMEI?: string
@@ -13,7 +20,6 @@ interface ICreateOrderUseCaseRequest {
   employeeId: string
   status: string
   description?: string
-  price: number
   payDate?: string
   paymentMethod: string
   paymentStatus: string
@@ -21,12 +27,7 @@ interface ICreateOrderUseCaseRequest {
   dueDate?: number
   numberOfInstallments?: number
   interest?: number
-  orderItems: {
-    productId: string
-    quantity: number
-    discount?: number
-    service?: { employeeId?: string | null }
-  }[]
+  orderItems: ICreateOrderItemOnOrderRequest[]
 }
 
 class CreateOrderUseCase {
@@ -45,7 +46,6 @@ class CreateOrderUseCase {
     payDate,
     paymentMethod,
     paymentStatus,
-    price,
     description,
     firstDueDate,
     dueDate,
@@ -55,9 +55,11 @@ class CreateOrderUseCase {
     type,
   }: ICreateOrderUseCaseRequest) {
     const orderItemsWithInitialQuantity = []
+    let orderPrice = 0
 
     for (const item of orderItems) {
       const product = await this.productRepository.findById(item.productId)
+
       if (!product) {
         throw new ProductNotFoundError()
       }
@@ -77,8 +79,14 @@ class CreateOrderUseCase {
         quantity: newQuantity,
       })
 
+      const itemTotal =
+        ((product.price || 0) - (item.discount || 0)) * item.quantity
+
+      orderPrice += Math.max(0, itemTotal)
+
       orderItemsWithInitialQuantity.push({
         productId: item.productId,
+        registeredProductPrice: product.price,
         quantity: item.quantity,
         initialQuantity: product.quantity,
         discount: item.discount,
@@ -100,7 +108,7 @@ class CreateOrderUseCase {
       payDate,
       paymentMethod,
       paymentStatus,
-      price,
+      price: orderPrice,
       description,
       closingDate,
       firstDueDate,

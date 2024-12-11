@@ -42,7 +42,7 @@ app.setErrorHandler(
     return reply.status(500).send({
       name: TranslationKeysEnum.ERROR_ON_SERVER,
       status: 'error',
-      message: `Internal server error ${filterErrorContent(error.message)}`,
+      message: `Internal server error ${env.NODE_ENV !== 'test' ? filterErrorContent(error.message) : error.message}`,
     })
   },
 )

@@ -1,7 +1,7 @@
 import { Order, OrderItem, Prisma, Service } from '@prisma/client'
 
 export interface IOrderItem extends OrderItem {
-  service?: Service
+  service?: Service | null
 }
 
 interface IOrder extends Order {

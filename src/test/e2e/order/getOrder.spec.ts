@@ -103,6 +103,12 @@ describe('Get Orders - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send({})
 
+    const orderPrice = Math.max(
+      (newProductObject.price - (orderData.orderItems[0].discount || 0)) *
+        orderData.orderItems[0].quantity,
+      0,
+    )
+
     expect(response.body.orders).toBeInstanceOf(Array)
     expect(response.body.orders.length).toBeGreaterThan(0)
     expect(response.body.orders[0]).toEqual({
@@ -116,7 +122,7 @@ describe('Get Orders - (e2e)', () => {
       payDate: expect.any(String),
       createdAt: expect.any(String),
       paymentMethod: orderData.paymentMethod,
-      price: orderData.price,
+      price: orderPrice,
       type: orderData.type,
       description: orderData.description,
       closingDate: null,
@@ -130,6 +136,7 @@ describe('Get Orders - (e2e)', () => {
           orderId,
           discount: orderData.orderItems[0].discount || null,
           productId: orderData.orderItems[0].productId,
+          registeredProductPrice: newProductObject.price,
           quantity: orderData.orderItems[0].quantity,
           initialQuantity: newProductObject.quantity,
           service: null,

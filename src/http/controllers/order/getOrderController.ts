@@ -7,8 +7,8 @@ interface IGetOrderControllerResponse {
   orders: Array<{
     id: string
     companyId: string
-    clientId: string
-    employeeId: string
+    clientId?: string | null
+    employeeId?: string | null
     number: number
     type: string
     status: string
@@ -26,9 +26,10 @@ interface IGetOrderControllerResponse {
     orderItems?: Array<{
       id: string
       orderId: string
+      productId: string
+      registeredProductPrice: number
       initialQuantity: number
       discount: number | null
-      productId: string
       quantity: number
     }>
   }>
@@ -97,9 +98,10 @@ async function getOrderController(
         orderItems: order.orderItems?.map((item) => ({
           id: item.id,
           orderId: item.orderId,
+          productId: item.productId,
+          registeredProductPrice: item.registeredProductPrice,
           initialQuantity: item.initialQuantity,
           discount: item.discount,
-          productId: item.productId,
           quantity: item.quantity,
           service: item.service
             ? {

@@ -8,6 +8,7 @@ interface IGetOrderItemControllerResponse {
     id: string
     orderId: string
     productId: string
+    registeredProductPrice: number
     discount: number | null
     quantity: number
   }>

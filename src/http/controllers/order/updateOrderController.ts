@@ -5,13 +5,16 @@ import { IUpdateOrderDTO } from '@/dtos/order/IUpdateOrderDTO'
 import { setupUpdateOrderUseCase } from '@/useCases/order/factory/setupUpdateOrderUseCase'
 import { ClientNotFoundError } from '@/errors/clientNotFoundError'
 import { EmployeeNotFoundError } from '@/errors/employeeNotFoundError'
+import { ProductNotFoundError } from '@/errors/productNotFoundError'
+import { OrderItemNotFoundError } from '@/errors/orderItemNotFoundError'
+import { DuplicateOrderItemError } from '@/errors/duplicateOrderItemError'
 
 interface IUpdateOrderControllerResponse {
   id: string
   number: number
   companyId: string
-  clientId: string
-  employeeId: string
+  clientId?: string | null
+  employeeId?: string | null
   type: string
   status: string
   payDate: Date | null
@@ -24,6 +27,18 @@ interface IUpdateOrderControllerResponse {
   dueDate: number | null
   numberOfInstallments: number | null
   interest: number | null
+  orderItems?: Array<{
+    id?: string
+    productId?: string
+    registeredProductPrice?: number
+    quantity?: number
+    initialQuantity?: number
+    discount?: number | null
+    service?: {
+      id?: string
+      employeeId?: string | null
+    }
+  }>
 }
 
 async function updateOrderController(
@@ -45,8 +60,8 @@ async function updateOrderController(
     dueDate,
     numberOfInstallments,
     interest,
-    price,
     description,
+    orderItems,
   } = IUpdateOrderDTO.parse(request.body)
 
   try {
@@ -66,28 +81,46 @@ async function updateOrderController(
       dueDate,
       numberOfInstallments,
       interest,
-      price,
       description,
+      orderItems,
     })
 
-    const responseBody: IUpdateOrderControllerResponse = {
-      id: updatedOrder.id,
-      companyId: updatedOrder.companyId,
-      clientId: updatedOrder.clientId,
-      employeeId: updatedOrder.employeeId,
-      number: updatedOrder.number,
-      type: updatedOrder.type,
-      status: updatedOrder.status,
-      payDate: updatedOrder.payDate,
-      paymentMethod: updatedOrder.paymentMethod,
-      price: updatedOrder.price,
-      description: updatedOrder.description,
-      paymentStatus: updatedOrder.paymentStatus,
-      closingDate: updatedOrder.closingDate,
-      firstDueDate: updatedOrder.firstDueDate,
-      dueDate: updatedOrder.dueDate,
-      numberOfInstallments: updatedOrder.numberOfInstallments,
-      interest: updatedOrder.interest,
+    let responseBody: IUpdateOrderControllerResponse | undefined
+
+    if (updatedOrder) {
+      responseBody = {
+        id: updatedOrder.id,
+        companyId: updatedOrder.companyId,
+        clientId: updatedOrder.clientId,
+        employeeId: updatedOrder.employeeId,
+        number: updatedOrder.number,
+        type: updatedOrder.type,
+        status: updatedOrder.status,
+        payDate: updatedOrder.payDate,
+        paymentMethod: updatedOrder.paymentMethod,
+        price: updatedOrder.price,
+        description: updatedOrder.description,
+        paymentStatus: updatedOrder.paymentStatus,
+        closingDate: updatedOrder.closingDate,
+        firstDueDate: updatedOrder.firstDueDate,
+        dueDate: updatedOrder.dueDate,
+        numberOfInstallments: updatedOrder.numberOfInstallments,
+        interest: updatedOrder.interest,
+        orderItems: updatedOrder.orderItems?.map((item) => ({
+          id: item.id,
+          productId: item.productId,
+          registeredProductPrice: item.registeredProductPrice,
+          quantity: item.quantity,
+          initialQuantity: item.initialQuantity,
+          discount: item.discount,
+          service: item?.service
+            ? {
+                id: item.service.id,
+                employeeId: item.service.employeeId,
+              }
+            : undefined,
+        })),
+      }
     }
 
     return reply.status(200).send(responseBody)
@@ -102,6 +135,22 @@ async function updateOrderController(
         .status(404)
         .send({ message: error.message, name: error.name })
     }
+    if (error instanceof ProductNotFoundError) {
+      return reply
+        .status(404)
+        .send({ message: error.message, name: error.name })
+    }
+    if (error instanceof OrderItemNotFoundError) {
+      return reply
+        .status(404)
+        .send({ message: error.message, name: error.name })
+    }
+    if (error instanceof DuplicateOrderItemError) {
+      return reply
+        .status(400)
+        .send({ message: error.message, name: error.name })
+    }
+
     throw error
   }
 }
