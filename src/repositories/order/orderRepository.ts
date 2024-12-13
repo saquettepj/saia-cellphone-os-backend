@@ -85,18 +85,22 @@ class OrderRepository implements IOrderRepository {
         data: {
           ...data,
           orderItems: {
-            create: data.orderItems?.map((item) => ({
-              productId: item.productId,
-              registeredProductPrice: item.registeredProductPrice,
-              quantity: item.quantity,
-              initialQuantity: item.initialQuantity,
-              discount: item.discount,
-              service: {
-                create: {
-                  employeeId: item?.service?.employeeId || undefined,
-                },
-              },
-            })),
+            create: data.orderItems?.map((item) => {
+              const serviceData = item.service
+                ? {
+                    create: item.service,
+                  }
+                : undefined
+
+              return {
+                productId: item.productId,
+                registeredProductPrice: item.registeredProductPrice,
+                quantity: item.quantity,
+                initialQuantity: item.initialQuantity,
+                discount: item.discount,
+                service: serviceData,
+              }
+            }),
           },
         },
         include: {

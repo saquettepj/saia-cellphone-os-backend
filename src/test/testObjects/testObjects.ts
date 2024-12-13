@@ -18,6 +18,7 @@ import { ICreateOrderUseCaseRequest } from '@/useCases/order/createOrderUseCase'
 import { ICreateOrderItemUseCaseRequest } from '@/useCases/orderItem/createOrderItemUseCase'
 import { ICreateSupplierUseCaseRequest } from '@/useCases/supplier/createSupplierUseCase'
 import { ICreateServiceUseCaseRequest } from '@/useCases/service/createServiceUseCase'
+import { IUpdateOrderItemUseCaseRequest } from '@/useCases/orderItem/updateOrderItemUseCase'
 
 let uniqueDescriptionCounter = 1
 
@@ -143,6 +144,13 @@ const createNewOrderItemTestObject = (
   quantity: params?.quantity || 1,
 })
 
+const updateNewOrderItemTestObject = (
+  params?: Partial<IUpdateOrderItemUseCaseRequest>,
+) => ({
+  discount: params?.discount || undefined,
+  quantity: params?.quantity || 1,
+})
+
 const createNewServiceTestObject = (
   params?: Partial<ICreateServiceUseCaseRequest>,
 ) => ({
@@ -166,6 +174,7 @@ export {
   createNewOrderTestObject,
   updateNewOrderTestObject,
   createNewOrderItemTestObject,
+  updateNewOrderItemTestObject,
   createNewServiceTestObject,
   createNewAccessTokenTestObject,
 }

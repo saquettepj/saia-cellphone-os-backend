@@ -10,7 +10,7 @@ function setupUpdateOrderUseCase() {
   const transactionService = new PrismaTransaction()
 
   const updateOrderUseCase = new UpdateOrderUseCase(
-    transactionService, // Injeção do serviço de transação
+    transactionService,
     clientRepository,
     employeeRepository,
   )

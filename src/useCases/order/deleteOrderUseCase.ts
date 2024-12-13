@@ -1,48 +1,55 @@
 import { DeletingError } from '@/errors/deletingError'
 import { OrderNotFoundError } from '@/errors/orderNotFoundError'
-import { IOrderRepository } from '@/repositories/order/IOrderRepository'
-import { IOrderItemRepository } from '@/repositories/orderItem/IOrderItemRepository'
-import { IProductRepository } from '@/repositories/product/IProductRepository'
+import { ITransaction } from '@/utils/transaction'
 
 interface IDeleteOrderUseCaseRequest {
   id: string
 }
 
 class DeleteOrderUseCase {
-  constructor(
-    private orderRepository: IOrderRepository,
-    private orderItemRepository: IOrderItemRepository,
-    private productRepository: IProductRepository,
-  ) {}
+  constructor(private transactionService: ITransaction) {}
 
   async execute({ id }: IDeleteOrderUseCaseRequest) {
-    const searchedOrder = await this.orderRepository.findById(id)
+    return this.transactionService.run(async (transaction) => {
+      const searchedOrder = await transaction.order.findUnique({
+        where: { id },
+      })
 
-    if (!searchedOrder) {
-      throw new OrderNotFoundError()
-    }
-
-    try {
-      const orderItems = await this.orderItemRepository.findManyByOrderId(id)
-
-      for (const item of orderItems) {
-        const product = await this.productRepository.findById(item.productId)
-        if (product) {
-          const updatedQuantity = product.quantity + item.quantity
-          await this.productRepository.updateById(product.id, {
-            quantity: updatedQuantity,
-          })
-        }
+      if (!searchedOrder) {
+        throw new OrderNotFoundError()
       }
 
-      await this.orderItemRepository.deleteManyByOrderId(id)
+      try {
+        const orderItems = await transaction.orderItem.findMany({
+          where: { orderId: id },
+        })
 
-      const result = await this.orderRepository.delete(id)
+        for (const item of orderItems) {
+          const product = await transaction.product.findUnique({
+            where: { id: item.productId },
+          })
+          if (product) {
+            const updatedQuantity = product.quantity + item.quantity
+            await transaction.product.update({
+              where: { id: product.id },
+              data: { quantity: updatedQuantity },
+            })
+          }
+        }
 
-      return result
-    } catch (error) {
-      throw new DeletingError()
-    }
+        await transaction.orderItem.deleteMany({
+          where: { orderId: id },
+        })
+
+        const result = await transaction.order.delete({
+          where: { id },
+        })
+
+        return result
+      } catch (error) {
+        throw new DeletingError()
+      }
+    })
   }
 }
 

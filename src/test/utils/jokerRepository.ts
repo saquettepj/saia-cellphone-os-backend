@@ -2,6 +2,7 @@ import { Product } from '@prisma/client'
 
 import { prisma } from '@/app'
 import { ICompany } from '@/repositories/company/ICompanyRepository'
+import { IOrder } from '@/repositories/order/IOrderRepository'
 
 class CompanyJokerRepository {
   async findById(id: string): Promise<ICompany | null> {
@@ -22,6 +23,22 @@ class ProductJokerRepository {
   }
 }
 
+class OrderJokerRepository {
+  async findById(id: string): Promise<IOrder | null> {
+    const searchedOrder = await prisma.order.findFirst({
+      where: { id },
+      include: {
+        orderItems: {
+          include: {
+            service: true,
+          },
+        },
+      },
+    })
+    return searchedOrder
+  }
+}
+
 function setupCompanyJokerRepository() {
   const companyJokersRepository = new CompanyJokerRepository()
 
@@ -33,5 +50,14 @@ function setupProductJokerRepository() {
 
   return productJokersRepository
 }
+function setupOrderJokerRepository() {
+  const orderJokersRepository = new OrderJokerRepository()
 
-export { setupCompanyJokerRepository, setupProductJokerRepository }
+  return orderJokersRepository
+}
+
+export {
+  setupCompanyJokerRepository,
+  setupProductJokerRepository,
+  setupOrderJokerRepository,
+}

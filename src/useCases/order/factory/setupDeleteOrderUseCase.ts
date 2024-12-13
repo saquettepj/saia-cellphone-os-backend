@@ -1,19 +1,11 @@
 import { DeleteOrderUseCase } from '../deleteOrderUseCase'
 
-import { OrderRepository } from '@/repositories/order/orderRepository'
-import { OrderItemRepository } from '@/repositories/orderItem/orderItemRepository'
-import { ProductRepository } from '@/repositories/product/productRepository'
+import { PrismaTransaction } from '@/utils/transaction'
 
 function setupDeleteOrderUseCase() {
-  const orderRepository = new OrderRepository()
-  const orderItemRepository = new OrderItemRepository()
-  const productRepository = new ProductRepository()
+  const transactionService = new PrismaTransaction()
 
-  const deleteOrderUseCase = new DeleteOrderUseCase(
-    orderRepository,
-    orderItemRepository,
-    productRepository,
-  )
+  const deleteOrderUseCase = new DeleteOrderUseCase(transactionService)
 
   return deleteOrderUseCase
 }

@@ -10,7 +10,10 @@ import {
   createNewOrderTestObject,
   createNewProductTestObject,
 } from '@/test/testObjects/testObjects'
-import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
+import {
+  setupCompanyJokerRepository,
+  setupProductJokerRepository,
+} from '@/test/utils/jokerRepository'
 import { MiddlewareError } from '@/errors/middlewareError'
 import { DuplicateOrderItemError } from '@/errors/duplicateOrderItemError'
 import { translate } from '@/i18n/translate'
@@ -24,6 +27,7 @@ describe('Create Order - (e2e)', () => {
   let productId: string
 
   const companyJokerRepository = setupCompanyJokerRepository()
+  const productJokerRepository = setupProductJokerRepository()
 
   const clientNotFoundMiddlewareError = new MiddlewareError({
     statusCode: 404,
@@ -300,13 +304,16 @@ describe('Create Order - (e2e)', () => {
           registeredProductPrice: newProductObject.price,
           quantity: orderData.orderItems[0].quantity,
           initialQuantity: newProductObject.quantity,
-          service: {
-            id: expect.any(String),
-            employeeId: orderData.orderItems[0].service?.employeeId || null,
-          },
         },
       ],
     })
     expect(response.statusCode).toEqual(201)
+
+    const updatedProduct = await productJokerRepository.findById(productId)
+    const initialProductQuantity = updatedProduct?.quantity
+
+    expect(updatedProduct?.quantity).toEqual(
+      Math.max(initialProductQuantity! - orderData.orderItems[0].quantity, 0),
+    )
   })
 })

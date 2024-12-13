@@ -1,3 +1,4 @@
+import { ProductTypeEnum } from '@/enums/all.enum'
 import { ClientNotFoundError } from '@/errors/clientNotFoundError'
 import { DuplicateOrderItemError } from '@/errors/duplicateOrderItemError'
 import { EmployeeNotFoundError } from '@/errors/employeeNotFoundError'
@@ -200,14 +201,15 @@ class UpdateOrderUseCase {
             data: {
               quantity: orderItem.quantity,
               discount: orderItem.discount,
-              service: orderItem.service
-                ? {
-                    upsert: {
-                      create: { employeeId: orderItem.service.employeeId },
-                      update: { employeeId: orderItem.service.employeeId },
-                    },
-                  }
-                : undefined,
+              service:
+                product.type !== ProductTypeEnum.PRODUCT && orderItem.service
+                  ? {
+                      upsert: {
+                        create: { employeeId: orderItem.service.employeeId },
+                        update: { employeeId: orderItem.service.employeeId },
+                      },
+                    }
+                  : undefined,
             },
           })
         }
@@ -236,11 +238,12 @@ class UpdateOrderUseCase {
               quantity: newItem.quantity || 1,
               initialQuantity: product.quantity,
               discount: newItem.discount,
-              service: newItem.service
-                ? {
-                    create: { employeeId: newItem.service.employeeId },
-                  }
-                : undefined,
+              service:
+                product.type !== ProductTypeEnum.PRODUCT && newItem.service
+                  ? {
+                      create: { employeeId: newItem.service.employeeId },
+                    }
+                  : undefined,
             },
           })
         }

@@ -9,9 +9,13 @@ import {
   createNewEmployeeTestObject,
   createNewOrderTestObject,
   createNewProductTestObject,
+  updateNewOrderItemTestObject,
   updateNewOrderTestObject,
 } from '@/test/testObjects/testObjects'
-import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
+import {
+  setupCompanyJokerRepository,
+  setupProductJokerRepository,
+} from '@/test/utils/jokerRepository'
 import { MiddlewareError } from '@/errors/middlewareError'
 import { translate } from '@/i18n/translate'
 import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
@@ -37,6 +41,7 @@ describe('Update Order - (e2e)', () => {
   let updateOrderData: ReturnType<typeof updateNewOrderTestObject>
 
   const companyJokerRepository = setupCompanyJokerRepository()
+  const productJokerRepository = setupProductJokerRepository()
 
   const newCompanyObject = createNewCompanyTestObject({
     CNPJ: '11111111111111',
@@ -121,7 +126,7 @@ describe('Update Order - (e2e)', () => {
     orderData = createNewOrderTestObject({
       clientId,
       employeeId,
-      orderItems: [{ productId, quantity: 2 }],
+      orderItems: [{ productId, quantity: 4 }],
     })
 
     orderData = createNewOrderTestObject({
@@ -134,7 +139,6 @@ describe('Update Order - (e2e)', () => {
       type: OrderTypeEnum.SERVICE,
       status: OrderStatusEnum.CANCELED,
       paymentMethod: PaymentMethodEnum.ESTIMATE,
-      price: 150.75,
       description: 'desc',
     })
 
@@ -270,12 +274,24 @@ describe('Update Order - (e2e)', () => {
   })
 
   it('should update an order successfully with the correct response structure', async () => {
+    const beforeProduct = await productJokerRepository.findById(productId)
+
     const updatedOrderData = updateNewOrderTestObject({
       ...updateOrderData,
       clientId,
       employeeId,
       companyId,
     })
+
+    const updateOrderItemData = updateNewOrderItemTestObject({
+      quantity: 4,
+      discount: 30.5,
+    })
+
+    const updateOrderFullData = {
+      ...updatedOrderData,
+      orderItems: [{ productId, ...updateOrderItemData }],
+    }
 
     const orderPrice = Math.max(
       (newProductObject.price - (orderData.orderItems[0].discount || 0)) *
@@ -286,7 +302,7 @@ describe('Update Order - (e2e)', () => {
     const response = await request(app.server)
       .patch(`/order/${orderId}`)
       .set('Authorization', `Bearer ${companyToken}`)
-      .send(updatedOrderData)
+      .send(updateOrderFullData)
 
     expect(response.body).toEqual({
       companyId,
@@ -294,19 +310,39 @@ describe('Update Order - (e2e)', () => {
       id: orderId,
       clientId,
       employeeId,
-      type: updatedOrderData.type,
-      status: updatedOrderData.status,
+      type: updateOrderFullData.type,
+      status: updateOrderFullData.status,
       paymentStatus: updateOrderData.paymentStatus,
-      payDate: updatedOrderData.payDate,
-      paymentMethod: updatedOrderData.paymentMethod,
+      payDate: updateOrderFullData.payDate,
+      paymentMethod: updateOrderFullData.paymentMethod,
       price: orderPrice,
-      description: updatedOrderData.description,
+      description: updateOrderFullData.description,
       closingDate: null,
       firstDueDate: orderData.firstDueDate || null,
       dueDate: orderData.dueDate || null,
       interest: orderData.interest || null,
       numberOfInstallments: orderData.numberOfInstallments || null,
+      orderItems: [
+        {
+          id: expect.any(String),
+          discount: updateOrderFullData.orderItems[0].discount || null,
+          productId,
+          registeredProductPrice: newProductObject.price,
+          quantity: updateOrderFullData.orderItems[0].quantity,
+          initialQuantity: newProductObject.quantity,
+        },
+      ],
     })
     expect(response.statusCode).toEqual(200)
+
+    const updatedProduct = await productJokerRepository.findById(productId)
+
+    expect(updatedProduct?.quantity).toEqual(
+      Math.max(
+        (beforeProduct?.quantity || 0) -
+          (updateOrderFullData.orderItems[0].quantity - 2),
+        0,
+      ),
+    )
   })
 })

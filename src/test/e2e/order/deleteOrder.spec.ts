@@ -10,7 +10,11 @@ import {
   createNewOrderTestObject,
   createNewProductTestObject,
 } from '@/test/testObjects/testObjects'
-import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
+import {
+  setupCompanyJokerRepository,
+  setupOrderJokerRepository,
+  setupProductJokerRepository,
+} from '@/test/utils/jokerRepository'
 import { MiddlewareError } from '@/errors/middlewareError'
 import { translate } from '@/i18n/translate'
 import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
@@ -24,6 +28,8 @@ describe('Delete Order - (e2e)', () => {
   let productId: string
 
   const companyJokerRepository = setupCompanyJokerRepository()
+  const orderJokerRepository = setupOrderJokerRepository()
+  const productJokerRepository = setupProductJokerRepository()
 
   const newCompanyObject = createNewCompanyTestObject({
     CNPJ: '11111111111111',
@@ -164,11 +170,24 @@ describe('Delete Order - (e2e)', () => {
   })
 
   it('should delete an order successfully and return the correct structure', async () => {
+    const deletedOrder = await orderJokerRepository.findById(orderId)
+    const beforeProduct = await productJokerRepository.findById(productId)
+
     const response = await request(app.server)
       .delete(`/order/${orderId}`)
       .set('Authorization', `Bearer ${companyToken}`)
 
     expect(response.body).toEqual({ id: orderId })
     expect(response.statusCode).toEqual(200)
+
+    const updatedProduct = await productJokerRepository.findById(productId)
+
+    expect(updatedProduct?.quantity).toEqual(
+      Math.max(
+        (beforeProduct?.quantity || 0) +
+          (deletedOrder?.orderItems[0]?.quantity || 0),
+        0,
+      ),
+    )
   })
 })
