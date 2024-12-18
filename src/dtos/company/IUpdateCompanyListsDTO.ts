@@ -1,17 +1,27 @@
 import { z } from 'zod'
 
-import { validateCommaSeparatedStrings } from '@/utils/formatCommaSeparatedStrings'
+import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
+
+export const ICheckListSchema = z.object({
+  name: z.string().min(1),
+  input: z.array(z.string()).nonempty(),
+  pin: z.boolean().optional(),
+})
 
 export const IUpdateCompanyListsDTO = z
   .object({
     lists: z
       .array(
-        z.string().refine(validateCommaSeparatedStrings, {
-          message:
-            'Each item in the string must be non-empty and separated by commas.',
-        }),
+        z.string().refine((list) => {
+          try {
+            const parsedList = JSON.parse(list)
+            ICheckListSchema.parse(parsedList)
+            return true
+          } catch {
+            return false
+          }
+        }, TranslationKeysEnum.ERROR_INVALID_JSON),
       )
-      .optional()
-      .default([]),
+      .optional(),
   })
   .strict()
