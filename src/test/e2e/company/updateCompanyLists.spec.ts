@@ -12,8 +12,14 @@ describe('Update Company Lists - (e2e)', () => {
     email: 'test@company.com',
   })
 
+  const checkListExample = {
+    name: 'Lista de Teste',
+    input: ['Campo 1', 'Campo 2', 'Campo 3'],
+    pin: true,
+  }
+
   const updatedObjectValidLists = {
-    lists: ['name, field1, field 2, field 4'],
+    lists: [JSON.stringify(checkListExample)],
   }
 
   beforeAll(async () => {

@@ -1,4 +1,4 @@
-import { ProductTypeEnum } from '@/enums/all.enum'
+import { PaymentMethodEnum, ProductTypeEnum } from '@/enums/all.enum'
 import { ClientNotFoundError } from '@/errors/clientNotFoundError'
 import { DuplicateOrderItemError } from '@/errors/duplicateOrderItemError'
 import { EmployeeNotFoundError } from '@/errors/employeeNotFoundError'
@@ -91,15 +91,24 @@ class UpdateOrderUseCase {
           employeeId,
           type,
           status,
-          payDate,
+          payDate:
+            paymentMethod === PaymentMethodEnum.INSTALLMENTS ? null : payDate,
           paymentMethod,
           description,
           IMEI,
           paymentStatus,
-          firstDueDate,
-          dueDate,
-          numberOfInstallments,
-          interest,
+          firstDueDate:
+            paymentMethod !== PaymentMethodEnum.INSTALLMENTS
+              ? null
+              : firstDueDate,
+          dueDate:
+            paymentMethod !== PaymentMethodEnum.INSTALLMENTS ? null : dueDate,
+          numberOfInstallments:
+            paymentMethod !== PaymentMethodEnum.INSTALLMENTS
+              ? null
+              : numberOfInstallments,
+          interest:
+            paymentMethod !== PaymentMethodEnum.INSTALLMENTS ? null : interest,
         },
       })
 

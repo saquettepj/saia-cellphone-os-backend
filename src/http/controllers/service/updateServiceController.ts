@@ -5,6 +5,7 @@ import { IUpdateServiceDTO } from '@/dtos/service/IUpdateServiceDTO'
 import { setupUpdateServiceUseCase } from '@/useCases/service/factory/setupUpdateServiceUseCase'
 import { OrderItemNotFoundError } from '@/errors/orderItemNotFoundError'
 import { EmployeeNotFoundError } from '@/errors/employeeNotFoundError'
+import { OrderNotFoundError } from '@/errors/orderNotFoundError'
 
 interface IUpdateServiceControllerResponse {
   id: string
@@ -51,6 +52,11 @@ async function updateServiceController(
         .send({ message: error.message, name: error.name })
     }
     if (error instanceof EmployeeNotFoundError) {
+      return reply
+        .status(404)
+        .send({ message: error.message, name: error.name })
+    }
+    if (error instanceof OrderNotFoundError) {
       return reply
         .status(404)
         .send({ message: error.message, name: error.name })

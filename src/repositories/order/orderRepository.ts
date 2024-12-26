@@ -9,7 +9,11 @@ class OrderRepository implements IOrderRepository {
     const searchedOrder = await prisma.order.findUnique({
       where: { id },
       include: {
-        orderItems: true,
+        orderItems: {
+          include: {
+            service: true,
+          },
+        },
       },
     })
     return searchedOrder

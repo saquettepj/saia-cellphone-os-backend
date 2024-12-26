@@ -12,8 +12,11 @@ import {
   createNewProductTestObject,
   createNewServiceTestObject,
 } from '@/test/testObjects/testObjects'
-import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
-import { ServiceStatusEnum } from '@/enums/all.enum'
+import {
+  setupCompanyJokerRepository,
+  setupOrderJokerRepository,
+} from '@/test/utils/jokerRepository'
+import { OrderStatusEnum, ServiceStatusEnum } from '@/enums/all.enum'
 import { OrderItemNotFoundError } from '@/errors/orderItemNotFoundError'
 import { EmployeeNotFoundError } from '@/errors/employeeNotFoundError'
 
@@ -30,6 +33,7 @@ describe('Update Service - (e2e)', () => {
   const orderItemNotFoundError = new OrderItemNotFoundError()
   const employeeNotFoundError = new EmployeeNotFoundError()
 
+  const orderJokerRepository = setupOrderJokerRepository()
   const companyJokerRepository = setupCompanyJokerRepository()
 
   const newCompanyObject = createNewCompanyTestObject({
@@ -188,6 +192,8 @@ describe('Update Service - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send(updateData)
 
+    const updatedOrder = await orderJokerRepository.findById(orderId)
+
     expect(response.body).toEqual({
       id: serviceId,
       orderItemId,
@@ -196,5 +202,7 @@ describe('Update Service - (e2e)', () => {
       report: 'Updated report',
     })
     expect(response.statusCode).toEqual(200)
+
+    expect(updatedOrder?.status).toEqual(OrderStatusEnum.COMPLETED)
   })
 })
