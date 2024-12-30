@@ -30,6 +30,8 @@ async function getCompanyByIdController(
         name: getCompanyByIdUseCaseReturn.name,
         createdAt: getCompanyByIdUseCaseReturn.createdAt,
         emailChecked: getCompanyByIdUseCaseReturn.emailChecked,
+        hasCost: getCompanyByIdUseCaseReturn.hasCost,
+        textMessage: getCompanyByIdUseCaseReturn.textMessage,
         payDate: getCompanyByIdUseCaseReturn.payDate || null,
         termsDate: getCompanyByIdUseCaseReturn.termsDate || null,
         accessToken: getCompanyByIdUseCaseReturn.accessToken || null,

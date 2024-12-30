@@ -2,6 +2,6 @@ import { z } from 'zod'
 
 export const IUpdateCompanyTextMessageDTO = z
   .object({
-    textMessage: z.string().default(''),
+    textMessage: z.string(),
   })
   .strict()
