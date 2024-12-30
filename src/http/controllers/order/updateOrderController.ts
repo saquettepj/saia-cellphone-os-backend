@@ -27,6 +27,7 @@ interface IUpdateOrderControllerResponse {
   dueDate: number | null
   numberOfInstallments: number | null
   interest: number | null
+  amountPaid: number | null
   orderItems?: Array<{
     id?: string
     productId?: string
@@ -60,6 +61,7 @@ async function updateOrderController(
     dueDate,
     numberOfInstallments,
     interest,
+    amountPaid,
     description,
     orderItems,
   } = IUpdateOrderDTO.parse(request.body)
@@ -81,6 +83,7 @@ async function updateOrderController(
       dueDate,
       numberOfInstallments,
       interest,
+      amountPaid,
       description,
       orderItems,
     })
@@ -106,6 +109,7 @@ async function updateOrderController(
         dueDate: updatedOrder.dueDate,
         numberOfInstallments: updatedOrder.numberOfInstallments,
         interest: updatedOrder.interest,
+        amountPaid: updatedOrder.amountPaid,
         orderItems: updatedOrder.orderItems?.map((item) => ({
           id: item.id,
           productId: item.productId,

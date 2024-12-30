@@ -31,6 +31,7 @@ interface IUpdateOrderUseCaseRequest {
   dueDate?: number
   numberOfInstallments?: number
   interest?: number
+  amountPaid?: number
   orderItems?: IUpdateOrderItemRequest[]
 }
 
@@ -56,6 +57,7 @@ class UpdateOrderUseCase {
     dueDate,
     numberOfInstallments,
     interest,
+    amountPaid,
     orderItems,
   }: IUpdateOrderUseCaseRequest) {
     return this.transactionService.run(async (transaction) => {
@@ -109,6 +111,10 @@ class UpdateOrderUseCase {
               : numberOfInstallments,
           interest:
             paymentMethod !== PaymentMethodEnum.INSTALLMENTS ? null : interest,
+          amountPaid:
+            paymentMethod !== PaymentMethodEnum.INSTALLMENTS
+              ? null
+              : amountPaid,
         },
       })
 

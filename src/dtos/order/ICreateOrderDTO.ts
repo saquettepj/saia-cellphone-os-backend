@@ -34,6 +34,7 @@ export const ICreateOrderDTO = z
       .optional(),
     dueDate: z.number().min(1).optional(),
     numberOfInstallments: z.number().min(1).optional(),
+    amountPaid: z.number().optional(),
     interest: z.number().min(0).optional(),
     description: z.string().default(''),
     orderItems: z.array(ICreateOrderItemOnOrderDTO).nonempty(),
@@ -45,6 +46,7 @@ export const ICreateOrderDTO = z
       (data.firstDueDate &&
         data.dueDate &&
         data.numberOfInstallments &&
+        data.amountPaid &&
         data.interest !== undefined),
     {
       message:
@@ -58,7 +60,8 @@ export const ICreateOrderDTO = z
       (!data.firstDueDate &&
         !data.dueDate &&
         !data.numberOfInstallments &&
-        !data.interest),
+        !data.interest &&
+        !data.amountPaid),
     {
       message:
         'Fields firstDueDate, dueDate, numberOfInstallments, and interest must be undefined for payment methods other than INSTALLMENTS.',

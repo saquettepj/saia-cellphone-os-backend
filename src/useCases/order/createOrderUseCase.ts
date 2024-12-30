@@ -27,6 +27,7 @@ interface ICreateOrderUseCaseRequest {
   dueDate?: number
   numberOfInstallments?: number
   interest?: number
+  amountPaid?: number
   orderItems: ICreateOrderItemOnOrderRequest[]
 }
 
@@ -50,6 +51,7 @@ class CreateOrderUseCase {
     dueDate,
     numberOfInstallments,
     interest,
+    amountPaid,
     orderItems,
     type,
   }: ICreateOrderUseCaseRequest) {
@@ -80,6 +82,7 @@ class CreateOrderUseCase {
           dueDate,
           numberOfInstallments,
           interest,
+          amountPaid,
           type,
         },
       })

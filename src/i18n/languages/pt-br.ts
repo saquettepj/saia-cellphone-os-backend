@@ -25,6 +25,9 @@ export const ptBR = {
     'Erro ao alterar a senha!',
   [TranslationKeysEnum.ERROR_CPF_ALREADY_EXISTS]: 'Este CPF já existe!',
   [TranslationKeysEnum.ERROR_DELETING]: 'Erro ao excluir!',
+  [TranslationKeysEnum.ERROR_UPDATING]: 'Erro ao atualizar!',
+  [TranslationKeysEnum.SYSTEM_CONFIG_NOT_FOUND]:
+    'Configuração do sistema não encontrada.',
   [TranslationKeysEnum.ERROR_DUPLICATE_ORDER_ITEM]:
     'Existem itens duplicados na ordem!',
   [TranslationKeysEnum.ERROR_EMAIL_ALREADY_CONFIRMED]: 'E-mail já confirmado!',

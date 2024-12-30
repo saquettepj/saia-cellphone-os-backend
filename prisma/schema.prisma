@@ -13,6 +13,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model SystemConfig {
+  id            String   @id
+  terms         String
+  termsUpdateAt DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("systemConfig")
+}
+
 model Company {
   id                    String       @id @default(uuid())
   accountType           String       @default("NORMAL")
@@ -25,6 +34,8 @@ model Company {
   payDate               DateTime?
   termsDate             DateTime?
   lists                 String[]
+  textMessage           String       @default("")
+  hasCost               Boolean      @default(false)
   products              Product[]
   orders                Order[]
   clients               Client[]
@@ -187,6 +198,7 @@ model Order {
   dueDate              Int?
   numberOfInstallments Int?
   interest             Float?
+  amountPaid           Float?
   price                Float
   description          String?
   createdAt            DateTime    @default(now())

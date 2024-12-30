@@ -22,6 +22,8 @@ const envSchema = z.object({
   ADMIN_ACCOUNT_CNPJ: z.string().optional(),
   ADMIN_ACCOUNT_PASSWORD: z.string().optional(),
   ADMIN_DELETE_PASSWORD: z.string(),
+  ADMIN_UPDATE_PASSWORD: z.string(),
+  SYSTEM_ID: z.string().uuid(),
 })
 
 const _env = envSchema.safeParse(process.env)

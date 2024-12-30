@@ -104,6 +104,7 @@ const createNewOrderTestObject = (
   dueDate: params?.dueDate || undefined,
   numberOfInstallments: params?.numberOfInstallments || undefined,
   interest: params?.interest || undefined,
+  amountPaid: params?.amountPaid || undefined,
   description: params?.description || 'Order description',
   orderItems: params?.orderItems || [
     {
@@ -132,6 +133,7 @@ const updateNewOrderTestObject = (
   dueDate: params?.dueDate || undefined,
   numberOfInstallments: params?.numberOfInstallments || undefined,
   interest: params?.interest || undefined,
+  amountPaid: params?.amountPaid || undefined,
   description: params?.description || undefined,
 })
 

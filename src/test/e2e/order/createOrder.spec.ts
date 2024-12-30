@@ -295,6 +295,7 @@ describe('Create Order - (e2e)', () => {
       dueDate: orderData.dueDate || null,
       interest: orderData.interest || null,
       numberOfInstallments: orderData.numberOfInstallments || null,
+      amountPaid: orderData.amountPaid || null,
       createdAt: expect.any(String),
       orderItems: [
         {

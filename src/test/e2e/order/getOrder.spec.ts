@@ -130,6 +130,7 @@ describe('Get Orders - (e2e)', () => {
       dueDate: orderData.dueDate || null,
       interest: orderData.interest || null,
       numberOfInstallments: orderData.numberOfInstallments || null,
+      amountPaid: orderData.amountPaid || null,
       orderItems: [
         {
           id: expect.any(String),

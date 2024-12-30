@@ -22,6 +22,7 @@ interface IGetOrderControllerResponse {
     dueDate: number | null
     numberOfInstallments: number | null
     interest: number | null
+    amountPaid: number | null
     createdAt: Date
     orderItems?: Array<{
       id: string
@@ -94,6 +95,7 @@ async function getOrderController(
         dueDate: order.dueDate,
         numberOfInstallments: order.numberOfInstallments,
         interest: order.interest,
+        amountPaid: order.amountPaid,
         createdAt: order.createdAt,
         orderItems: order.orderItems?.map((item) => ({
           id: item.id,

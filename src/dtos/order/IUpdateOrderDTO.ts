@@ -35,6 +35,7 @@ export const IUpdateOrderDTO = z
     dueDate: z.number().min(1).optional(),
     numberOfInstallments: z.number().min(1).optional(),
     interest: z.number().min(0).optional(),
+    amountPaid: z.number().optional(),
     description: z.string().optional(),
     orderItems: z.array(IUpdateOrderItemOnOrderDTO).nonempty().optional(),
   })
@@ -45,6 +46,7 @@ export const IUpdateOrderDTO = z
       (data.firstDueDate &&
         data.dueDate &&
         data.numberOfInstallments &&
+        data.amountPaid &&
         data.interest !== undefined),
     {
       message:
@@ -58,7 +60,8 @@ export const IUpdateOrderDTO = z
       (!data.firstDueDate &&
         !data.dueDate &&
         !data.numberOfInstallments &&
-        !data.interest),
+        !data.interest &&
+        !data.amountPaid),
     {
       message:
         'Fields firstDueDate, dueDate, numberOfInstallments, and interest must be undefined for payment methods other than INSTALLMENTS.',

@@ -23,6 +23,9 @@ export const en = {
   [TranslationKeysEnum.ERROR_COMPANY_UPDATE_PASSWORD]: 'Password change error!',
   [TranslationKeysEnum.ERROR_CPF_ALREADY_EXISTS]: 'This CPF already exists!',
   [TranslationKeysEnum.ERROR_DELETING]: 'Deleting error!',
+  [TranslationKeysEnum.ERROR_UPDATING]: 'Updating error!',
+  [TranslationKeysEnum.SYSTEM_CONFIG_NOT_FOUND]:
+    'System configuration not found.',
   [TranslationKeysEnum.ERROR_DUPLICATE_ORDER_ITEM]:
     'There are duplicate items in the order!',
   [TranslationKeysEnum.ERROR_EMAIL_ALREADY_CONFIRMED]:

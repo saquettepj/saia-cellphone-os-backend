@@ -14,6 +14,8 @@ import { updateCompanyTermsController } from '../controllers/company/updateCompa
 import { companyCheckerByCompanyMiddleware } from '../middlewares/companyCheckerByCompanyMiddleware'
 import { getCompanyByIdController } from '../controllers/company/getCompanyByIdController'
 import { updateCompanyListsController } from '../controllers/company/updateCompanyListsController'
+import { updateCompanyHasCostController } from '../controllers/company/updateCompanyHasCostController'
+import { updateCompanyTextMessageController } from '../controllers/company/updateCompanyTextMessageController'
 
 async function companyRoutes(app: FastifyInstance) {
   app.post('/company', createCompanyController)
@@ -90,6 +92,22 @@ async function companyRoutes(app: FastifyInstance) {
       preHandler: [companyAuthenticatorMiddleware],
     },
     updateCompanyTermsController,
+  )
+
+  app.patch(
+    '/company/update-has-cost',
+    {
+      preHandler: [companyAuthenticatorMiddleware],
+    },
+    updateCompanyHasCostController,
+  )
+
+  app.patch(
+    '/company/update-text-message',
+    {
+      preHandler: [companyAuthenticatorMiddleware],
+    },
+    updateCompanyTextMessageController,
   )
 
   app.patch(

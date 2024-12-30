@@ -21,6 +21,7 @@ interface ICreateOrderControllerResponse {
   dueDate: number | null
   numberOfInstallments: number | null
   interest: number | null
+  amountPaid: number | null
   price: number
   description?: string | null
   createdAt: Date
@@ -60,6 +61,7 @@ async function createOrderController(
     dueDate,
     numberOfInstallments,
     interest,
+    amountPaid,
     orderItems,
     type,
   } = ICreateOrderDTO.parse(request.body)
@@ -81,9 +83,14 @@ async function createOrderController(
       dueDate,
       numberOfInstallments,
       interest,
+      amountPaid,
       orderItems,
       type,
     })
+
+    if (!createOrderUseCaseReturn) {
+      return reply.status(500).send()
+    }
 
     const responseBody: ICreateOrderControllerResponse = {
       id: createOrderUseCaseReturn.id,
@@ -101,6 +108,7 @@ async function createOrderController(
       dueDate: createOrderUseCaseReturn.dueDate,
       numberOfInstallments: createOrderUseCaseReturn.numberOfInstallments,
       interest: createOrderUseCaseReturn.interest,
+      amountPaid: createOrderUseCaseReturn?.amountPaid,
       price: createOrderUseCaseReturn.price,
       description: createOrderUseCaseReturn.description,
       createdAt: createOrderUseCaseReturn.createdAt,
