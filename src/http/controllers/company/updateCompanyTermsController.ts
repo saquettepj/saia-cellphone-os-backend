@@ -1,6 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-import { IUpdateCompanyTermsDTO } from '@/dtos/company/IUpdateCompanyTermsDTO'
 import { setupUpdateCompanyTermsUseCase } from '@/useCases/company/factory/setupUpdateCompanyTermsUseCase'
 
 async function updateCompanyTermsController(
@@ -8,12 +7,11 @@ async function updateCompanyTermsController(
   reply: FastifyReply,
 ) {
   const { id } = request.company
-  const { termsDate } = IUpdateCompanyTermsDTO.parse(request.body)
 
   try {
     const updateCompanyTermsUseCase = setupUpdateCompanyTermsUseCase()
 
-    await updateCompanyTermsUseCase.execute({ id, termsDate })
+    await updateCompanyTermsUseCase.execute({ id })
 
     return reply.status(200).send()
   } catch (error) {

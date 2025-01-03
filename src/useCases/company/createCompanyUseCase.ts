@@ -1,13 +1,10 @@
 import { hash } from 'bcrypt'
 
 import { generateRandomNumber } from '@/utils/randomNumberGenerator'
-import { generateEmailSendCodeObject } from '@/emails/emailStructures/generateEmailSendCodeObject'
-import { sendEmail } from '@/emails/sendEmail'
 import { ICompanyRepository } from '@/repositories/company/ICompanyRepository'
 import { CompanyCNPJAlreadyExistsError } from '@/errors/companyCNPJAlreadyExistsError'
 import { PasswordConfirmationIsDifferentError } from '@/errors/passwordConfirmationIsDifferentError'
 import { EmailAlreadyExistsError } from '@/errors/emailAlreadyExistsError'
-import { env } from '@/env'
 
 interface ICreateCompanyUseCaseRequest {
   CNPJ: string
@@ -54,17 +51,6 @@ class CreateCompanyUseCase {
       passwordHash,
       emailConfirmationCode,
     })
-
-    if (env.NODE_ENV === 'production' && createdCompany) {
-      const emailObject = generateEmailSendCodeObject(emailConfirmationCode)
-
-      await sendEmail({
-        to: email,
-        subject: 'Código de confirmação de email',
-        html: emailObject.html,
-        text: emailObject.text,
-      })
-    }
 
     return createdCompany
   }
