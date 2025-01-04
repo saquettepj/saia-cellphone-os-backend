@@ -30,6 +30,7 @@ class UpdateCompanyUseCase {
     const result = await this.companyRepository.updateById(searchedCompany.id, {
       email,
       name,
+      emailChecked: email ? false : undefined,
     })
 
     return result

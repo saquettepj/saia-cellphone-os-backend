@@ -17,6 +17,8 @@ export const ptBR = {
     'Este CNPJ já existe!',
   [TranslationKeysEnum.ERROR_CNPJ_ALREADY_EXISTS]: 'Este CNPJ já existe!',
   [TranslationKeysEnum.ERROR_COMPANY_CREDENTIALS]: 'CNPJ ou senha incorretos!',
+  [TranslationKeysEnum.ERROR_COMPANY_CREDENTIALS_FORGOT_PASSWORD]:
+    'CNPJ ou email incorretos!',
   [TranslationKeysEnum.ERROR_COMPANY_HAS_ADDRESS]:
     'Endereço já existe para esta empresa!',
   [TranslationKeysEnum.ERROR_COMPANY_NOT_FOUND]: 'Empresa não encontrada!',
@@ -26,7 +28,7 @@ export const ptBR = {
   [TranslationKeysEnum.ERROR_CPF_ALREADY_EXISTS]: 'Este CPF já existe!',
   [TranslationKeysEnum.ERROR_DELETING]: 'Erro ao excluir!',
   [TranslationKeysEnum.ERROR_UPDATING]: 'Erro ao atualizar!',
-  [TranslationKeysEnum.SYSTEM_CONFIG_NOT_FOUND]:
+  [TranslationKeysEnum.ERROR_SYSTEM_CONFIG_NOT_FOUND]:
     'Configuração do sistema não encontrada.',
   [TranslationKeysEnum.ERROR_DUPLICATE_ORDER_ITEM]:
     'Existem itens duplicados na ordem!',
@@ -64,4 +66,6 @@ export const ptBR = {
     'Um ou mais produtos não pertencem a esta empresa!',
   [TranslationKeysEnum.ERROR_VALIDATION]: 'Erro de validação!',
   [TranslationKeysEnum.ERROR_INVALID_JSON]: 'Formato JSON inválido.',
+  [TranslationKeysEnum.ERROR_NOT_FOUND]: 'Não encontrado!',
+  [TranslationKeysEnum.ERROR_LINK_EXPIRED]: 'Link expirou!',
 }

@@ -29,7 +29,11 @@ interface ICompanyRepository {
   findAllIncludeById(id: string): Promise<Partial<ICompany> | null>
   findAllOrderByBusiness(): Promise<Partial<ICompany>[]>
   updateById(id: string, data: Prisma.CompanyUpdateInput): Promise<ICompany>
-  updatePasswordByCNPJ(CNPJ: string, passwordHash: string): Promise<ICompany>
+  updatePasswordAndResetEmailById(
+    id: string,
+    passwordHash: string,
+  ): Promise<ICompany>
+  updatePasswordById(id: string, passwordHash: string): Promise<ICompany>
   delete(id: string): Promise<ICompany | null>
   create(data: Prisma.CompanyUncheckedCreateInput): Promise<ICompany>
 }

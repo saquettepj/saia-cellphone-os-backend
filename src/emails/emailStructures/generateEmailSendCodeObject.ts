@@ -1,5 +1,7 @@
 import { IEmailMessageConfig } from '../IEmailConfig'
 
+import { env } from '@/env'
+
 function generateEmailSendCodeObject(code: number): IEmailMessageConfig {
   return {
     subject: 'Resgate seu código de verificação',
@@ -198,7 +200,7 @@ a[x-apple-data-detectors],
                   <td align="center" valign="top" style="padding:0;Margin:0;width:540px">
                    <table cellpadding="0" cellspacing="0" width="100%" bgcolor="#efefef" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:separate;border-spacing:0px;background-color:#efefef;border-radius:16px" role="presentation">
                      <tr>
-                      <td align="left" bgcolor="#ffffff" class="es-text-2657" style="padding:0;Margin:0"><p class="es-text-mobile-size-13" style="Margin:0;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:19.5px;letter-spacing:0;color:#333333;font-size:13px">Em caso de dúvidas entre em contato com&nbsp;<b><a style="mso-line-height-rule:exactly;text-decoration:underline;color:#333333;font-size:13px" href="">thigo.saquette@gmail.com</a></b>.<br>Estamos em funcionamento nos seguintes horários:</p>
+                      <td align="left" bgcolor="#ffffff" class="es-text-2657" style="padding:0;Margin:0"><p class="es-text-mobile-size-13" style="Margin:0;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:19.5px;letter-spacing:0;color:#333333;font-size:13px">Em caso de dúvidas entre em contato com&nbsp;<b><a style="mso-line-height-rule:exactly;text-decoration:underline;color:#333333;font-size:13px" href="">${env.SUPPORT_EMAIL_USER}</a></b>.<br>Estamos em funcionamento nos seguintes horários:</p>
                        <ul style="font-family:arial, 'helvetica neue', helvetica, sans-serif;padding:0px 0px 0px 40px;margin-top:15px;margin-bottom:15px">
                         <li style="color:#666666;margin:0px 0px 15px;font-size:14px"><p style="Margin:0;mso-line-height-rule:exactly;mso-margin-bottom-alt:15px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:18px;letter-spacing:0;color:#333333;font-size:12px;mso-margin-top-alt:15px">Segunda até sexta-feira: 09:00 às 17:00</p></li>
                         <li style="color:#666666;margin:0px 0px 15px;font-size:14px"><p style="Margin:0;mso-line-height-rule:exactly;mso-margin-bottom-alt:15px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:18px;letter-spacing:0;color:#333333;font-size:12px">Sabados: 09:00 às 12:00</p></li>

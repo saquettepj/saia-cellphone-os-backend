@@ -97,13 +97,24 @@ class CompanyRepository implements ICompanyRepository {
     return updatedCompany
   }
 
-  async updatePasswordByCNPJ(CNPJ: string, passwordHash: string) {
+  async updatePasswordAndResetEmailById(id: string, passwordHash: string) {
     const updatedCompany = await prisma.company.update({
-      where: { CNPJ },
+      where: { id },
       data: {
         passwordHash,
         emailConfirmationCode: null,
         emailChecked: false,
+      },
+    })
+
+    return updatedCompany
+  }
+
+  async updatePasswordById(id: string, passwordHash: string) {
+    const updatedCompany = await prisma.company.update({
+      where: { id },
+      data: {
+        passwordHash,
       },
     })
 
