@@ -2,8 +2,8 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 
 import { IGetIPNPaymentNotificationDTO } from '@/dtos/payment/IGetIPNPaymentNotificationDTO'
-import { setupGetIPNPaymentNotificationUseCase } from '@/useCases/payment/factory/setupGetIPNPaymentNotificationUseCase'
 import { PaymentNotificationError } from '@/errors/paymentNotificationError'
+import { setupGetIPNPaymentNotificationUseCase } from '@/useCases/payment/factory/setupGetIPNPaymentNotificationUseCase'
 
 interface IGetIPNPaymentNotificationControllerResponse {
   statusSuccess: boolean
