@@ -68,4 +68,12 @@ export const ptBR = {
   [TranslationKeysEnum.ERROR_INVALID_JSON]: 'Formato JSON inválido.',
   [TranslationKeysEnum.ERROR_NOT_FOUND]: 'Não encontrado!',
   [TranslationKeysEnum.ERROR_LINK_EXPIRED]: 'Link expirou!',
+  [TranslationKeysEnum.ERROR_PAYMENT]: 'Erro no sistema de pagamento!',
+  [TranslationKeysEnum.ERROR_UNKNOWN]: 'Erro desconhecido!',
+  [TranslationKeysEnum.ERROR_NOTIFICATION_NOT_FOUND]:
+    'Notificação não encontrada',
+
+  // #################### GLOBALS #######################
+  [TranslationKeysEnum.PAYMENT_DESCRIPTION_MONTHLY_PLAN]:
+    'Pagamento referente ao uso do aplicativo SaiaSystemOS - Plano mensal (1 mês de assinatura)',
 }

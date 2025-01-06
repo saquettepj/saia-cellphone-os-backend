@@ -31,6 +31,8 @@ async function confirmEmailController(
         .status(400)
         .send({ message: error.message, name: error.name })
     }
+
+    throw error
   }
 }
 

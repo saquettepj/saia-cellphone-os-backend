@@ -13,6 +13,7 @@ import { accessTokenRoutes } from './routes/accessToken.routes'
 import { supplierRoutes } from './routes/supplier.routes'
 import { serviceRoutes } from './routes/service.routes'
 import { systemConfigRoutes } from './routes/systemConfig.routes'
+import { paymentRoutes } from './routes/payment.routes'
 
 import { env } from '@/env'
 
@@ -36,6 +37,7 @@ async function appRoutes(app: FastifyInstance) {
   accessTokenRoutes(app)
   serviceRoutes(app)
   systemConfigRoutes(app)
+  paymentRoutes(app)
 }
 
 export { appRoutes }

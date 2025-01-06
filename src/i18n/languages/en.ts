@@ -66,4 +66,11 @@ export const en = {
   [TranslationKeysEnum.ERROR_INVALID_JSON]: 'Invalid JSON format.',
   [TranslationKeysEnum.ERROR_NOT_FOUND]: 'Not found!',
   [TranslationKeysEnum.ERROR_LINK_EXPIRED]: 'Link has expired!',
+  [TranslationKeysEnum.ERROR_PAYMENT]: 'Payment system problem!',
+  [TranslationKeysEnum.ERROR_UNKNOWN]: 'Unknown error!',
+  [TranslationKeysEnum.ERROR_NOTIFICATION_NOT_FOUND]: 'Notification not found',
+
+  // #################### GLOBALS #######################
+  [TranslationKeysEnum.PAYMENT_DESCRIPTION_MONTHLY_PLAN]:
+    'Payment for using the SaiaSystemOS app - Monthly plan (1-month subscription)',
 }

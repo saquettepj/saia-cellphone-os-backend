@@ -10,7 +10,8 @@ const translations = {
 
 export type ILocale = 'en' | 'pt'
 
-export function translate(textKey: TranslationKeysEnum): string {
+export function translate(key: TranslationKeysEnum): string {
   const locale = getGlobalLocale()
-  return translations[locale]?.[textKey] || 'TRANSLATION ERROR'
+  const dictionary: { [key: string]: string } = translations[locale]
+  return dictionary[key] || 'TRANSLATION ERROR'
 }

@@ -2,8 +2,7 @@ export function randomPasswordGenerator(): string {
   const lowercase = 'abcdefghijklmnopqrstuvwxyz'
   const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
   const numbers = '0123456789'
-  const specialCharacters = '@$!%*?#%'
-  const allCharacters = lowercase + uppercase + numbers + specialCharacters
+  const allCharacters = lowercase + uppercase + numbers
 
   const getRandomCharacter = (chars: string) =>
     chars[Math.floor(Math.random() * chars.length)]
@@ -12,10 +11,11 @@ export function randomPasswordGenerator(): string {
     getRandomCharacter(lowercase),
     getRandomCharacter(uppercase),
     getRandomCharacter(numbers),
-    getRandomCharacter(specialCharacters),
   ]
 
-  while (passwordArray.length < 12) {
+  const passwordLength = Math.floor(Math.random() * (25 - 12 + 1)) + 12
+
+  while (passwordArray.length < passwordLength) {
     passwordArray.push(getRandomCharacter(allCharacters))
   }
 

@@ -7,7 +7,10 @@ import { AccountTypeEnum } from '@/enums/all.enum'
 
 class CompanyRepository implements ICompanyRepository {
   async findByCNPJ(CNPJ: string) {
-    const searchedCompany = await prisma.company.findUnique({ where: { CNPJ } })
+    const searchedCompany = await prisma.company.findUnique({
+      where: { CNPJ },
+      include: { accessToken: true },
+    })
     return searchedCompany
   }
 

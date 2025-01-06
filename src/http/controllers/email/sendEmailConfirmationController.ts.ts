@@ -27,6 +27,8 @@ async function sendEmailConfirmationController(
         .status(400)
         .send({ message: error.message, name: error.name })
     }
+
+    throw error
   }
 }
 

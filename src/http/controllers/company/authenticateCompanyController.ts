@@ -12,6 +12,7 @@ interface IAuthenticateCompanyControllerResponse {
     accountType: string
     payDate: Date | null
     termsDate: Date | null
+    accessTokenActivatedAt: Date | null
   }
   token: string
 }

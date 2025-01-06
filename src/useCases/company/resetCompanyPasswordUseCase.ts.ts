@@ -16,7 +16,6 @@ class ResetCompanyPasswordUseCase {
 
   async execute({ token, newPassword }: IResetCompanyPasswordUseCaseRequest) {
     let decodedToken
-    console.log(token, newPassword)
 
     if (!newPassword || !token) {
       throw new NotFoundError()
