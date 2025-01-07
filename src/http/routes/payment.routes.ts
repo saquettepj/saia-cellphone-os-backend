@@ -2,7 +2,7 @@ import { FastifyInstance } from 'fastify'
 
 import { companyAuthenticatorMiddleware } from '../middlewares/companyAuthenticatorMiddleware'
 import { createPaymentController } from '../controllers/payment/createPaymentController'
-import { getIPNPaymentNotificationController } from '../controllers/payment/getIPNPaymentNotification'
+import { getPaymentStatusController } from '../controllers/payment/getPaymentStatusController'
 
 async function paymentRoutes(app: FastifyInstance) {
   app.post(
@@ -13,10 +13,12 @@ async function paymentRoutes(app: FastifyInstance) {
     createPaymentController,
   )
 
-  app.post(
-    '/process_payment_notification',
-    {},
-    getIPNPaymentNotificationController,
+  app.get(
+    '/payment-status',
+    {
+      preHandler: [companyAuthenticatorMiddleware],
+    },
+    getPaymentStatusController,
   )
 }
 

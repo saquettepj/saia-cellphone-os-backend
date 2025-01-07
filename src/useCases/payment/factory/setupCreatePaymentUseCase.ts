@@ -1,7 +1,11 @@
 import { CreatePaymentUseCase } from '../createPaymentUseCase'
 
+import { CompanyRepository } from '@/repositories/company/companyRepository'
+
 function setupCreatePaymentUseCase() {
-  return new CreatePaymentUseCase()
+  const companyRepository = new CompanyRepository()
+
+  return new CreatePaymentUseCase(companyRepository)
 }
 
 export { setupCreatePaymentUseCase }

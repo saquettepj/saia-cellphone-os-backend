@@ -31,6 +31,7 @@ model Company {
   emailChecked          Boolean      @default(false)
   name                  String
   passwordHash          String
+  payId                 String?
   payDate               DateTime?
   termsDate             DateTime?
   lists                 String[]

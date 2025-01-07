@@ -32,6 +32,9 @@ app.setErrorHandler(
     }
 
     if (error instanceof ZodError) {
+      env.NODE_ENV !== 'production' &&
+        console.error(`❌ Validation - ${error} ❌`)
+
       return reply.status(400).send({
         name: TranslationKeysEnum.ERROR_VALIDATION,
         message: translate(TranslationKeysEnum.ERROR_VALIDATION),

@@ -70,8 +70,8 @@ export const ptBR = {
   [TranslationKeysEnum.ERROR_LINK_EXPIRED]: 'Link expirou!',
   [TranslationKeysEnum.ERROR_PAYMENT]: 'Erro no sistema de pagamento!',
   [TranslationKeysEnum.ERROR_UNKNOWN]: 'Erro desconhecido!',
-  [TranslationKeysEnum.ERROR_NOTIFICATION_NOT_FOUND]:
-    'Notificação não encontrada',
+  [TranslationKeysEnum.ERROR_LAST_PAYMENT_NOT_FOUND]:
+    'Último pagamento não encontrado!',
 
   // #################### GLOBALS #######################
   [TranslationKeysEnum.PAYMENT_DESCRIPTION_MONTHLY_PLAN]:

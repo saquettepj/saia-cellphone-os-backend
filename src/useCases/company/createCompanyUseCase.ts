@@ -10,6 +10,7 @@ interface ICreateCompanyUseCaseRequest {
   CNPJ: string
   email: string
   name: string
+  termsDate: string | Date
   password: string
   passwordConfirmation: string
 }
@@ -21,6 +22,7 @@ class CreateCompanyUseCase {
     CNPJ,
     email,
     name,
+    termsDate,
     password,
     passwordConfirmation,
   }: ICreateCompanyUseCaseRequest) {
@@ -48,6 +50,7 @@ class CreateCompanyUseCase {
       CNPJ,
       email,
       name,
+      termsDate,
       passwordHash,
       emailConfirmationCode,
     })

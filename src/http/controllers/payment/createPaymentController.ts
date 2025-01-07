@@ -8,6 +8,7 @@ import { PaymentError } from '@/errors/paymentError'
 interface ICreatePaymentControllerResponse {
   id?: number
   status?: string
+  date_approved?: string | Date
   statusDetail?: string
   transactionAmount?: number
   description?: string
@@ -18,21 +19,25 @@ async function createPaymentController(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const { transaction_amount, payment_method_id, payer } =
-    ICreatePaymentDTO.parse(request.body)
+  const { id: companyId } = request.company
+
+  const paymentData = ICreatePaymentDTO.parse(request.body)
 
   try {
     const createPaymentUseCase = setupCreatePaymentUseCase()
 
     const createPaymentUseCaseReturn = await createPaymentUseCase.execute({
-      transaction_amount,
-      payment_method_id,
-      payer,
+      companyId,
+      paymentCreateData: {
+        ...paymentData,
+        issuer_id: Number(paymentData.issuer_id),
+      },
     })
 
     const responseBody: ICreatePaymentControllerResponse = {
       id: createPaymentUseCaseReturn?.id,
       status: createPaymentUseCaseReturn?.status,
+      date_approved: createPaymentUseCaseReturn?.date_approved,
       statusDetail: createPaymentUseCaseReturn?.status_detail,
       transactionAmount: createPaymentUseCaseReturn?.transaction_amount,
       description: createPaymentUseCaseReturn?.description,

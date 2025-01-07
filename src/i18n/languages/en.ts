@@ -68,7 +68,7 @@ export const en = {
   [TranslationKeysEnum.ERROR_LINK_EXPIRED]: 'Link has expired!',
   [TranslationKeysEnum.ERROR_PAYMENT]: 'Payment system problem!',
   [TranslationKeysEnum.ERROR_UNKNOWN]: 'Unknown error!',
-  [TranslationKeysEnum.ERROR_NOTIFICATION_NOT_FOUND]: 'Notification not found',
+  [TranslationKeysEnum.ERROR_LAST_PAYMENT_NOT_FOUND]: 'Last payment not found!',
 
   // #################### GLOBALS #######################
   [TranslationKeysEnum.PAYMENT_DESCRIPTION_MONTHLY_PLAN]:

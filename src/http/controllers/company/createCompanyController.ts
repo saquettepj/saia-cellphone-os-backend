@@ -28,6 +28,7 @@ async function createCompanyController(
       CNPJ,
       email,
       name,
+      termsDate: new Date(),
       password,
       passwordConfirmation,
     })
