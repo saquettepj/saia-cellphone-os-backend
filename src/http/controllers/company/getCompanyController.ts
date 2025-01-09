@@ -27,6 +27,7 @@ async function getCompanyController(
         emailChecked: company.emailChecked,
         hasCost: company.hasCost,
         textMessage: company.textMessage,
+        payType: company.payType || null,
         payDate: company.payDate || null,
         termsDate: company.termsDate || null,
         accessToken: company.accessToken || null,

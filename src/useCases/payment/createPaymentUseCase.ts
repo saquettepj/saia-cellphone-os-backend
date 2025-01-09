@@ -7,6 +7,7 @@ import { translate } from '@/i18n/translate'
 import { PaymentError } from '@/errors/paymentError'
 import { env } from '@/env'
 import { ICompanyRepository } from '@/repositories/company/ICompanyRepository'
+import { returnPayType } from '@/utils/returnPayType'
 
 interface ICreatePaymentUseCaseRequest {
   companyId: string
@@ -47,6 +48,7 @@ class CreatePaymentUseCase {
           payId: !paymentResponse.date_approved
             ? paymentResponse.id.toString()
             : null,
+          payType: returnPayType(paymentResponse.transaction_amount),
           payDate: paymentResponse.date_approved
             ? new Date(paymentResponse.date_approved)
             : undefined,

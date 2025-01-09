@@ -4,6 +4,11 @@ export enum AccountTypeEnum {
   NORMAL = 'NORMAL',
   ADMIN = 'ADMIN',
 }
+export enum AccountPayTypeEnum {
+  MONTHLY = 'MONTHLY',
+  SEMIANNUAL = 'SEMIANNUAL',
+  ANNUAL = 'ANNUAL',
+}
 export enum ProductConditionEnum {
   NEW = 'NEW',
   USED = 'GOOD',

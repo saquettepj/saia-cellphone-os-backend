@@ -10,6 +10,7 @@ interface IAuthenticateCompanyControllerResponse {
     name: string
     email: string
     accountType: string
+    payType: string | null
     payDate: Date | null
     termsDate: Date | null
     accessTokenActivatedAt: Date | null

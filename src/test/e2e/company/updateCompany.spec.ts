@@ -52,24 +52,6 @@ describe('Update company - (e2e)', () => {
     await app.close()
   })
 
-  it('should be able to update the company email and name', async () => {
-    const updateData = {
-      email: 'newemail@company.com',
-      name: 'Updated Company Name',
-    }
-
-    const response = await request(app.server)
-      .patch('/company')
-      .set('Authorization', `Bearer ${validToken}`)
-      .send(updateData)
-
-    expect(response.body).toEqual({
-      email: updateData.email,
-      name: updateData.name,
-    })
-    expect(response.statusCode).toEqual(200)
-  })
-
   it('should not allow updating the company email if the email already exists', async () => {
     const updateData = {
       email: anotherCompanyObject.email,
@@ -86,5 +68,23 @@ describe('Update company - (e2e)', () => {
       name: emailAlreadyExistsError.name,
     })
     expect(response.statusCode).toEqual(409)
+  })
+
+  it('should be able to update the company email and name', async () => {
+    const updateData = {
+      email: 'newemail@company.com',
+      name: 'Updated Company Name',
+    }
+
+    const response = await request(app.server)
+      .patch('/company')
+      .set('Authorization', `Bearer ${validToken}`)
+      .send(updateData)
+
+    expect(response.body).toEqual({
+      email: updateData.email,
+      name: updateData.name,
+    })
+    expect(response.statusCode).toEqual(200)
   })
 })

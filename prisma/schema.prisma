@@ -32,6 +32,7 @@ model Company {
   name                  String
   passwordHash          String
   payId                 String?
+  payType               String?
   payDate               DateTime?
   termsDate             DateTime?
   lists                 String[]
@@ -147,8 +148,8 @@ model Nfe {
   id        String   @id @default(uuid())
   companyId String
   company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  clientId  String
-  client    Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  clientId  String?
+  client    Client?  @relation(fields: [clientId], references: [id], onDelete: Cascade)
   protocol  String
   key       String
   createdAt DateTime @default(now())

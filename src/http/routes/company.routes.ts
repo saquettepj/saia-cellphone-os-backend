@@ -47,7 +47,10 @@ async function companyRoutes(app: FastifyInstance) {
   app.patch(
     '/company',
     {
-      preHandler: [companyAuthenticatorMiddleware],
+      preHandler: [
+        companyAuthenticatorMiddleware,
+        emailConfirmationCheckerMiddleware,
+      ],
     },
     updateCompanyController,
   )

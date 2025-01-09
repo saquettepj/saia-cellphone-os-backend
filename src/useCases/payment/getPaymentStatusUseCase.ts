@@ -3,6 +3,7 @@ import { MercadoPagoConfig, Payment } from 'mercadopago'
 import { CompanyNotFoundError } from '@/errors/companyNotFoundError'
 import { ICompanyRepository } from '@/repositories/company/ICompanyRepository'
 import { PaymentNotFoundError } from '@/errors/paymentNotFoundError'
+import { returnPayType } from '@/utils/returnPayType'
 
 interface IGetPaymentStatusUseCaseRequest {
   companyId: string
@@ -50,6 +51,7 @@ class GetPaymentStatusUseCase {
         if (paymentResponse?.id && paymentResponse.date_approved) {
           await this.companyRepository.updateById(companyId, {
             payId: null,
+            payType: returnPayType(paymentResponse.transaction_amount),
             payDate: new Date(paymentResponse.date_approved),
           })
         }
