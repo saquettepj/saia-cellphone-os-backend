@@ -103,21 +103,6 @@ describe('Update Address - (e2e)', () => {
     expect(response.statusCode).toEqual(404)
   })
 
-  it('should return an error if trying to update a non-existent company address', async () => {
-    const response = await request(app.server)
-      .patch('/address')
-      .set('Authorization', `Bearer ${companyToken}`)
-      .send({
-        city: 'New City',
-      })
-
-    expect(response.body).toEqual({
-      message: addressNotFoundError.message,
-      name: addressNotFoundError.name,
-    })
-    expect(response.statusCode).toEqual(404)
-  })
-
   it('should return an error if client is not found', async () => {
     const invalidClientId = uuidv4()
 

@@ -75,7 +75,6 @@ describe('Update company password - (e2e)', () => {
 
   it('should update the company password and reset email confirmation fields', async () => {
     const updatePasswordData = {
-      CNPJ: newCompanyObject.CNPJ,
       currentPassword: newCompanyObject.password,
       newPassword: 'NewPassword2!',
       passwordConfirmation: 'NewPassword2!',
@@ -89,7 +88,7 @@ describe('Update company password - (e2e)', () => {
     expect(response.statusCode).toEqual(200)
 
     const updatedCompany = await companyJokerRepository.findByCNPJ(
-      updatePasswordData.CNPJ,
+      newCompanyObject.CNPJ,
     )
 
     expect(updatedCompany?.emailConfirmationCode).toBeNull()
@@ -113,7 +112,6 @@ describe('Update company password - (e2e)', () => {
       })
 
     const updatePasswordData = {
-      CNPJ: newCompanyObject.CNPJ,
       currentPassword: 'WrongPassword1!',
       newPassword: 'NewPassword2!',
       passwordConfirmation: 'NewPassword2!',
@@ -124,11 +122,11 @@ describe('Update company password - (e2e)', () => {
       .set('Authorization', `Bearer ${companyToken}`)
       .send(updatePasswordData)
 
-    expect(response.statusCode).toEqual(401)
     expect(response.body).toEqual({
       message: companyCredentialsError.message,
       name: companyCredentialsError.name,
     })
+    expect(response.statusCode).toEqual(401)
   })
 
   it('should return error when password confirmation does not match', async () => {
@@ -148,7 +146,6 @@ describe('Update company password - (e2e)', () => {
       })
 
     const updatePasswordData = {
-      CNPJ: newCompanyObject.CNPJ,
       currentPassword: newCompanyObject.password,
       newPassword: 'NewPassword3!',
       passwordConfirmation: 'DifferentPassword4!',
@@ -194,7 +191,6 @@ describe('Update company password - (e2e)', () => {
       })
 
     const updatePasswordData = {
-      CNPJ: newCompanyObject.CNPJ,
       currentPassword: newCompanyObject.password,
       newPassword: 'NewPassword2!',
       passwordConfirmation: 'NewPassword2!',

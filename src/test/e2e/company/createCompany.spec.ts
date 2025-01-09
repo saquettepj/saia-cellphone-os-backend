@@ -38,6 +38,15 @@ describe('Create company - (e2e)', () => {
       CNPJ: newCompanyObject.CNPJ,
       email: newCompanyObject.email,
       name: newCompanyObject.name,
+      address: expect.objectContaining({
+        country: newCompanyObject.country,
+        city: newCompanyObject.city,
+        state: newCompanyObject.state,
+        neighborhood: newCompanyObject.neighborhood,
+        street: newCompanyObject.street,
+        streetNumber: newCompanyObject.streetNumber,
+        zipCode: newCompanyObject.zipCode,
+      }),
       emailChecked: false,
     })
     expect(response.statusCode).toEqual(201)
@@ -46,13 +55,15 @@ describe('Create company - (e2e)', () => {
   it('should not allow company creation with an existing CNPJ', async () => {
     await request(app.server).post('/company').send(existingCompanyObject)
 
-    const response = await request(app.server).post('/company').send({
-      CNPJ: existingCompanyObject.CNPJ,
-      email: 'new@company.com',
-      name: 'New Company',
-      password: 'ValidPass1!',
-      passwordConfirmation: 'ValidPass1!',
-    })
+    const response = await request(app.server)
+      .post('/company')
+      .send(
+        createNewCompanyTestObject({
+          CNPJ: existingCompanyObject.CNPJ,
+          email: 'new@company.com',
+          name: 'New Company',
+        }),
+      )
 
     expect(response.body).toEqual({
       message: companyCNPJAlreadyExistsError.message,
@@ -62,13 +73,15 @@ describe('Create company - (e2e)', () => {
   })
 
   it('should not allow company creation with an existing email', async () => {
-    const response = await request(app.server).post('/company').send({
-      CNPJ: '33333333333333',
-      email: existingCompanyObject.email,
-      name: 'Another Company',
-      password: 'ValidPass1!',
-      passwordConfirmation: 'ValidPass1!',
-    })
+    const response = await request(app.server)
+      .post('/company')
+      .send(
+        createNewCompanyTestObject({
+          CNPJ: '33333333333333',
+          email: existingCompanyObject.email,
+          name: 'Another Company',
+        }),
+      )
 
     expect(response.body).toEqual({
       message: emailAlreadyExistsError.message,

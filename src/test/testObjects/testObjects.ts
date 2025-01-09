@@ -28,9 +28,16 @@ const createNewCompanyTestObject = (
   CNPJ: params?.CNPJ || '11111111111111',
   email: params?.email || 'teste@email.com',
   name: params?.name || 'NomeTeste',
-  password: params?.password || '27E53109fgh!',
+  country: params?.country || 'Brazil',
+  city: params?.city || 'CityTest',
+  state: params?.state || 'StateTest',
+  neighborhood: params?.neighborhood || 'NeighborhoodTest',
+  street: params?.street || 'StreetTest',
+  streetNumber: params?.streetNumber || '1000',
+  zipCode: params?.zipCode || '12345678',
+  password: params?.password || '123456789098',
   passwordConfirmation:
-    params?.passwordConfirmation || params?.password || '27E53109fgh!',
+    params?.passwordConfirmation || params?.password || '123456789098',
 })
 
 const createNewProductTestObject = (
