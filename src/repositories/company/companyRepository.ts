@@ -130,9 +130,28 @@ class CompanyRepository implements ICompanyRepository {
     return deletedCompany
   }
 
-  async create(data: Prisma.CompanyUncheckedCreateInput) {
+  async create(
+    data: Prisma.CompanyUncheckedCreateInput,
+    addressData: Prisma.AddressCreateWithoutCompanyInput,
+  ) {
     const createdCompany = await prisma.company.create({
-      data,
+      data: {
+        ...data,
+        address: {
+          create: {
+            country: addressData.country,
+            city: addressData.city,
+            state: addressData.state,
+            neighborhood: addressData.neighborhood,
+            street: addressData.street,
+            streetNumber: addressData.streetNumber,
+            zipCode: addressData.zipCode,
+          },
+        },
+      },
+      include: {
+        address: true,
+      },
     })
 
     return createdCompany

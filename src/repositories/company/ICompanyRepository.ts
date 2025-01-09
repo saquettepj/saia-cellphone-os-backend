@@ -35,7 +35,10 @@ interface ICompanyRepository {
   ): Promise<ICompany>
   updatePasswordById(id: string, passwordHash: string): Promise<ICompany>
   delete(id: string): Promise<ICompany | null>
-  create(data: Prisma.CompanyUncheckedCreateInput): Promise<ICompany>
+  create(
+    data: Prisma.CompanyUncheckedCreateInput,
+    addressData: Prisma.AddressCreateWithoutCompanyInput,
+  ): Promise<ICompany>
 }
 
 export { ICompanyRepository, ICompany }

@@ -12,14 +12,35 @@ interface ICreateCompanyControllerResponse {
   email: string
   emailChecked: boolean
   name: string
+  address: {
+    country?: string
+    city?: string
+    state?: string
+    neighborhood?: string
+    street?: string
+    streetNumber?: string
+    zipCode?: string
+  }
 }
 
 async function createCompanyController(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const { CNPJ, email, name, password, passwordConfirmation } =
-    ICreateCompanyDTO.parse(request.body)
+  const {
+    CNPJ,
+    email,
+    name,
+    country,
+    city,
+    state,
+    neighborhood,
+    street,
+    streetNumber,
+    zipCode,
+    password,
+    passwordConfirmation,
+  } = ICreateCompanyDTO.parse(request.body)
 
   try {
     const createCompanyUseCase = setupCreateCompanyUseCase()
@@ -28,6 +49,13 @@ async function createCompanyController(
       CNPJ,
       email,
       name,
+      country,
+      city,
+      state,
+      neighborhood,
+      street,
+      streetNumber,
+      zipCode,
       termsDate: new Date(),
       password,
       passwordConfirmation,
@@ -39,6 +67,15 @@ async function createCompanyController(
       email: createCompanyUseCaseReturn.email,
       emailChecked: createCompanyUseCaseReturn.emailChecked,
       name: createCompanyUseCaseReturn.name,
+      address: {
+        country: createCompanyUseCaseReturn.address?.country,
+        zipCode: createCompanyUseCaseReturn.address?.zipCode,
+        state: createCompanyUseCaseReturn.address?.state,
+        city: createCompanyUseCaseReturn.address?.city,
+        neighborhood: createCompanyUseCaseReturn.address?.neighborhood,
+        street: createCompanyUseCaseReturn.address?.street,
+        streetNumber: createCompanyUseCaseReturn.address?.streetNumber,
+      },
     }
 
     return reply.status(201).send(responseBody)

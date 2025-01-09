@@ -6,10 +6,27 @@ import { CompanyCNPJAlreadyExistsError } from '@/errors/companyCNPJAlreadyExists
 import { PasswordConfirmationIsDifferentError } from '@/errors/passwordConfirmationIsDifferentError'
 import { EmailAlreadyExistsError } from '@/errors/emailAlreadyExistsError'
 
+interface IAddressWithCompanyCreation {
+  country: string
+  city: string
+  state: string
+  neighborhood: string
+  street: string
+  streetNumber: string
+  zipCode: string
+}
+
 interface ICreateCompanyUseCaseRequest {
   CNPJ: string
   email: string
   name: string
+  country: string
+  city: string
+  state: string
+  neighborhood: string
+  street: string
+  streetNumber: string
+  zipCode: string
   termsDate: string | Date
   password: string
   passwordConfirmation: string
@@ -22,6 +39,13 @@ class CreateCompanyUseCase {
     CNPJ,
     email,
     name,
+    country,
+    city,
+    state,
+    neighborhood,
+    street,
+    streetNumber,
+    zipCode,
     termsDate,
     password,
     passwordConfirmation,
@@ -46,14 +70,27 @@ class CreateCompanyUseCase {
 
     const emailConfirmationCode = generateRandomNumber(6)
 
-    const createdCompany = await this.companyRepository.create({
-      CNPJ,
-      email,
-      name,
-      termsDate,
-      passwordHash,
-      emailConfirmationCode,
-    })
+    const address: IAddressWithCompanyCreation = {
+      country,
+      city,
+      state,
+      neighborhood,
+      street,
+      streetNumber,
+      zipCode,
+    }
+
+    const createdCompany = await this.companyRepository.create(
+      {
+        CNPJ,
+        email,
+        name,
+        termsDate,
+        passwordHash,
+        emailConfirmationCode,
+      },
+      address,
+    )
 
     return createdCompany
   }
