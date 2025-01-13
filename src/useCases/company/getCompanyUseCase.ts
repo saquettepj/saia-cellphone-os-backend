@@ -5,8 +5,7 @@ class GetCompanyUseCase {
   constructor(private companyRepository: ICompanyRepository) {}
 
   async execute() {
-    const searchedCompanies =
-      await this.companyRepository.findAllOrderByBusiness()
+    const searchedCompanies = await this.companyRepository.findAll()
 
     if (!searchedCompanies || searchedCompanies.length === 0) {
       throw new CompanyNotFoundError()

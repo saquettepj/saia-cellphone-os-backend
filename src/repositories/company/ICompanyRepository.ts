@@ -27,7 +27,7 @@ interface ICompanyRepository {
   findByEmail(email: string): Promise<ICompany | null>
   findById(id: string): Promise<ICompany | null>
   findAllIncludeById(id: string): Promise<Partial<ICompany> | null>
-  findAllOrderByBusiness(): Promise<Partial<ICompany>[]>
+  findAll(): Promise<Partial<ICompany>[]>
   updateById(id: string, data: Prisma.CompanyUpdateInput): Promise<ICompany>
   updatePasswordAndResetEmailById(
     id: string,
@@ -35,6 +35,8 @@ interface ICompanyRepository {
   ): Promise<ICompany>
   updatePasswordById(id: string, passwordHash: string): Promise<ICompany>
   delete(id: string): Promise<ICompany | null>
+  delete(id: string): Promise<ICompany | null>
+  deleteManyByIds(ids: string[]): Promise<void>
   create(
     data: Prisma.CompanyUncheckedCreateInput,
     addressData: Prisma.AddressCreateWithoutCompanyInput,

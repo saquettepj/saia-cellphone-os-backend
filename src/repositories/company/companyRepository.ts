@@ -63,7 +63,7 @@ class CompanyRepository implements ICompanyRepository {
     return searchedCompany
   }
 
-  async findAllOrderByBusiness() {
+  async findAll() {
     const searchedCompanies = await prisma.company.findMany({
       omit: { emailConfirmationCode: true, passwordHash: true },
       where: { accountType: AccountTypeEnum.NORMAL },
@@ -128,6 +128,14 @@ class CompanyRepository implements ICompanyRepository {
     const deletedCompany = await prisma.company.delete({ where: { id } })
 
     return deletedCompany
+  }
+
+  async deleteManyByIds(ids: string[]) {
+    await prisma.company.deleteMany({
+      where: {
+        id: { in: ids },
+      },
+    })
   }
 
   async create(

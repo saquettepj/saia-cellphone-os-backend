@@ -14,6 +14,7 @@ import { supplierRoutes } from './routes/supplier.routes'
 import { serviceRoutes } from './routes/service.routes'
 import { systemConfigRoutes } from './routes/systemConfig.routes'
 import { paymentRoutes } from './routes/payment.routes'
+import { externalRoutes } from './routes/external.routes'
 
 import { env } from '@/env'
 
@@ -38,6 +39,7 @@ async function appRoutes(app: FastifyInstance) {
   serviceRoutes(app)
   systemConfigRoutes(app)
   paymentRoutes(app)
+  externalRoutes(app)
 }
 
 export { appRoutes }

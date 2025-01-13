@@ -72,6 +72,8 @@ export const ptBR = {
   [TranslationKeysEnum.ERROR_UNKNOWN]: 'Erro desconhecido!',
   [TranslationKeysEnum.ERROR_LAST_PAYMENT_NOT_FOUND]:
     'Último pagamento não encontrado!',
+  [TranslationKeysEnum.ERROR_CLIENT_NAME_NOT_FOUND_BY_CPF]:
+    'Nome do cliente não encontrado pelo CPF!',
 
   // #################### GLOBALS #######################
   [TranslationKeysEnum.PAYMENT_DESCRIPTION_MONTHLY_PLAN]:
