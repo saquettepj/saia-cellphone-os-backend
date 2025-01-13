@@ -9,6 +9,7 @@ interface IGetProductsUseCaseRequest {
   price?: number
   cost?: number
   quantity?: number
+  warrantyDays?: number
   localization?: string
   supplierId?: string
 }
@@ -25,6 +26,7 @@ class GetProductUseCase {
     price,
     cost,
     quantity,
+    warrantyDays,
     localization,
     supplierId,
   }: IGetProductsUseCaseRequest) {
@@ -38,6 +40,7 @@ class GetProductUseCase {
         price,
         cost,
         quantity,
+        warrantyDays,
         localization,
         supplierId,
       },
@@ -52,6 +55,7 @@ class GetProductUseCase {
       price: product.price,
       cost: product.cost,
       quantity: product.quantity,
+      warrantyDays: product.warrantyDays,
       localization: product.localization,
       supplierId: product.supplierId,
     }))

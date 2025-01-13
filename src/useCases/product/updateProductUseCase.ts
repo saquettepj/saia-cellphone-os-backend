@@ -12,6 +12,7 @@ interface IUpdateProductUseCaseRequest {
   condition?: string
   description?: string
   quantity?: number
+  warrantyDays?: number
   localization?: string
   supplierId?: string
 }
@@ -31,6 +32,7 @@ class UpdateProductUseCase {
     condition,
     description,
     quantity,
+    warrantyDays,
     localization,
     supplierId,
   }: IUpdateProductUseCaseRequest) {
@@ -62,6 +64,7 @@ class UpdateProductUseCase {
       condition,
       description,
       quantity,
+      warrantyDays,
       localization,
       supplierId,
     })

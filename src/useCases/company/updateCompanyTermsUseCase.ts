@@ -2,14 +2,15 @@ import { ICompanyRepository } from '@/repositories/company/ICompanyRepository'
 
 interface IUpdateCompanyTermsUseCaseRequest {
   id: string
+  companyTerms: string
 }
 
 class UpdateCompanyTermsUseCase {
   constructor(private companyRepository: ICompanyRepository) {}
 
-  async execute({ id }: IUpdateCompanyTermsUseCaseRequest) {
+  async execute({ id, companyTerms }: IUpdateCompanyTermsUseCaseRequest) {
     const result = await this.companyRepository.updateById(id, {
-      termsDate: new Date(),
+      companyTerms,
     })
 
     return result

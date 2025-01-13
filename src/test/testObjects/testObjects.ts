@@ -51,6 +51,7 @@ const createNewProductTestObject = (
   price: params?.price || 100.0,
   cost: params?.cost || 50.0,
   quantity: params?.quantity || 1,
+  warrantyDays: params?.warrantyDays || undefined,
   localization: params?.localization || 'Localização padrão',
   supplierId: params?.supplierId || undefined,
 })

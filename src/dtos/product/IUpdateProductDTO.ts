@@ -16,6 +16,7 @@ export const IUpdateProductDTO = z
       .transform((value) => formatUniqueStrings(value))
       .optional(),
     quantity: z.number().optional(),
+    warrantyDays: z.number().int().optional(),
     localization: z.string().optional(),
     supplierId: z.string().uuid().optional(),
   })

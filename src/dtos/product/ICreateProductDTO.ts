@@ -15,6 +15,7 @@ export const ICreateProductDTO = z
     price: z.number(),
     cost: z.number(),
     quantity: z.number().min(1),
+    warrantyDays: z.number().int().optional(),
     localization: z.string().optional(),
     supplierId: z.string().uuid().optional(),
   })

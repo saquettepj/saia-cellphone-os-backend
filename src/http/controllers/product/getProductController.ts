@@ -13,6 +13,7 @@ interface IGetProductControllerResponse {
     price: number
     cost: number
     quantity: number
+    warrantyDays?: number | null
     localization?: string | null
     supplierId?: string | null
   }>

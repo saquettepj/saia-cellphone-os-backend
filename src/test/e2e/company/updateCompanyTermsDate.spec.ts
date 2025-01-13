@@ -8,12 +8,12 @@ describe('Update Company Terms - (e2e)', () => {
   let companyAccessToken: string
 
   const validCompanyObject = createNewCompanyTestObject({
-    CNPJ: '55555555555555',
+    CNPJ: '44444444444444',
     email: 'test@company.com',
   })
 
-  const validCompanyTermsUpdate = {
-    companyTerms: 'These are the new company terms.',
+  const validTermsUpdate = {
+    termsDate: '2023-12-31T00:00:00.000Z',
   }
 
   beforeAll(async () => {
@@ -35,11 +35,11 @@ describe('Update Company Terms - (e2e)', () => {
     await app.close()
   })
 
-  it('should successfully update the company terms', async () => {
+  it('should successfully update the terms date for the company', async () => {
     const response = await request(app.server)
-      .patch(`/company/update-terms`)
+      .patch(`/company/update-terms-date`)
       .set('Authorization', `Bearer ${companyAccessToken}`)
-      .send(validCompanyTermsUpdate)
+      .send(validTermsUpdate)
 
     expect(response.statusCode).toEqual(200)
   })

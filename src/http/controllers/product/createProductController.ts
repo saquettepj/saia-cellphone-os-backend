@@ -14,6 +14,7 @@ interface ICreateProductControllerResponse {
   price: number
   cost: number
   quantity: number
+  warrantyDays?: number | null
   localization?: string | null
   supplierId?: string | null
 }
@@ -31,6 +32,7 @@ async function createProductController(
     price,
     cost,
     quantity,
+    warrantyDays,
     localization,
     supplierId,
   } = ICreateProductDTO.parse(request.body)
@@ -46,6 +48,7 @@ async function createProductController(
       price,
       cost,
       quantity,
+      warrantyDays,
       localization,
       supplierId,
     })
@@ -59,6 +62,7 @@ async function createProductController(
       price: createProductUseCaseReturn.price,
       cost: createProductUseCaseReturn.cost,
       quantity: createProductUseCaseReturn.quantity,
+      warrantyDays: createProductUseCaseReturn.warrantyDays,
       localization: createProductUseCaseReturn.localization,
       supplierId: createProductUseCaseReturn.supplierId,
     }

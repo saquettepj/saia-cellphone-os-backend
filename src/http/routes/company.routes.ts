@@ -10,7 +10,6 @@ import { getCompanyController } from '../controllers/company/getCompanyControlle
 import { updateCompanyController } from '../controllers/company/updateCompanyController'
 import { updateCompanyPasswordController } from '../controllers/company/updateCompanyPasswordController'
 import { superUpdateCompanyController } from '../controllers/company/superUpdateCompanyController'
-import { updateCompanyTermsController } from '../controllers/company/updateCompanyTermsController'
 import { companyCheckerByCompanyMiddleware } from '../middlewares/companyCheckerByCompanyMiddleware'
 import { getCompanyByIdController } from '../controllers/company/getCompanyByIdController'
 import { updateCompanyListsController } from '../controllers/company/updateCompanyListsController'
@@ -18,6 +17,8 @@ import { updateCompanyHasCostController } from '../controllers/company/updateCom
 import { updateCompanyTextMessageController } from '../controllers/company/updateCompanyTextMessageController'
 import { updateForgotCompanyPasswordController } from '../controllers/company/updateForgotCompanyPasswordController'
 import { resetCompanyPasswordController } from '../controllers/company/resetCompanyPasswordController'
+import { updateCompanyTermsDateController } from '../controllers/company/updateCompanyTermsDateController'
+import { updateCompanyTermsController } from '../controllers/company/updateCompanyTermsController'
 
 async function companyRoutes(app: FastifyInstance) {
   app.post('/company', createCompanyController)
@@ -93,11 +94,11 @@ async function companyRoutes(app: FastifyInstance) {
   app.post('/generic-list', resetCompanyPasswordController)
 
   app.patch(
-    '/company/update-terms',
+    '/company/update-terms-date',
     {
       preHandler: [companyAuthenticatorMiddleware],
     },
-    updateCompanyTermsController,
+    updateCompanyTermsDateController,
   )
 
   app.patch(
@@ -114,6 +115,14 @@ async function companyRoutes(app: FastifyInstance) {
       preHandler: [companyAuthenticatorMiddleware],
     },
     updateCompanyTextMessageController,
+  )
+
+  app.patch(
+    '/company/update-terms',
+    {
+      preHandler: [companyAuthenticatorMiddleware],
+    },
+    updateCompanyTermsController,
   )
 
   app.patch(

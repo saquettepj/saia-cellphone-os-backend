@@ -11,7 +11,8 @@ interface ICreateProductUseCaseRequest {
   condition: string
   description: string
   quantity: number
-  localization?: string
+  warrantyDays?: number | null
+  localization?: string | null
   supplierId?: string | null
 }
 
@@ -29,6 +30,7 @@ class CreateProductUseCase {
     condition,
     description,
     quantity,
+    warrantyDays,
     localization,
     supplierId,
   }: ICreateProductUseCaseRequest) {
@@ -59,6 +61,7 @@ class CreateProductUseCase {
       condition,
       description,
       quantity,
+      warrantyDays,
       localization,
       supplierId,
     })

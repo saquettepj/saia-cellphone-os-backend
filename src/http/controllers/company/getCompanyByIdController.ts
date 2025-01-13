@@ -34,6 +34,7 @@ async function getCompanyByIdController(
         textMessage: getCompanyByIdUseCaseReturn.textMessage,
         payDate: getCompanyByIdUseCaseReturn.payDate || null,
         termsDate: getCompanyByIdUseCaseReturn.termsDate || null,
+        companyTerms: getCompanyByIdUseCaseReturn.companyTerms || null,
         accessToken: getCompanyByIdUseCaseReturn.accessToken || null,
         address: getCompanyByIdUseCaseReturn.address || null,
         employees: getCompanyByIdUseCaseReturn.employees || [],

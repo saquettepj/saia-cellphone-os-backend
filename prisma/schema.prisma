@@ -35,6 +35,7 @@ model Company {
   payType               String?
   payDate               DateTime?
   termsDate             DateTime?
+  companyTerms          String?
   lists                 String[]
   textMessage           String       @default("")
   hasCost               Boolean      @default(false)
@@ -166,6 +167,7 @@ model Product {
   company      Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
   supplierId   String?
   supplier     Supplier?   @relation(fields: [supplierId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  warrantyDays Int?
   type         String
   cost         Float
   price        Float

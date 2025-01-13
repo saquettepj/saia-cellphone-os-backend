@@ -134,6 +134,7 @@ describe('Get Company By ID - (e2e)', () => {
         hasCost: false,
         textMessage: '',
         termsDate: expect.any(String),
+        companyTerms: null,
         accessToken: null,
         lists: [],
         employees: [],
@@ -163,6 +164,7 @@ describe('Get Company By ID - (e2e)', () => {
         hasCost: false,
         textMessage: '',
         termsDate: expect.any(String),
+        companyTerms: null,
         accessToken: null,
         address: expect.objectContaining({
           country: targetCompanyObject.country,

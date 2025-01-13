@@ -107,6 +107,7 @@ describe('Create product - (e2e)', () => {
       price: newProductObject.price,
       cost: newProductObject.cost,
       quantity: newProductObject.quantity,
+      warrantyDays: null,
       localization: newProductObject.localization,
       supplierId: null,
     })

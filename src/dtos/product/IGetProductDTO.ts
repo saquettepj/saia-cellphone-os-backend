@@ -15,6 +15,7 @@ export const IGetProductDTO = z
     price: z.number().optional(),
     cost: z.number().optional(),
     quantity: z.number().optional(),
+    warrantyDays: z.number().int().optional(),
     localization: z.string().optional(),
     supplierId: z.string().optional(),
   })

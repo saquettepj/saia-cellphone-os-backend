@@ -15,6 +15,7 @@ interface IUpdateProductControllerResponse {
   price: number
   cost: number
   quantity: number
+  warrantyDays?: number | null
   localization?: string | null
   supplierId?: string | null
 }
@@ -33,6 +34,7 @@ async function updateProductController(
     price,
     cost,
     quantity,
+    warrantyDays,
     localization,
     supplierId,
   } = IUpdateProductDTO.parse(request.body)
@@ -49,6 +51,7 @@ async function updateProductController(
       price,
       cost,
       quantity,
+      warrantyDays,
       localization,
       supplierId,
     })
@@ -62,6 +65,7 @@ async function updateProductController(
       price: updateProductUseCaseReturn.price,
       cost: updateProductUseCaseReturn.cost,
       quantity: updateProductUseCaseReturn.quantity,
+      warrantyDays: updateProductUseCaseReturn.warrantyDays,
       localization: updateProductUseCaseReturn.localization,
       supplierId: updateProductUseCaseReturn.supplierId,
     }
