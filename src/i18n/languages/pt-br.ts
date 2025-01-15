@@ -74,6 +74,7 @@ export const ptBR = {
     'Último pagamento não encontrado!',
   [TranslationKeysEnum.ERROR_CLIENT_NAME_NOT_FOUND_BY_CPF]:
     'Nome do cliente não encontrado pelo CPF!',
+  [TranslationKeysEnum.ERROR_SEND_EMAIL]: 'Error sending the email!',
 
   // #################### GLOBALS #######################
   [TranslationKeysEnum.PAYMENT_DESCRIPTION_MONTHLY_PLAN]:

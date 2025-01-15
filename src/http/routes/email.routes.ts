@@ -1,8 +1,10 @@
 import { FastifyInstance } from 'fastify'
 
 import { confirmEmailController } from '../controllers/email/confirmEmailController'
-import { sendEmailConfirmationController } from '../controllers/email/sendEmailConfirmationController.ts'
 import { companyAuthenticatorMiddleware } from '../middlewares/companyAuthenticatorMiddleware'
+import { sendEmailConfirmationController } from '../controllers/email/sendEmailConfirmationController'
+import { emailConfirmationCheckerMiddleware } from '../middlewares/emailConfirmationCheckerMiddleware'
+import { sendSupportEmailController } from '../controllers/email/sendSupportEmailController'
 
 async function emailRoutes(app: FastifyInstance) {
   app.post(
@@ -18,6 +20,16 @@ async function emailRoutes(app: FastifyInstance) {
       preHandler: [companyAuthenticatorMiddleware],
     },
     confirmEmailController,
+  )
+  app.post(
+    '/email/support',
+    {
+      preHandler: [
+        companyAuthenticatorMiddleware,
+        emailConfirmationCheckerMiddleware,
+      ],
+    },
+    sendSupportEmailController,
   )
 }
 

@@ -71,6 +71,7 @@ export const en = {
   [TranslationKeysEnum.ERROR_LAST_PAYMENT_NOT_FOUND]: 'Last payment not found!',
   [TranslationKeysEnum.ERROR_CLIENT_NAME_NOT_FOUND_BY_CPF]:
     'Client name not found by CPF!',
+  [TranslationKeysEnum.ERROR_SEND_EMAIL]: 'Erro ao enviar o e-mail!',
 
   // #################### GLOBALS #######################
   [TranslationKeysEnum.PAYMENT_DESCRIPTION_MONTHLY_PLAN]:
