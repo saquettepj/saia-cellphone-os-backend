@@ -56,7 +56,7 @@ async function productRoutes(app: FastifyInstance) {
     deleteProductController,
   )
 
-  app.post(
+  /*   app.post(
     '/product/delete-by-ids',
     {
       preHandler: [
@@ -65,7 +65,7 @@ async function productRoutes(app: FastifyInstance) {
       ],
     },
     deleteManyProductController,
-  )
+  ) */
 }
 
 export { productRoutes }

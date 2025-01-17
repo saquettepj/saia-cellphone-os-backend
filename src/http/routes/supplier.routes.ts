@@ -16,13 +16,13 @@ async function supplierRoutes(app: FastifyInstance) {
     createSupplierController,
   )
 
-  app.post(
+  /*   app.post(
     '/supplier/list',
     {
       preHandler: [companyAuthenticatorMiddleware],
     },
     getSupplierController,
-  )
+  ) */
 
   app.patch(
     '/supplier/:id',

@@ -43,7 +43,7 @@ async function serviceRoutes(app: FastifyInstance) {
     updateServiceController,
   )
 
-  app.delete(
+  /*   app.delete(
     '/service/:id',
     {
       preHandler: [
@@ -53,7 +53,7 @@ async function serviceRoutes(app: FastifyInstance) {
       ],
     },
     deleteServiceController,
-  )
+  ) */
 }
 
 export { serviceRoutes }

@@ -48,7 +48,7 @@ async function orderItemRoutes(app: FastifyInstance) {
     updateOrderItemController,
   )
 
-  app.delete(
+  /*   app.delete(
     '/order-item/:id',
     {
       preHandler: [
@@ -58,9 +58,9 @@ async function orderItemRoutes(app: FastifyInstance) {
       ],
     },
     deleteOrderItemController,
-  )
+  ) */
 
-  app.post(
+  /*   app.post(
     '/order-item/delete-many',
     {
       preHandler: [
@@ -69,7 +69,7 @@ async function orderItemRoutes(app: FastifyInstance) {
       ],
     },
     deleteManyOrderItemController,
-  )
+  ) */
 }
 
 export { orderItemRoutes }
