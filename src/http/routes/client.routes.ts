@@ -16,13 +16,13 @@ async function clientRoutes(app: FastifyInstance) {
     createClientController,
   )
 
-  app.post(
+  /*   app.post(
     '/client/list',
     {
       preHandler: [companyAuthenticatorMiddleware],
     },
     getClientController,
-  )
+  ) */
 
   app.patch(
     '/client/:id',

@@ -21,7 +21,7 @@ async function productRoutes(app: FastifyInstance) {
     createProductController,
   )
 
-  app.post(
+  /*   app.post(
     '/product/list',
     {
       preHandler: [
@@ -30,7 +30,7 @@ async function productRoutes(app: FastifyInstance) {
       ],
     },
     getProductController,
-  )
+  ) */
 
   app.patch(
     '/product/:id',

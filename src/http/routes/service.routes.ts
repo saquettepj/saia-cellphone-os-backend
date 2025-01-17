@@ -9,7 +9,7 @@ import { emailConfirmationCheckerMiddleware } from '../middlewares/emailConfirma
 import { serviceCheckerByCompanyMiddleware } from '../middlewares/serviceCheckerByCompanyMiddleware'
 
 async function serviceRoutes(app: FastifyInstance) {
-  app.post(
+  /*   app.post(
     '/service',
     {
       preHandler: [
@@ -18,9 +18,9 @@ async function serviceRoutes(app: FastifyInstance) {
       ],
     },
     createServiceController,
-  )
+  ) */
 
-  app.post(
+  /*   app.post(
     '/service/list',
     {
       preHandler: [
@@ -29,7 +29,7 @@ async function serviceRoutes(app: FastifyInstance) {
       ],
     },
     getServiceController,
-  )
+  ) */
 
   app.patch(
     '/service/:id',

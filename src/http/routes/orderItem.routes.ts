@@ -12,7 +12,7 @@ import { orderOnOthersCheckerByCompanyMiddleware } from '../middlewares/orderOnO
 import { orderItemCheckerByCompanyMiddleware } from '../middlewares/orderItemCheckerByCompanyMiddleware'
 
 async function orderItemRoutes(app: FastifyInstance) {
-  app.post(
+  /*   app.post(
     '/order-item',
     {
       preHandler: [
@@ -23,9 +23,9 @@ async function orderItemRoutes(app: FastifyInstance) {
       ],
     },
     createOrderItemController,
-  )
+  ) */
 
-  app.post(
+  /*   app.post(
     '/order-item/list',
     {
       preHandler: [
@@ -34,7 +34,7 @@ async function orderItemRoutes(app: FastifyInstance) {
       ],
     },
     getOrderItemController,
-  )
+  ) */
 
   app.patch(
     '/order-item/:id',

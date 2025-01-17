@@ -26,7 +26,7 @@ async function orderRoutes(app: FastifyInstance) {
     createOrderController,
   )
 
-  app.post(
+  /*   app.post(
     '/order/list',
     {
       preHandler: [
@@ -35,7 +35,7 @@ async function orderRoutes(app: FastifyInstance) {
       ],
     },
     getOrderController,
-  )
+  ) */
 
   app.patch(
     '/order/:id',

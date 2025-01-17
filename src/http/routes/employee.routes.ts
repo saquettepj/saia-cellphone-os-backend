@@ -16,13 +16,13 @@ async function employeeRoutes(app: FastifyInstance) {
     createEmployeeController,
   )
 
-  app.post(
+  /*   app.post(
     '/employee/list',
     {
       preHandler: [companyAuthenticatorMiddleware],
     },
     getEmployeeController,
-  )
+  ) */
 
   app.patch(
     '/employee/:id',
