@@ -21,3 +21,6 @@ debug.log
 
 #Directories
 coverage
+
+# VSCode
+.vscode
