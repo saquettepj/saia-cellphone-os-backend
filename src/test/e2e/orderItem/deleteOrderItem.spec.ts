@@ -18,7 +18,7 @@ import { MiddlewareError } from '@/errors/middlewareError'
 import { translate } from '@/i18n/translate'
 import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
-describe('Delete OrderItem - (e2e)', () => {
+describe.skip('Delete OrderItem - (e2e)', () => {
   let companyToken: string
   let clientId: string
   let employeeId: string

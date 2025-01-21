@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { ValidateMessagesEnum } from '@/enums/all.enum'
+import { AccountPayTypeEnum, ValidateMessagesEnum } from '@/enums/all.enum'
 import { validateDateOnRequests } from '@/utils/validateDateOnRequests'
 
 export const ISuperUpdateCompanyDTO = z
@@ -13,6 +13,7 @@ export const ISuperUpdateCompanyDTO = z
     email: z.string().email().optional(),
     name: z.string().optional(),
     emailChecked: z.boolean().optional(),
+    payType: z.nativeEnum(AccountPayTypeEnum).optional(),
     payDate: z
       .string()
       .refine((val) => validateDateOnRequests(val), {

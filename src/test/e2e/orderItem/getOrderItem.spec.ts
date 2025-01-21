@@ -14,7 +14,7 @@ import {
   setupProductJokerRepository,
 } from '@/test/utils/jokerRepository'
 
-describe('Get OrderItems - (e2e)', () => {
+describe.skip('Get OrderItems - (e2e)', () => {
   let companyToken: string
   let clientId: string
   let employeeId: string

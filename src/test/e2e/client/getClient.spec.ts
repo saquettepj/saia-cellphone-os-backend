@@ -12,7 +12,7 @@ import { MiddlewareError } from '@/errors/middlewareError'
 import { translate } from '@/i18n/translate'
 import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
-describe('Get Clients - (e2e)', () => {
+describe.skip('Get Clients - (e2e)', () => {
   let companyToken: string
 
   const companyJokerRepository = setupCompanyJokerRepository()

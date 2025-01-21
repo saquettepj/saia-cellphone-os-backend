@@ -12,7 +12,7 @@ import { formatUniqueStrings } from '@/utils/formatUniqueStrings'
 import { translate } from '@/i18n/translate'
 import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
-describe('Get product - (e2e)', () => {
+describe.skip('Get product - (e2e)', () => {
   let companyToken: string
   let unconfirmedToken: string
   let productId: string

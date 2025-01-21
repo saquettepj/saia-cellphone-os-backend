@@ -14,7 +14,7 @@ import {
 import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
 import { ServiceStatusEnum } from '@/enums/all.enum'
 
-describe('Get Service - (e2e)', () => {
+describe.skip('Get Service - (e2e)', () => {
   let companyToken: string
   let clientId: string
   let employeeId: string

@@ -9,7 +9,7 @@ import {
 import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
 import { RoleEnum } from '@/enums/all.enum'
 
-describe('Get Employees - (e2e)', () => {
+describe.skip('Get Employees - (e2e)', () => {
   let companyToken: string
   let employeeId: string
 

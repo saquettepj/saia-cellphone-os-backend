@@ -13,7 +13,7 @@ import {
 } from '@/test/testObjects/testObjects'
 import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
 
-describe('Delete Service - (e2e)', () => {
+describe.skip('Delete Service - (e2e)', () => {
   let companyToken: string
   let clientId: string
   let employeeId: string

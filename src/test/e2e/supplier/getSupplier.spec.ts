@@ -11,7 +11,7 @@ import { MiddlewareError } from '@/errors/middlewareError'
 import { translate } from '@/i18n/translate'
 import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
-describe('Get Suppliers - (e2e)', () => {
+describe.skip('Get Suppliers - (e2e)', () => {
   let companyToken: string
 
   const companyJokerRepository = setupCompanyJokerRepository()

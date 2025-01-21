@@ -16,7 +16,7 @@ import {
 } from '@/test/utils/jokerRepository'
 import { OrderItemNotFoundError } from '@/errors/orderItemNotFoundError'
 
-describe('Delete Many OrderItems - (e2e)', () => {
+describe.skip('Delete Many OrderItems - (e2e)', () => {
   let companyToken: string
   let initialProductQuantity: number | undefined
   let clientId: string

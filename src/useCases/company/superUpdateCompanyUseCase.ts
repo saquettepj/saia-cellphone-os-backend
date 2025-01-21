@@ -9,7 +9,8 @@ interface ISuperUpdateCompanyUseCaseRequest {
   email?: string
   name?: string
   emailChecked?: boolean
-  payDate?: string | null
+  payType?: string
+  payDate?: string
 }
 
 class SuperUpdateCompanyUseCase {
@@ -21,6 +22,7 @@ class SuperUpdateCompanyUseCase {
     email,
     name,
     emailChecked,
+    payType,
     payDate,
   }: ISuperUpdateCompanyUseCaseRequest) {
     const searchedCompany = await this.companyRepository.findById(id)
@@ -52,6 +54,7 @@ class SuperUpdateCompanyUseCase {
       email,
       name,
       emailChecked,
+      payType,
       payDate,
     })
 

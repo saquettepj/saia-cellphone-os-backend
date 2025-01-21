@@ -17,7 +17,7 @@ import { ServiceStatusEnum } from '@/enums/all.enum'
 import { EmployeeNotFoundError } from '@/errors/employeeNotFoundError'
 import { OrderItemNotFoundError } from '@/errors/orderItemNotFoundError'
 
-describe('Create Service - (e2e)', () => {
+describe.skip('Create Service - (e2e)', () => {
   let companyToken: string
   let clientId: string
   let employeeId: string

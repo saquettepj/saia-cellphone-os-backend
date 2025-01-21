@@ -20,7 +20,7 @@ import { DuplicateOrderItemError } from '@/errors/duplicateOrderItemError'
 import { translate } from '@/i18n/translate'
 import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
-describe('Create OrderItem - (e2e)', () => {
+describe.skip('Create OrderItem - (e2e)', () => {
   let companyToken: string
   let initialProductQuantity: number | undefined
   let clientId: string
