@@ -23,7 +23,7 @@ debug.log
 coverage
 
 # VSCode
-.vscode
+/.vscode
 
 # Temp files
 /nfe.js
