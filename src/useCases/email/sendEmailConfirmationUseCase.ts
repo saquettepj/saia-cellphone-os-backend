@@ -3,6 +3,7 @@ import { generateEmailSendCodeObject } from '@/emails/emailStructures/generateEm
 import { sendEmail } from '@/emails/sendEmail'
 import { EmailAlreadyConfirmedError } from '@/errors/emailAlreadyConfirmedError'
 import { EmailNotFoundError } from '@/errors/emailNotFoundError'
+import { SendEmailError } from '@/errors/sendEmailError'
 import { ICompanyRepository } from '@/repositories/company/ICompanyRepository'
 import { generateRandomNumber } from '@/utils/randomNumberGenerator'
 
@@ -37,7 +38,11 @@ class SendEmailConfirmationUseCase {
       html: confirmationEmailObject.html,
     }
 
-    await sendEmail(mailConfiguration).then().catch()
+    await sendEmail(mailConfiguration)
+      .then()
+      .catch(() => {
+        throw new SendEmailError()
+      })
   }
 }
 

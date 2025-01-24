@@ -5,7 +5,7 @@ import { PasswordConfirmationIsDifferentError } from '@/errors/passwordConfirmat
 import { CompanyCredentialsError } from '@/errors/companyCredentialsError'
 
 interface IUpdateCompanyPasswordUseCaseRequest {
-  id: string
+  CNPJ: string
   currentPassword: string
   newPassword: string
   passwordConfirmation: string
@@ -15,12 +15,12 @@ class UpdateCompanyPasswordUseCase {
   constructor(private companyRepository: ICompanyRepository) {}
 
   async execute({
-    id,
+    CNPJ,
     currentPassword,
     newPassword,
     passwordConfirmation,
   }: IUpdateCompanyPasswordUseCaseRequest) {
-    const searchedCompany = await this.companyRepository.findById(id)
+    const searchedCompany = await this.companyRepository.findByCNPJ(CNPJ)
 
     if (newPassword !== passwordConfirmation) {
       throw new PasswordConfirmationIsDifferentError()
@@ -41,10 +41,7 @@ class UpdateCompanyPasswordUseCase {
 
     const newPasswordHash = await hash(newPassword.trim(), 8)
 
-    await this.companyRepository.updatePasswordAndResetEmailById(
-      id,
-      newPasswordHash,
-    )
+    await this.companyRepository.updatePasswordByCNPJ(CNPJ, newPasswordHash)
 
     return searchedCompany
   }

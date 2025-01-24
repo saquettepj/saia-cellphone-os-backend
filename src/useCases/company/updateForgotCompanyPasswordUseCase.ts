@@ -5,7 +5,8 @@ import { CompanyCredentialsForgotPasswordError } from '@/errors/companyCredentia
 import { sendEmail } from '@/emails/sendEmail'
 import { IEmailConfig } from '@/emails/IEmailConfig'
 import { env } from '@/env'
-import { generateEmailUpdatePasswordObject } from '@/emails/emailStructures/generateEmailUpdatePasswordObject'
+import { generateEmailResetPasswordObject } from '@/emails/emailStructures/generateEmailResetPasswordObject'
+import { randomPasswordGenerator } from '@/utils/randomPasswordGenerator'
 
 interface IUpdateForgotCompanyPasswordUseCaseRequest {
   CNPJ: string
@@ -26,11 +27,20 @@ class UpdateForgotCompanyPasswordUseCase {
       throw new CompanyCredentialsForgotPasswordError()
     }
 
-    const token = sign({ id: searchedCompany.id }, env.RESET_PASSWORD_TOKEN, {
-      expiresIn: '10m',
-    })
+    const newPassword = randomPasswordGenerator()
 
-    const resetPasswordEmailObject = generateEmailUpdatePasswordObject(token)
+    const token = sign(
+      { id: searchedCompany.id, password: newPassword },
+      env.RESET_PASSWORD_TOKEN,
+      {
+        expiresIn: '10m',
+      },
+    )
+
+    const resetPasswordEmailObject = generateEmailResetPasswordObject(
+      token,
+      newPassword,
+    )
 
     const mailConfiguration: IEmailConfig = {
       to: searchedCompany.email,

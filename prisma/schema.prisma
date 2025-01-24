@@ -176,6 +176,7 @@ model Product {
   localization String?
   orders       OrderItem[]
   quantity     Int
+  createdAt    DateTime    @default(now())
 
   @@unique([companyId, description])
   @@map("product")

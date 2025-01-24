@@ -75,6 +75,8 @@ export const ptBR = {
   [TranslationKeysEnum.ERROR_CLIENT_NAME_NOT_FOUND_BY_CPF]:
     'Nome do cliente não encontrado pelo CPF!',
   [TranslationKeysEnum.ERROR_SEND_EMAIL]: 'Error sending the email!',
+  [TranslationKeysEnum.ERROR_NOT_ALLOWED_TO_DELETE_ITEM_AFTER_24HRS]:
+    'Não permitido a exclusão do item após 24hrs da data de criação!',
 
   // #################### GLOBALS #######################
   [TranslationKeysEnum.PAYMENT_DESCRIPTION_MONTHLY_PLAN]:

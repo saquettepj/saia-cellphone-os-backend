@@ -9,15 +9,14 @@ async function updateCompanyPasswordController(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const { id } = request.company
-  const { currentPassword, newPassword, passwordConfirmation } =
+  const { CNPJ, currentPassword, newPassword, passwordConfirmation } =
     IUpdateCompanyPasswordDTO.parse(request.body)
 
   try {
     const updateCompanyPasswordUseCase = setupUpdateCompanyPasswordUseCase()
 
     await updateCompanyPasswordUseCase.execute({
-      id,
+      CNPJ,
       currentPassword,
       newPassword,
       passwordConfirmation,

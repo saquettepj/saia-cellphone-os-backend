@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 
 import { setupDeleteClientUseCase } from '@/useCases/client/factory/setupDeleteClientUseCase'
 import { ISimpleClientDTO } from '@/dtos/client/ISimpleClientDTO'
+import { DeleteDateNotAllowed } from '@/errors/deleteDateNotAllowed'
 
 async function deleteClientController(
   request: FastifyRequest,
@@ -15,6 +16,11 @@ async function deleteClientController(
 
     return reply.status(200).send({ id })
   } catch (error) {
+    if (error instanceof DeleteDateNotAllowed) {
+      return reply
+        .status(400)
+        .send({ message: error.message, name: error.name })
+    }
     throw error
   }
 }

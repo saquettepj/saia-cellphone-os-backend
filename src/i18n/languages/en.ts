@@ -72,6 +72,8 @@ export const en = {
   [TranslationKeysEnum.ERROR_CLIENT_NAME_NOT_FOUND_BY_CPF]:
     'Client name not found by CPF!',
   [TranslationKeysEnum.ERROR_SEND_EMAIL]: 'Erro ao enviar o e-mail!',
+  [TranslationKeysEnum.ERROR_NOT_ALLOWED_TO_DELETE_ITEM_AFTER_24HRS]:
+    'Deletion of the item is not allowed after 24 hours from the creation date!',
 
   // #################### GLOBALS #######################
   [TranslationKeysEnum.PAYMENT_DESCRIPTION_MONTHLY_PLAN]:

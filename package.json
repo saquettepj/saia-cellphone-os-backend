@@ -58,7 +58,7 @@
     "fastify-multer": "^2.0.3",
     "jsonwebtoken": "^9.0.2",
     "mercadopago": "^2.2.0",
-    "node-dfe": "^0.0.25",
+    "node-nfe-nfce": "^1.0.92",
     "nodemailer": "^6.9.16",
     "puppeteer": "^24.1.0",
     "sharp": "^0.33.5",

@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 
 import { ISimpleProductDTO } from '@/dtos/product/ISimpleProductDTO'
 import { setupDeleteProductUseCase } from '@/useCases/product/factory/setupDeleteProductUseCase'
+import { DeleteDateNotAllowed } from '@/errors/deleteDateNotAllowed'
 
 interface IDeleteProductControllerResponse {
   id: string
@@ -26,6 +27,11 @@ async function deleteProductController(
 
     return reply.status(200).send(responseBody)
   } catch (error) {
+    if (error instanceof DeleteDateNotAllowed) {
+      return reply
+        .status(400)
+        .send({ message: error.message, name: error.name })
+    }
     throw error
   }
 }

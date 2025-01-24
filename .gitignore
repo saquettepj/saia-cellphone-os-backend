@@ -24,3 +24,6 @@ coverage
 
 # VSCode
 .vscode
+
+# Temp files
+nfe.js

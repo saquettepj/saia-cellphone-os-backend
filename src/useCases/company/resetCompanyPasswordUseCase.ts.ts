@@ -8,28 +8,28 @@ import { LinkExpiredError } from '@/errors/linkExpiredError'
 
 interface IResetCompanyPasswordUseCaseRequest {
   token: string
-  newPassword: string
 }
 
 class ResetCompanyPasswordUseCase {
   constructor(private companyRepository: ICompanyRepository) {}
 
-  async execute({ token, newPassword }: IResetCompanyPasswordUseCaseRequest) {
+  async execute({ token }: IResetCompanyPasswordUseCaseRequest) {
     let decodedToken
 
-    if (!newPassword || !token) {
+    if (!token) {
       throw new NotFoundError()
     }
 
     try {
       decodedToken = verify(token, env.RESET_PASSWORD_TOKEN) as {
         id: string
+        password: string
       }
     } catch (error) {
       throw new LinkExpiredError()
     }
 
-    if (!decodedToken?.id) {
+    if (!decodedToken?.id || !decodedToken?.password) {
       throw new NotFoundError()
     }
 
@@ -39,7 +39,7 @@ class ResetCompanyPasswordUseCase {
       throw new NotFoundError()
     }
 
-    const hashedPassword = await hash(newPassword.trim(), 8)
+    const hashedPassword = await hash(decodedToken.password.trim(), 8)
 
     await this.companyRepository.updatePasswordById(
       decodedToken.id,

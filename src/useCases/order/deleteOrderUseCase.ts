@@ -1,5 +1,7 @@
+import { DeleteDateNotAllowed } from '@/errors/deleteDateNotAllowed'
 import { DeletingError } from '@/errors/deletingError'
 import { OrderNotFoundError } from '@/errors/orderNotFoundError'
+import { checkIfCreationDateExceeded } from '@/utils/checkIfCreationDateExceeded'
 import { ITransaction } from '@/utils/transaction'
 
 interface IDeleteOrderUseCaseRequest {
@@ -17,6 +19,10 @@ class DeleteOrderUseCase {
 
       if (!searchedOrder) {
         throw new OrderNotFoundError()
+      }
+
+      if (checkIfCreationDateExceeded(searchedOrder.createdAt)) {
+        throw new DeleteDateNotAllowed()
       }
 
       try {

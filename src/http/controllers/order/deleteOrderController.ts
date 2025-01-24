@@ -3,6 +3,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { ISimpleOrderDTO } from '@/dtos/order/ISimpleOrderDTO'
 import { DeletingError } from '@/errors/deletingError'
 import { setupDeleteOrderUseCase } from '@/useCases/order/factory/setupDeleteOrderUseCase'
+import { DeleteDateNotAllowed } from '@/errors/deleteDateNotAllowed'
 
 interface IDeleteOrderControllerResponse {
   id: string
@@ -24,6 +25,11 @@ async function deleteOrderController(
     return reply.status(200).send(responseBody)
   } catch (error) {
     if (error instanceof DeletingError) {
+      return reply
+        .status(400)
+        .send({ message: error.message, name: error.name })
+    }
+    if (error instanceof DeleteDateNotAllowed) {
       return reply
         .status(400)
         .send({ message: error.message, name: error.name })

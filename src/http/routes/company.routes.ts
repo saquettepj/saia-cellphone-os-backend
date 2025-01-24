@@ -19,6 +19,8 @@ import { updateForgotCompanyPasswordController } from '../controllers/company/up
 import { resetCompanyPasswordController } from '../controllers/company/resetCompanyPasswordController'
 import { updateCompanyTermsDateController } from '../controllers/company/updateCompanyTermsDateController'
 import { updateCompanyTermsController } from '../controllers/company/updateCompanyTermsController'
+import { changePasswordEmailRequestController } from '../controllers/company/changePasswordEmailRequestController'
+import { verifyResetPasswordTokenController } from '../controllers/company/verifyResetPasswordTokenController'
 
 async function companyRoutes(app: FastifyInstance) {
   app.post('/company', createCompanyController)
@@ -78,16 +80,29 @@ async function companyRoutes(app: FastifyInstance) {
     superUpdateCompanyController,
   )
 
-  app.patch(
-    '/company/update-password',
+  app.post(
+    '/company/change-password-email-request',
     {
       preHandler: [
         companyAuthenticatorMiddleware,
         emailConfirmationCheckerMiddleware,
       ],
     },
-    updateCompanyPasswordController,
+    changePasswordEmailRequestController,
   )
+
+  app.post(
+    '/company/verify-link',
+    {
+      preHandler: [
+        companyAuthenticatorMiddleware,
+        emailConfirmationCheckerMiddleware,
+      ],
+    },
+    verifyResetPasswordTokenController,
+  )
+
+  app.patch('/company/update-password', updateCompanyPasswordController)
 
   app.patch('/company/forgot-password', updateForgotCompanyPasswordController)
 

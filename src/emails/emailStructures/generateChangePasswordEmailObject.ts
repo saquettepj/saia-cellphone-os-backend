@@ -1,11 +1,9 @@
 import { IEmailMessageConfig } from '../IEmailConfig'
 
-import { randomPasswordGenerator } from '@/utils/randomPasswordGenerator'
 import { env } from '@/env'
 
-function generateEmailUpdatePasswordObject(token: string): IEmailMessageConfig {
-  const newPassword = randomPasswordGenerator()
-  const resetPasswordUrl = `${env.FRONTEND_URL}/generic-list?token=${token}&password=${newPassword}`
+function generateChangePasswordEmailObject(token: string): IEmailMessageConfig {
+  const resetPasswordUrl = `${env.FRONTEND_URL}/input-send?token=${token}`
 
   return {
     subject: 'Alteração de senha',
@@ -99,41 +97,16 @@ function generateEmailUpdatePasswordObject(token: string): IEmailMessageConfig {
                                                             <tbody>
                                                               <tr style="border-collapse:collapse">
                                                                   <td align="center" style="padding:0;Margin:0;padding-top:20px;padding-bottom:20px">
-                                                                    <h2 class="m_-4676932673795261361es-m-txt-c" style="Margin:0;font-family:-apple-system,blinkmacsystemfont,'segoe ui',roboto,helvetica,arial,sans-serif,'apple color emoji','segoe ui emoji','segoe ui symbol';letter-spacing:0;font-size:24px;font-style:normal;font-weight:normal;line-height:28.8px;color:#333333">Clique no botão para aterar sua senha para:<br></h2>
-                                                                    <h2 class="m_-4676932673795261361es-m-txt-c" style="Margin:0;font-family:-apple-system,blinkmacsystemfont,'segoe ui',roboto,helvetica,arial,sans-serif,'apple color emoji','segoe ui emoji','segoe ui symbol';letter-spacing:0;font-size:24px;font-style:normal;font-weight:normal;line-height:28.8px;color:#333333"><b><br></b></h2>
-                                                                    <h2 class="m_-4676932673795261361es-m-txt-c" style="Margin:0;font-family:-apple-system,blinkmacsystemfont,'segoe ui',roboto,helvetica,arial,sans-serif,'apple color emoji','segoe ui emoji','segoe ui symbol';letter-spacing:0;font-size:24px;font-style:normal;font-weight:normal;line-height:28.8px;color:#333333"><b>${newPassword}</b></h2>
+                                                                    <h2 class="m_-4676932673795261361es-m-txt-c" style="Margin:0;font-family:-apple-system,blinkmacsystemfont,'segoe ui',roboto,helvetica,arial,sans-serif,'apple color emoji','segoe ui emoji','segoe ui symbol';letter-spacing:0;font-size:24px;font-style:normal;font-weight:normal;line-height:28.8px;color:#333333">Clique no botão para alterar sua senha<br></h2>
+                                                                    <br />
+                                                                    <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px">
+                                                                        <tbody>
+                                                                          <tr style="border-collapse:collapse">
+                                                                              <td align="center" style="padding:0;Margin:0"><span class="m_-4676932673795261361es-button-border" style="border-style:solid;border-color:#0081ff;background:#0081ff;border-width:2px;display:inline-block;border-radius:12px;width:auto;letter-spacing:0.5px"><a href="${resetPasswordUrl}" class="${resetPasswordUrl}-button" style="text-decoration:none!important;color:#ffffff;font-size:14px;padding:15px 30px 15px 30px;display:inline-block;background:#0081ff;border-radius:12px;font-family:arial,'helvetica neue',helvetica,sans-serif;font-weight:bold;font-style:normal;line-height:16.8px;width:auto;text-align:center;letter-spacing:0" target="_blank">Alterar Senha</a><span style="display:none">${resetPasswordUrl}</span></span></td>
+                                                                          </tr>
+                                                                        </tbody>
+                                                                    </table>
                                                                   </td>
-                                                              </tr>
-                                                            </tbody>
-                                                        </table>
-                                                      </td>
-                                                  </tr>
-                                                </tbody>
-                                            </table>
-                                          </td>
-                                      </tr>
-                                    </tbody>
-                                </table>
-                              </td>
-                          </tr>
-                        </tbody>
-                    </table>
-                    <table cellpadding="0" cellspacing="0" align="center" class="m_-4676932673795261361es-content" role="none" style="border-collapse:collapse;border-spacing:0px;width:100%;table-layout:fixed!important">
-                        <tbody>
-                          <tr style="border-collapse:collapse">
-                              <td align="center" style="padding:0;Margin:0">
-                                <table bgcolor="#ffffff" align="center" cellpadding="0" cellspacing="0" class="m_-4676932673795261361es-content-body" role="none" style="border-collapse:collapse;border-spacing:0px;background-color:#ffffff;width:600px">
-                                    <tbody>
-                                      <tr style="border-collapse:collapse">
-                                          <td align="left" style="Margin:0;padding-right:30px;padding-left:30px;padding-top:15px;padding-bottom:15px">
-                                            <table cellpadding="0" cellspacing="0" align="left" class="m_-4676932673795261361es-left" role="none" style="border-collapse:collapse;border-spacing:0px;float:left">
-                                                <tbody>
-                                                  <tr style="border-collapse:collapse">
-                                                      <td align="center" valign="top" style="padding:0;Margin:0;width:540px">
-                                                        <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px">
-                                                            <tbody>
-                                                              <tr style="border-collapse:collapse">
-                                                                  <td align="center" style="padding:0;Margin:0"><span class="m_-4676932673795261361es-button-border" style="border-style:solid;border-color:#0081ff;background:#0081ff;border-width:2px;display:inline-block;border-radius:12px;width:auto;letter-spacing:0.5px"><a href="${resetPasswordUrl}" class="${resetPasswordUrl}-button" style="text-decoration:none!important;color:#ffffff;font-size:14px;padding:15px 30px 15px 30px;display:inline-block;background:#0081ff;border-radius:12px;font-family:arial,'helvetica neue',helvetica,sans-serif;font-weight:bold;font-style:normal;line-height:16.8px;width:auto;text-align:center;letter-spacing:0" target="_blank">Alterar Senha</a><span style="display:none">${resetPasswordUrl}</span></span></td>
                                                               </tr>
                                                             </tbody>
                                                         </table>
@@ -225,4 +198,4 @@ function generateEmailUpdatePasswordObject(token: string): IEmailMessageConfig {
   }
 }
 
-export { generateEmailUpdatePasswordObject }
+export { generateChangePasswordEmailObject }
