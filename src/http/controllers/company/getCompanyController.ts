@@ -36,7 +36,7 @@ async function getCompanyController(
         clients: company.clients || [],
         products: company.products || [],
         orders: company.orders || [],
-        Nfes: company.Nfes || [],
+        Nfces: company.Nfces || [],
         suppliers: company.suppliers || [],
         lists: company.lists || [],
       })),

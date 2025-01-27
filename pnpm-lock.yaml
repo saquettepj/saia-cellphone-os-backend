@@ -36,8 +36,8 @@ importers:
         specifier: ^2.2.0
         version: 2.2.0
       node-nfe-nfce:
-        specifier: ^1.0.92
-        version: 1.0.92
+        specifier: ^1.0.94
+        version: 1.0.94
       nodemailer:
         specifier: ^6.9.16
         version: 6.9.16
@@ -3275,8 +3275,8 @@ packages:
     resolution: {integrity: sha512-dPEtOeMvF9VMcYV/1Wb8CPoVAXtp6MKMlcbAt4ddqmGqUJ6fQZFXkNZNkNlfevtNkGtaSoXf/vNNNSvgrdXwtA==}
     engines: {node: '>= 6.13.0'}
 
-  node-nfe-nfce@1.0.92:
-    resolution: {integrity: sha512-+reGMc0c0t6RIPBYvRIDPsxXi7inZLKazb1zjZVVES8MNltcCKTGg0qbYwsN7nnj0LbPtEFVXtyHTpq5eXum6g==}
+  node-nfe-nfce@1.0.94:
+    resolution: {integrity: sha512-Hb51RCwKUKTYPV3YT7PxpkWGY3fHHEo87zPSNCp39E1ic24xxQ5aXJ+bqWv89cB4Q3TrNiACUf043mI13bQNnQ==}
 
   nodemailer@6.9.16:
     resolution: {integrity: sha512-psAuZdTIRN08HKVd/E8ObdV6NO7NTBY3KsC30F7M4H1OnmLCUNaS56FpYxyb26zWLSyYF9Ozch9KYHhHegsiOQ==}
@@ -4113,6 +4113,9 @@ packages:
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
 
+  user@0.0.0:
+    resolution: {integrity: sha512-eRNM5isOvr6aEFAGi1CqAkmLkYxW2NJ5ThhbD+6IJXYKM1mo7Gtxx4mQIveHz/5K3p/SVnlW9k17ETn+QAu8IQ==}
+
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
@@ -4292,8 +4295,8 @@ packages:
     resolution: {integrity: sha512-xOSJmGFm+BTXmaPYk8pPV3duKo6hJuZ5niN4uMzoNcTlwYs0jAu/N3qY+ud9MhE4N7eMRuC1ayC7Yhmb7MmAWg==}
     engines: {node: '>=0.4.0'}
 
-  xml2js@0.4.23:
-    resolution: {integrity: sha512-ySPiMjM0+pLDftHgXY4By0uswI3SPKLDw/i3UXbnO8M/p28zqexCUoPmQFrYD+/1BzhGJSs2i1ERWKJAtiLrug==}
+  xml2js@0.6.2:
+    resolution: {integrity: sha512-T4rieHaC1EXcES0Kxxj4JWgaUQHDk+qwHcYOCFHfiwKz7tOVPLq7Hjq9dM1WCMhylqMEfP7hMcOIChvotiZegA==}
     engines: {node: '>=4.0.0'}
 
   xmlbuilder@11.0.1:
@@ -8151,7 +8154,7 @@ snapshots:
 
   node-forge@1.3.1: {}
 
-  node-nfe-nfce@1.0.92:
+  node-nfe-nfce@1.0.94:
     dependencies:
       brazilian-values: 0.12.0
       bwip-js: 3.4.5
@@ -8163,8 +8166,9 @@ snapshots:
       pdfkit: 0.13.0
       qrcode: 1.5.4
       sha1: 1.1.1
+      user: 0.0.0
       xml-crypto: 2.1.5
-      xml2js: 0.4.23
+      xml2js: 0.6.2
       xsd-schema-validator: 0.7.0
     transitivePeerDependencies:
       - encoding
@@ -9187,6 +9191,8 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
+  user@0.0.0: {}
+
   util-deprecate@1.0.2: {}
 
   uuid@11.0.5: {}
@@ -9377,7 +9383,7 @@ snapshots:
       '@xmldom/xmldom': 0.7.13
       xpath: 0.0.32
 
-  xml2js@0.4.23:
+  xml2js@0.6.2:
     dependencies:
       sax: 1.4.1
       xmlbuilder: 11.0.1

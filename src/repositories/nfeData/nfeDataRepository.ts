@@ -10,34 +10,21 @@ class NfeDataRepository implements INfeDataRepository {
     return searchedNfeData
   }
 
-  async findAllByCompanyId(
-    companyId: string,
-    data: Partial<Prisma.NfeDataCreateManyInput>,
-  ) {
-    const searchedNfeData = await prisma.nfeData.findMany({
+  async findOneByCompanyId(companyId: string) {
+    const searchedNfeData = await prisma.nfeData.findUnique({
       where: {
         companyId,
-        ...(data.id && { id: { contains: data.id } }),
-        ...(data.inscricaoEstadual && {
-          inscricaoEstadual: { contains: data.inscricaoEstadual },
-        }),
-        ...(data.regimeTributario && {
-          regimeTributario: { contains: data.regimeTributario },
-        }),
-        ...(data.codigoRegimeTributario && {
-          codigoRegimeTributario: { contains: data.codigoRegimeTributario },
-        }),
-        ...(data.cnae && { cnae: { contains: data.cnae } }),
-        ...(data.idCSC && { idCSC: { contains: data.idCSC } }),
-        ...(data.CSC && { CSC: { contains: data.CSC } }),
       },
     })
 
     return searchedNfeData
   }
 
-  async updateById(id: string, data: Prisma.NfeDataUpdateInput) {
-    const updatedNfeData = await prisma.nfeData.update({ where: { id }, data })
+  async updateByCompanyId(companyId: string, data: Prisma.NfeDataUpdateInput) {
+    const updatedNfeData = await prisma.nfeData.update({
+      where: { companyId },
+      data,
+    })
     return updatedNfeData
   }
 

@@ -41,7 +41,7 @@ async function getCompanyByIdController(
         clients: getCompanyByIdUseCaseReturn.clients || [],
         products: getCompanyByIdUseCaseReturn.products || [],
         orders: getCompanyByIdUseCaseReturn.orders || [],
-        Nfes: getCompanyByIdUseCaseReturn.Nfes || [],
+        Nfces: getCompanyByIdUseCaseReturn.Nfces || [],
         suppliers: getCompanyByIdUseCaseReturn.suppliers || [],
         lists: getCompanyByIdUseCaseReturn.lists || [],
       },

@@ -94,7 +94,7 @@ class ClientRepository implements IClientRepository {
       include: {
         address: true,
         orders: true,
-        Nfes: true,
+        Nfces: true,
       },
     })
 
@@ -107,7 +107,7 @@ class ClientRepository implements IClientRepository {
       include: {
         address: { where: { clientId: id } },
         orders: { where: { clientId: id } },
-        Nfes: { where: { clientId: id } },
+        Nfces: { where: { clientId: id } },
       },
     })
 

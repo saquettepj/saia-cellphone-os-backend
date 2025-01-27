@@ -1,27 +1,27 @@
 import { FastifyInstance } from 'fastify'
 
 import { companyAuthenticatorMiddleware } from '../middlewares/companyAuthenticatorMiddleware'
-import { updateNfeDataCertificateController } from '../controllers/nfe/updateNfeDataCertificateController'
 import { emailConfirmationCheckerMiddleware } from '../middlewares/emailConfirmationCheckerMiddleware'
-import { createNfeDataController } from '../controllers/nfeData/createNfeDataController'
+import {
+  createOrUpdateNfeDataController,
+  upload,
+} from '../controllers/nfeData/createOrUpdateNfeDataController'
 import { getNfeDataController } from '../controllers/nfeData/getNfeDataController'
-import { deleteNfeDataController } from '../controllers/nfeData/deleteNfeDataController'
-import { updateNfeDataController } from '../controllers/nfeData/updateNfeDataController'
-import { nfeDataCheckerByCompanyMiddleware } from '../middlewares/nfeDataCheckerByCompanyMiddleware'
 
 async function nfeDataRoutes(app: FastifyInstance) {
   app.post(
-    '/nfe-data',
+    '/nfe-data/config',
     {
       preHandler: [
         companyAuthenticatorMiddleware,
         emailConfirmationCheckerMiddleware,
+        upload.single('file'),
       ],
     },
-    createNfeDataController,
+    createOrUpdateNfeDataController,
   )
 
-  app.post(
+  app.get(
     '/nfe-data/list',
     {
       preHandler: [
@@ -30,41 +30,6 @@ async function nfeDataRoutes(app: FastifyInstance) {
       ],
     },
     getNfeDataController,
-  )
-
-  app.patch(
-    '/nfe-data/:id',
-    {
-      preHandler: [
-        companyAuthenticatorMiddleware,
-        emailConfirmationCheckerMiddleware,
-        nfeDataCheckerByCompanyMiddleware,
-      ],
-    },
-    updateNfeDataController,
-  )
-
-  app.delete(
-    '/nfe-data/:id',
-    {
-      preHandler: [
-        companyAuthenticatorMiddleware,
-        emailConfirmationCheckerMiddleware,
-        nfeDataCheckerByCompanyMiddleware,
-      ],
-    },
-    deleteNfeDataController,
-  )
-
-  app.patch(
-    '/nfe-data/certificate',
-    {
-      preHandler: [
-        companyAuthenticatorMiddleware,
-        emailConfirmationCheckerMiddleware,
-      ],
-    },
-    updateNfeDataCertificateController,
   )
 }
 

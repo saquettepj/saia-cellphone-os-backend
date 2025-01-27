@@ -47,7 +47,7 @@ model Company {
   NfeDataTable          NfeData?
   address               Address?
   suppliers             Supplier[]
-  Nfes                  Nfe[]
+  Nfces                 Nfce[]
   createdAt             DateTime     @default(now())
 
   @@map("company")
@@ -101,7 +101,7 @@ model Client {
   companyId String
   company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
   orders    Order[]
-  Nfes      Nfe[]
+  Nfces     Nfce[]
   address   Address?
   createdAt DateTime @default(now())
 
@@ -128,41 +128,35 @@ model Address {
 }
 
 model NfeData {
-  id                       String  @id @default(uuid())
-  certificateKey           String?
-  serializedCertificatePFX String?
-  serializedCertificatePEM String?
-  certificatePasswordHash  String?
-  companyId                String  @unique
-  company                  Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  idCSC                    String
-  CSC                      String
-  inscricaoEstadual        String
-  regimeTributario         String // Pode ser Simples Nacional, Lucro Presumido, etc.
-  codigoRegimeTributario   String // Código do regime tributário
-  cnae                     String // Código Nacional de Atividade Econômica
+  id                         String  @id @default(uuid())
+  serializedCertificatePFX   String
+  certificatePasswordEncrypt String
+  companyId                  String  @unique
+  company                    Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  idCSC                      String
+  CSC                        String
 
-  @@map("nfe_data_table")
+  @@map("nfe_data")
 }
 
-model Nfe {
-  id        String   @id @default(uuid())
+model Nfce {
+  chNFe     String   @id @unique
+  nProt     String   @unique
   companyId String
   company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
   clientId  String?
   client    Client?  @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  protocol  String
-  key       String
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 
-  @@unique([companyId, protocol])
-  @@unique([companyId, key])
-  @@map("nfe")
+  @@unique([companyId, chNFe])
+  @@unique([companyId, nProt])
+  @@map("nfce")
 }
 
 model Product {
   id           String      @id @default(uuid())
+  cEAN         String?
+  NCM          String?
   companyId    String
   company      Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
   supplierId   String?

@@ -2,6 +2,7 @@ import Fastify, { FastifyReply, FastifyRequest } from 'fastify'
 import cors from '@fastify/cors'
 import { PrismaClient } from '@prisma/client'
 import { ZodError } from 'zod'
+import multer from 'fastify-multer'
 
 import { appRoutes } from './http/routes'
 import { env } from './env'
@@ -16,6 +17,10 @@ export const prisma = new PrismaClient()
 const app = Fastify()
 
 app.register(cors)
+app.register(multer.contentParser)
+app.addContentTypeParser('multipart/form-data', (request, payload, done) => {
+  done(null)
+})
 
 app.addHook('preHandler', localeMiddleware)
 app.register(appRoutes)

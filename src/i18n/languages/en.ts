@@ -73,7 +73,9 @@ export const en = {
     'Client name not found by CPF!',
   [TranslationKeysEnum.ERROR_SEND_EMAIL]: 'Erro ao enviar o e-mail!',
   [TranslationKeysEnum.ERROR_NOT_ALLOWED_TO_DELETE_ITEM_AFTER_24HRS]:
-    'Deletion of the item is not allowed after 24 hours from the creation date!',
+    'Deletion is not allowed after 24 hours from the creation date!',
+  [TranslationKeysEnum.ERROR_INVALID_FILE]:
+    'Invalid file. It must be a .pfx certificate!',
 
   // #################### GLOBALS #######################
   [TranslationKeysEnum.PAYMENT_DESCRIPTION_MONTHLY_PLAN]:

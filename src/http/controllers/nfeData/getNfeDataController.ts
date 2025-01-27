@@ -1,65 +1,41 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-import { IGetNfeDataDTO } from '@/dtos/nfeData/IGetNfeDataDTO'
 import { setupGetNfeDataUseCase } from '@/useCases/nfeData/factory/setupGetNfeDataUseCase'
 
 interface IGetNfeDataControllerResponse {
-  nfeData: Array<{
-    id: string
-    inscricaoEstadual: string
-    regimeTributario: string
-    codigoRegimeTributario: string
-    cnae: string
-    idCSC: string
-    CSC: string
-  }>
+  id: string
+  companyId: string
+  serializedCertificatePFX: string
+  certificatePasswordEncrypt: string
+  idCSC: string
+  CSC: string
 }
 
 async function getNfeDataController(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const { id: companyId } = request.company
-
-  const {
-    id,
-    inscricaoEstadual,
-    regimeTributario,
-    codigoRegimeTributario,
-    cnae,
-    idCSC,
-    CSC,
-  } = IGetNfeDataDTO.parse(request.body)
-
   try {
+    const { id: companyId } = request.company
+
     const getNfeDataUseCase = setupGetNfeDataUseCase()
 
-    const getNfeDataUseCaseReturn = await getNfeDataUseCase.execute({
+    const nfeData = await getNfeDataUseCase.execute({
       companyId,
-      id,
-      inscricaoEstadual,
-      regimeTributario,
-      codigoRegimeTributario,
-      cnae,
-      idCSC,
-      CSC,
     })
 
     const responseBody: IGetNfeDataControllerResponse = {
-      nfeData: getNfeDataUseCaseReturn.map((nfeData) => ({
-        id: nfeData.id,
-        inscricaoEstadual: nfeData.inscricaoEstadual,
-        regimeTributario: nfeData.regimeTributario,
-        codigoRegimeTributario: nfeData.codigoRegimeTributario,
-        cnae: nfeData.cnae,
-        idCSC: nfeData.idCSC,
-        CSC: nfeData.CSC,
-      })),
+      id: nfeData.id,
+      companyId: nfeData.companyId,
+      serializedCertificatePFX: nfeData.serializedCertificatePFX,
+      certificatePasswordEncrypt: nfeData.certificatePasswordEncrypt,
+      idCSC: nfeData.idCSC,
+      CSC: nfeData.CSC,
     }
 
     return reply.status(200).send(responseBody)
   } catch (error) {
-    throw error
+    return reply.status(500).send()
   }
 }
 

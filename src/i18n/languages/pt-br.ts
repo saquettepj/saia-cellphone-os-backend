@@ -76,7 +76,9 @@ export const ptBR = {
     'Nome do cliente não encontrado pelo CPF!',
   [TranslationKeysEnum.ERROR_SEND_EMAIL]: 'Error sending the email!',
   [TranslationKeysEnum.ERROR_NOT_ALLOWED_TO_DELETE_ITEM_AFTER_24HRS]:
-    'Não permitido a exclusão do item após 24hrs da data de criação!',
+    'Não permitido a exclusão após 24hrs da data de criação!',
+  [TranslationKeysEnum.ERROR_INVALID_FILE]:
+    'Arquivo inválido. Deve ser um certificado .pfx!',
 
   // #################### GLOBALS #######################
   [TranslationKeysEnum.PAYMENT_DESCRIPTION_MONTHLY_PLAN]:

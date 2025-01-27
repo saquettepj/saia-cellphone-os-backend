@@ -18,7 +18,7 @@ interface ICompany extends Company {
   clients?: Client[] | null
   products?: Product[] | null
   orders?: Order[] | null
-  Nfes?: Nfe[] | null
+  Nfces?: Nfe[] | null
   suppliers?: Supplier[] | null
 }
 

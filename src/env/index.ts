@@ -26,6 +26,7 @@ const envSchema = z.object({
   ADMIN_DELETE_PASSWORD: z.string(),
   ADMIN_UPDATE_PASSWORD: z.string(),
   SYSTEM_ID: z.string().uuid(),
+  ENCRYPT_KEY: z.string(),
   MERCADO_PAGO_KEY: z.string(),
 })
 
