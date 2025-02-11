@@ -49,9 +49,14 @@ class GetPaymentStatusUseCase {
         }
 
         if (paymentResponse?.id && paymentResponse.date_approved) {
+          const { payType, withNfe } = returnPayType(
+            paymentResponse.transaction_amount,
+          )
+
           await this.companyRepository.updateById(companyId, {
             payId: null,
-            payType: returnPayType(paymentResponse.transaction_amount),
+            payType,
+            withNfe,
             payDate: new Date(paymentResponse.date_approved),
           })
         }

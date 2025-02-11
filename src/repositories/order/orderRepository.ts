@@ -19,6 +19,22 @@ class OrderRepository implements IOrderRepository {
     return searchedOrder
   }
 
+  async findAllById(id: string): Promise<IOrder | null> {
+    const searchedOrder = await prisma.order.findUnique({
+      where: { id },
+      include: {
+        orderItems: {
+          include: {
+            service: true,
+            product: true,
+          },
+        },
+        nfce: true,
+      },
+    })
+    return searchedOrder
+  }
+
   async findAllByCompanyId(
     companyId: string,
     data: Partial<Prisma.OrderCreateManyInput>,
@@ -99,6 +115,7 @@ class OrderRepository implements IOrderRepository {
               return {
                 productId: item.productId,
                 registeredProductPrice: item.registeredProductPrice,
+                registeredProductCost: item.registeredProductCost,
                 quantity: item.quantity,
                 initialQuantity: item.initialQuantity,
                 discount: item.discount,

@@ -10,8 +10,8 @@ interface IUpdateClientControllerResponse {
   id: string
   name: string
   CPF: string
-  email: string
-  phone: string | null
+  email?: string | null
+  phone?: string | null
 }
 
 async function updateClientController(

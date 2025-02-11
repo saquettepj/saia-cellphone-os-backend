@@ -3,13 +3,18 @@ import { ISystemConfigRepository } from '@/repositories/systemConfig/ISystemConf
 
 interface IUpdateSystemConfigUseCaseRequest {
   terms?: string
+  subscriptionAgreement?: string
   password: string
 }
 
 class UpdateSystemConfigUseCase {
   constructor(private systemConfigRepository: ISystemConfigRepository) {}
 
-  async execute({ terms, password }: IUpdateSystemConfigUseCaseRequest) {
+  async execute({
+    terms,
+    subscriptionAgreement,
+    password,
+  }: IUpdateSystemConfigUseCaseRequest) {
     if (!password || password !== process.env.ADMIN_UPDATE_PASSWORD) {
       throw new UpdatingError()
     }
@@ -17,8 +22,8 @@ class UpdateSystemConfigUseCase {
     const updatedSystemConfig = await this.systemConfigRepository.update(
       'acd7e9de-75e8-40a9-8abd-26e5e00661aa',
       {
-        ...(terms && { terms }),
-        termsUpdateAt: new Date(),
+        ...(terms && { terms, termsUpdateAt: new Date() }),
+        ...(subscriptionAgreement && { subscriptionAgreement }),
       },
     )
 

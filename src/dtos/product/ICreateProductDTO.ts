@@ -18,5 +18,7 @@ export const ICreateProductDTO = z
     warrantyDays: z.number().int().optional(),
     localization: z.string().optional(),
     supplierId: z.string().uuid().optional(),
+    NCM: z.string().max(8).optional(),
+    cEAN: z.string().max(14).optional(),
   })
   .strict()

@@ -43,6 +43,8 @@ const createNewCompanyTestObject = (
 const createNewProductTestObject = (
   params?: Partial<ICreateProductUseCaseRequest>,
 ) => ({
+  NCM: params?.NCM || '00000000',
+  cEAN: params?.cEAN || '12345678910114',
   type: params?.type || ProductTypeEnum.PRODUCT,
   condition: params?.condition || ProductConditionEnum.NEW,
   description:

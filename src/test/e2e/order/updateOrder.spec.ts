@@ -329,6 +329,7 @@ describe('Update Order - (e2e)', () => {
           discount: updateOrderFullData.orderItems[0].discount || null,
           productId,
           registeredProductPrice: newProductObject.price,
+          registeredProductCost: newProductObject.cost,
           quantity: updateOrderFullData.orderItems[0].quantity,
           initialQuantity: newProductObject.quantity,
         },

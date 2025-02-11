@@ -14,10 +14,11 @@ datasource db {
 }
 
 model SystemConfig {
-  id            String   @id
-  terms         String
-  termsUpdateAt DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id                    String   @id
+  terms                 String
+  termsUpdateAt         DateTime @default(now())
+  subscriptionAgreement String
+  updatedAt             DateTime @updatedAt
 
   @@map("systemConfig")
 }
@@ -33,6 +34,7 @@ model Company {
   passwordHash          String
   payId                 String?
   payType               String?
+  withNfe               Boolean?     @default(true)
   payDate               DateTime?
   termsDate             DateTime?
   companyTerms          String?
@@ -47,7 +49,7 @@ model Company {
   NfeDataTable          NfeData?
   address               Address?
   suppliers             Supplier[]
-  Nfces                 Nfce[]
+  nfces                 Nfce[]
   createdAt             DateTime     @default(now())
 
   @@map("company")
@@ -96,12 +98,12 @@ model Client {
   id        String   @id @default(uuid())
   name      String
   CPF       String
-  email     String
+  email     String?
   phone     String?
   companyId String
   company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
   orders    Order[]
-  Nfces     Nfce[]
+  nfces     Nfce[]
   address   Address?
   createdAt DateTime @default(now())
 
@@ -133,8 +135,11 @@ model NfeData {
   certificatePasswordEncrypt String
   companyId                  String  @unique
   company                    Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  IE                         String
+  IM                         String
   idCSC                      String
   CSC                        String
+  lastNNF                    String
 
   @@map("nfe_data")
 }
@@ -142,10 +147,14 @@ model NfeData {
 model Nfce {
   chNFe     String   @id @unique
   nProt     String   @unique
+  number    String
+  xml       String
   companyId String
   company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
   clientId  String?
-  client    Client?  @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  client    Client?  @relation(fields: [clientId], references: [id], onDelete: SetNull)
+  orderId   String?  @unique
+  order     Order?   @relation(fields: [orderId], references: [id], onDelete: SetNull)
   createdAt DateTime @default(now())
 
   @@unique([companyId, chNFe])
@@ -201,6 +210,7 @@ model Order {
   price                Float
   description          String?
   createdAt            DateTime    @default(now())
+  nfce                 Nfce?
 
   @@unique([companyId, number])
   @@map("order")
@@ -213,6 +223,7 @@ model OrderItem {
   productId              String
   product                Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   registeredProductPrice Float
+  registeredProductCost  Float
   quantity               Int
   discount               Float?
   initialQuantity        Int

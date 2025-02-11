@@ -15,6 +15,9 @@ interface ICreateOrUpdateNfeDataControllerResponse {
   certificatePasswordEncrypt: string
   idCSC: string
   CSC: string
+  IE: string
+  IM: string
+  lastNNF: string
 }
 
 async function createOrUpdateNfeDataController(
@@ -24,9 +27,8 @@ async function createOrUpdateNfeDataController(
   try {
     const { id: companyId } = request.company
 
-    const { certificatePassword, idCSC, CSC } = ICreateOrUpdateNfeDataDTO.parse(
-      request.body,
-    )
+    const { certificatePassword, idCSC, CSC, IE, IM, lastNNF } =
+      ICreateOrUpdateNfeDataDTO.parse(request.body)
 
     const file = request.file
 
@@ -49,6 +51,9 @@ async function createOrUpdateNfeDataController(
         certificatePassword,
         idCSC,
         CSC,
+        IE,
+        IM,
+        lastNNF,
       })
 
     const responseBody: ICreateOrUpdateNfeDataControllerResponse = {
@@ -60,6 +65,9 @@ async function createOrUpdateNfeDataController(
         createOrUpdateNfeDataReturn.certificatePasswordEncrypt,
       idCSC: createOrUpdateNfeDataReturn.idCSC,
       CSC: createOrUpdateNfeDataReturn.CSC,
+      IE: createOrUpdateNfeDataReturn.IE,
+      IM: createOrUpdateNfeDataReturn.IM,
+      lastNNF: createOrUpdateNfeDataReturn.lastNNF,
     }
 
     return reply.status(201).send(responseBody)

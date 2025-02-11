@@ -14,6 +14,7 @@ export const ISuperUpdateCompanyDTO = z
     name: z.string().optional(),
     emailChecked: z.boolean().optional(),
     payType: z.nativeEnum(AccountPayTypeEnum).optional(),
+    withNfe: z.boolean().optional(),
     payDate: z
       .string()
       .refine((val) => validateDateOnRequests(val), {

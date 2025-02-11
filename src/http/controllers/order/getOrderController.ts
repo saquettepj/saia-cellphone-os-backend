@@ -29,6 +29,7 @@ interface IGetOrderControllerResponse {
       orderId: string
       productId: string
       registeredProductPrice: number
+      registeredProductCost: number
       initialQuantity: number
       discount: number | null
       quantity: number
@@ -102,6 +103,7 @@ async function getOrderController(
           orderId: item.orderId,
           productId: item.productId,
           registeredProductPrice: item.registeredProductPrice,
+          registeredProductCost: item.registeredProductCost,
           initialQuantity: item.initialQuantity,
           discount: item.discount,
           quantity: item.quantity,

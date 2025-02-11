@@ -88,7 +88,7 @@ describe('Get company list - (e2e)', () => {
         clients: [],
         products: [],
         orders: [],
-        Nfces: [],
+        nfces: [],
         suppliers: [],
       }),
     )

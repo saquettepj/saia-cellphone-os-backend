@@ -11,6 +11,7 @@ interface IAuthenticateCompanyControllerResponse {
     email: string
     accountType: string
     payType: string | null
+    withNfe: boolean | null
     payDate: Date | null
     termsDate: Date | null
     accessTokenActivatedAt: Date | null

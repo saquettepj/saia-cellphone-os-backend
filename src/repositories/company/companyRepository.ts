@@ -40,6 +40,7 @@ class CompanyRepository implements ICompanyRepository {
                 service: true,
               },
             },
+            nfce: true,
           },
         },
         clients: {
@@ -56,7 +57,7 @@ class CompanyRepository implements ICompanyRepository {
         accessToken: true,
         NfeDataTable: true,
         address: true,
-        Nfces: true,
+        nfces: true,
       },
     })
 
@@ -84,7 +85,7 @@ class CompanyRepository implements ICompanyRepository {
         accessToken: true,
         NfeDataTable: true,
         address: true,
-        Nfces: true,
+        nfces: true,
       },
     })
 

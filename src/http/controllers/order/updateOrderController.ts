@@ -32,6 +32,7 @@ interface IUpdateOrderControllerResponse {
     id?: string
     productId?: string
     registeredProductPrice?: number
+    registeredProductCost?: number
     quantity?: number
     initialQuantity?: number
     discount?: number | null
@@ -114,6 +115,7 @@ async function updateOrderController(
           id: item.id,
           productId: item.productId,
           registeredProductPrice: item.registeredProductPrice,
+          registeredProductCost: item.registeredProductCost,
           quantity: item.quantity,
           initialQuantity: item.initialQuantity,
           discount: item.discount,

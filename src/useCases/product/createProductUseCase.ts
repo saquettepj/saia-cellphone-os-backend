@@ -14,6 +14,8 @@ interface ICreateProductUseCaseRequest {
   warrantyDays?: number | null
   localization?: string | null
   supplierId?: string | null
+  NCM?: string | null
+  cEAN?: string | null
 }
 
 class CreateProductUseCase {
@@ -33,6 +35,8 @@ class CreateProductUseCase {
     warrantyDays,
     localization,
     supplierId,
+    NCM,
+    cEAN,
   }: ICreateProductUseCaseRequest) {
     const searchedProduct =
       await this.productRepository.findByDescriptionAndCompanyId(
@@ -64,6 +68,8 @@ class CreateProductUseCase {
       warrantyDays,
       localization,
       supplierId,
+      NCM,
+      cEAN,
     })
 
     return createdProduct

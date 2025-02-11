@@ -17,6 +17,8 @@ interface ICreateProductControllerResponse {
   warrantyDays?: number | null
   localization?: string | null
   supplierId?: string | null
+  NCM?: string | null
+  cEAN?: string | null
 }
 
 async function createProductController(
@@ -35,6 +37,8 @@ async function createProductController(
     warrantyDays,
     localization,
     supplierId,
+    NCM,
+    cEAN,
   } = ICreateProductDTO.parse(request.body)
 
   try {
@@ -51,6 +55,8 @@ async function createProductController(
       warrantyDays,
       localization,
       supplierId,
+      NCM,
+      cEAN,
     })
 
     const responseBody: ICreateProductControllerResponse = {
@@ -65,6 +71,8 @@ async function createProductController(
       warrantyDays: createProductUseCaseReturn.warrantyDays,
       localization: createProductUseCaseReturn.localization,
       supplierId: createProductUseCaseReturn.supplierId,
+      NCM: createProductUseCaseReturn.NCM,
+      cEAN: createProductUseCaseReturn.cEAN,
     }
 
     return reply.status(201).send(responseBody)

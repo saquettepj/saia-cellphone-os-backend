@@ -124,6 +124,7 @@ class CreateOrderUseCase {
             orderId: order.id,
             productId: item.productId,
             registeredProductPrice: product.price,
+            registeredProductCost: product.cost,
             quantity: item.quantity,
             initialQuantity: product.quantity,
             discount: item.discount,

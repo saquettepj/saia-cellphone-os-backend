@@ -18,6 +18,8 @@ interface IUpdateProductControllerResponse {
   warrantyDays?: number | null
   localization?: string | null
   supplierId?: string | null
+  NCM?: string | null
+  cEAN?: string | null
 }
 
 async function updateProductController(
@@ -37,6 +39,8 @@ async function updateProductController(
     warrantyDays,
     localization,
     supplierId,
+    NCM,
+    cEAN,
   } = IUpdateProductDTO.parse(request.body)
 
   try {
@@ -54,6 +58,8 @@ async function updateProductController(
       warrantyDays,
       localization,
       supplierId,
+      NCM,
+      cEAN,
     })
 
     const responseBody: IUpdateProductControllerResponse = {
@@ -68,6 +74,8 @@ async function updateProductController(
       warrantyDays: updateProductUseCaseReturn.warrantyDays,
       localization: updateProductUseCaseReturn.localization,
       supplierId: updateProductUseCaseReturn.supplierId,
+      NCM: updateProductUseCaseReturn.NCM,
+      cEAN: updateProductUseCaseReturn.cEAN,
     }
 
     return reply.status(200).send(responseBody)

@@ -26,4 +26,4 @@ coverage
 /.vscode
 
 # Temp files
-/nfe.js
+nfe.js

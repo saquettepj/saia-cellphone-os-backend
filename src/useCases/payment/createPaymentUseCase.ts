@@ -44,11 +44,15 @@ class CreatePaymentUseCase {
       const paymentResponse = await this.paymentClient.create({ body })
 
       if (paymentResponse?.id) {
+        const { payType, withNfe } = returnPayType(
+          paymentResponse.transaction_amount,
+        )
         await this.companyRepository.updateById(companyId, {
           payId: !paymentResponse.date_approved
             ? paymentResponse.id.toString()
             : null,
-          payType: returnPayType(paymentResponse.transaction_amount),
+          payType,
+          withNfe,
           payDate: paymentResponse.date_approved
             ? new Date(paymentResponse.date_approved)
             : undefined,

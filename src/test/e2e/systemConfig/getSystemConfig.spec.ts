@@ -18,6 +18,7 @@ describe('Get System Config - (e2e)', () => {
     expect(response.body).toEqual({
       terms: expect.any(String),
       termsUpdateAt: expect.any(String),
+      subscriptionAgreement: expect.any(String),
       updatedAt: expect.any(String),
     })
     expect(response.statusCode).toEqual(200)

@@ -1,11 +1,20 @@
-import { Order, OrderItem, Prisma, Service } from '@prisma/client'
+import {
+  Nfce,
+  Order,
+  OrderItem,
+  Prisma,
+  Product,
+  Service,
+} from '@prisma/client'
 
 export interface IOrderItem extends OrderItem {
   service?: Service | null
+  product?: Product
 }
 
 interface IOrder extends Order {
   orderItems: IOrderItem[]
+  nfce?: Nfce | null
 }
 
 export interface ICreateOrder
@@ -19,6 +28,7 @@ export interface ICreateOrder
 
 interface IOrderRepository {
   findById(id: string): Promise<IOrder | null>
+  findAllById(id: string): Promise<IOrder | null>
   findAllByCompanyId(
     companyId: string,
     data: Partial<Prisma.OrderCreateManyInput>,

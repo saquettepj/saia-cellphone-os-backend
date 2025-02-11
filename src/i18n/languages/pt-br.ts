@@ -39,8 +39,6 @@ export const ptBR = {
     'Arquivo não enviado ou arquivo inválido. Por favor, forneça um arquivo válido!',
   [TranslationKeysEnum.ERROR_INVALID_EMAIL_CONFIRMATION_CODE]:
     'Código de confirmação de e-mail inválido!',
-  [TranslationKeysEnum.ERROR_NFE_DATA_NOT_FOUND]:
-    'Dados da NFe não encontrados!',
   [TranslationKeysEnum.ERROR_ONLY_ONE_ENTITY]:
     'Apenas uma entidade pode ser criada!',
   [TranslationKeysEnum.ERROR_ORDER_ITEM_NOT_FOUND]:
@@ -79,6 +77,23 @@ export const ptBR = {
     'Não permitido a exclusão após 24hrs da data de criação!',
   [TranslationKeysEnum.ERROR_INVALID_FILE]:
     'Arquivo inválido. Deve ser um certificado .pfx!',
+  [TranslationKeysEnum.ERROR_INVOICE_CONFIGURATION_REQUIRED]:
+    'A configuração da nota fiscal é obrigatória, com dúvida? Vá para a aba de ajuda!',
+  [TranslationKeysEnum.ERROR_FETCHING_COMPANY_DATA]:
+    'Erro ao buscar dados da empresa, tente novamente mais tarde!',
+  [TranslationKeysEnum.ERROR_CLIENT_ADDRESS_NOT_FOUND]:
+    'Endereço do cliente não encontrado!',
+  [TranslationKeysEnum.ERROR_INVALID_CERTIFICATE]:
+    'Certificado ou senha do certificado inválido!',
+  [TranslationKeysEnum.ERROR_SEFAZ_UNSTABLE]:
+    'Sistema Sefaz com instabilidade, tente novamente mais tarde!',
+  [TranslationKeysEnum.ERROR_NFE_CONFIGURATION_NOT_FOUND]:
+    'Nenhuma configuração de NF-e encontrada para a empresa!',
+  [TranslationKeysEnum.ERROR_SEFAZ_INSTABILITY]: 'Instabilidade no SEFAZ!',
+  [TranslationKeysEnum.ERROR_INVOICE_DATA_NOT_FOUND]:
+    'Dados da nota fiscal não encontrados!',
+  [TranslationKeysEnum.ERROR_ORDER_ALREADY_HAS_INVOICE]:
+    'Pedido já possui nota fiscal!',
 
   // #################### GLOBALS #######################
   [TranslationKeysEnum.PAYMENT_DESCRIPTION_MONTHLY_PLAN]:

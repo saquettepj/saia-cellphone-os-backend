@@ -15,6 +15,8 @@ interface IUpdateProductUseCaseRequest {
   warrantyDays?: number
   localization?: string
   supplierId?: string
+  NCM?: string
+  cEAN?: string
 }
 
 class UpdateProductUseCase {
@@ -35,6 +37,8 @@ class UpdateProductUseCase {
     warrantyDays,
     localization,
     supplierId,
+    NCM,
+    cEAN,
   }: IUpdateProductUseCaseRequest) {
     if (description) {
       const existingProduct =
@@ -67,6 +71,8 @@ class UpdateProductUseCase {
       warrantyDays,
       localization,
       supplierId,
+      NCM,
+      cEAN,
     })
 
     return result

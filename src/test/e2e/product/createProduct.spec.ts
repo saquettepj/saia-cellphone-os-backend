@@ -101,6 +101,8 @@ describe('Create product - (e2e)', () => {
     expect(response.body).toEqual({
       id: expect.any(String),
       companyId: expect.any(String),
+      NCM: newProductObject.NCM,
+      cEAN: newProductObject.cEAN,
       type: newProductObject.type,
       condition: newProductObject.condition,
       description: formatUniqueStrings(newProductObject.description),

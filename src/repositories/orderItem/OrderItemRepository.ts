@@ -36,6 +36,7 @@ class OrderItemRepository implements IOrderItemRepository {
         orderId: data.orderId,
         productId: data.productId,
         registeredProductPrice: data.registeredProductPrice,
+        registeredProductCost: data.registeredProductCost,
         quantity: data.quantity,
         initialQuantity: data.initialQuantity,
         discount: data.discount,

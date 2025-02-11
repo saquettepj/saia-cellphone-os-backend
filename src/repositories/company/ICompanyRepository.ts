@@ -4,7 +4,7 @@ import {
   Client,
   Company,
   Employee,
-  Nfe,
+  Nfce,
   Order,
   Prisma,
   Product,
@@ -18,7 +18,7 @@ interface ICompany extends Company {
   clients?: Client[] | null
   products?: Product[] | null
   orders?: Order[] | null
-  Nfces?: Nfe[] | null
+  nfces?: Nfce[] | null
   suppliers?: Supplier[] | null
 }
 

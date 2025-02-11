@@ -40,6 +40,7 @@ describe('Update System Config - (e2e)', () => {
   it('should successfully update the system configuration with the correct password', async () => {
     const updateData = {
       terms: 'Updated terms content.',
+      subscriptionAgreement: 'Updated subscriptionAgreement content',
       password: env.ADMIN_UPDATE_PASSWORD,
     }
 
@@ -51,6 +52,7 @@ describe('Update System Config - (e2e)', () => {
     expect(response.body).toEqual({
       terms: updateData.terms,
       termsUpdateAt: expect.any(String),
+      subscriptionAgreement: updateData.subscriptionAgreement,
       updatedAt: expect.any(String),
     })
     expect(response.statusCode).toEqual(200)
@@ -108,7 +110,7 @@ describe('Update System Config - (e2e)', () => {
     expect(response.statusCode).toEqual(authenticateMiddlewareError.statusCode)
   })
 
-  it('should allow updating the system configuration without terms', async () => {
+  it('should allow updating the system configuration without terms and subscriptionAgreement', async () => {
     const updateData = {
       password: env.ADMIN_UPDATE_PASSWORD,
     }
@@ -122,6 +124,7 @@ describe('Update System Config - (e2e)', () => {
     expect(response.body).toEqual({
       terms: expect.any(String),
       termsUpdateAt: expect.any(String),
+      subscriptionAgreement: expect.any(String),
       updatedAt: expect.any(String),
     })
   })

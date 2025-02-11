@@ -1,3 +1,4 @@
+import { NfeConfigurationNotFoundError } from '@/errors/nfeConfigurationNotFoundError'
 import { INfeDataRepository } from '@/repositories/nfeData/INfeDataRepository'
 
 interface IGetNfeDataUseCaseRequest {
@@ -11,6 +12,9 @@ interface IGetNfeDataUseCaseResponse {
   certificatePasswordEncrypt: string
   idCSC: string
   CSC: string
+  IE: string
+  IM: string
+  lastNNF: string
 }
 
 class GetNfeDataUseCase {
@@ -22,7 +26,7 @@ class GetNfeDataUseCase {
     const nfeData = await this.nfeDataRepository.findOneByCompanyId(companyId)
 
     if (!nfeData) {
-      throw new Error('Nenhuma configuração de NF-e encontrada para a empresa.')
+      throw new NfeConfigurationNotFoundError()
     }
 
     return {
@@ -32,6 +36,9 @@ class GetNfeDataUseCase {
       certificatePasswordEncrypt: nfeData.certificatePasswordEncrypt,
       idCSC: nfeData.idCSC,
       CSC: nfeData.CSC,
+      IE: nfeData.IE,
+      IM: nfeData.IM,
+      lastNNF: nfeData.lastNNF,
     }
   }
 }

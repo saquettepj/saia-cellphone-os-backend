@@ -7,6 +7,7 @@ import { setupUpdateSystemConfigUseCase } from '@/useCases/systemConfig/factory/
 interface IUpdateSystemConfigControllerResponse {
   terms: string
   termsUpdateAt: Date
+  subscriptionAgreement: string
   updatedAt: Date
 }
 
@@ -14,7 +15,8 @@ async function updateSystemConfigController(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const { terms, password } = IUpdateSystemConfigDTO.parse(request.body)
+  const { terms, password, subscriptionAgreement } =
+    IUpdateSystemConfigDTO.parse(request.body)
 
   try {
     const updateSystemConfigUseCase = setupUpdateSystemConfigUseCase()
@@ -22,12 +24,15 @@ async function updateSystemConfigController(
     const updateSystemConfigUseCaseReturn =
       await updateSystemConfigUseCase.execute({
         terms,
+        subscriptionAgreement,
         password,
       })
 
     const responseBody: IUpdateSystemConfigControllerResponse = {
       terms: updateSystemConfigUseCaseReturn.terms,
       termsUpdateAt: updateSystemConfigUseCaseReturn.termsUpdateAt,
+      subscriptionAgreement:
+        updateSystemConfigUseCaseReturn.subscriptionAgreement,
       updatedAt: updateSystemConfigUseCaseReturn.updatedAt,
     }
 

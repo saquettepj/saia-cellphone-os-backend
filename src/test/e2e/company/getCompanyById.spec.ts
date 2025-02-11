@@ -141,8 +141,9 @@ describe('Get Company By ID - (e2e)', () => {
         clients: [],
         products: [],
         orders: [],
-        Nfces: [],
+        nfces: [],
         suppliers: [],
+        withNfe: true,
       }),
     )
     expect(response.statusCode).toEqual(200)
@@ -179,7 +180,7 @@ describe('Get Company By ID - (e2e)', () => {
         clients: [],
         products: [],
         orders: [],
-        Nfces: [],
+        nfces: [],
       }),
     )
     expect(response.statusCode).toEqual(200)

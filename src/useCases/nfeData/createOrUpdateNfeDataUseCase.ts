@@ -7,6 +7,9 @@ interface ICreateOrUpdateNfeDataUseCaseRequest {
   certificatePassword: string
   idCSC: string
   CSC: string
+  IE: string
+  IM: string
+  lastNNF: string
 }
 
 interface ICreateOrUpdateNfeDataUseCaseResponse {
@@ -16,6 +19,9 @@ interface ICreateOrUpdateNfeDataUseCaseResponse {
   certificatePasswordEncrypt: string
   idCSC: string
   CSC: string
+  IE: string
+  IM: string
+  lastNNF: string
 }
 
 class CreateOrUpdateNfeDataUseCase {
@@ -27,6 +33,9 @@ class CreateOrUpdateNfeDataUseCase {
     certificatePassword,
     idCSC,
     CSC,
+    IE,
+    IM,
+    lastNNF,
   }: ICreateOrUpdateNfeDataUseCaseRequest): Promise<ICreateOrUpdateNfeDataUseCaseResponse> {
     const encryptedPassword = encryptPassword(certificatePassword)
 
@@ -41,6 +50,9 @@ class CreateOrUpdateNfeDataUseCase {
           certificatePasswordEncrypt: encryptedPassword,
           idCSC,
           CSC,
+          IE,
+          IM,
+          lastNNF,
         },
       )
 
@@ -51,6 +63,9 @@ class CreateOrUpdateNfeDataUseCase {
         certificatePasswordEncrypt: updatedNfeData.certificatePasswordEncrypt,
         idCSC: updatedNfeData.idCSC,
         CSC: updatedNfeData.CSC,
+        IE: updatedNfeData.IE,
+        IM: updatedNfeData.IM,
+        lastNNF: updatedNfeData.lastNNF,
       }
     } else {
       const newNfeData = await this.nfeDataRepository.create({
@@ -59,6 +74,9 @@ class CreateOrUpdateNfeDataUseCase {
         certificatePasswordEncrypt: encryptedPassword,
         idCSC,
         CSC,
+        IE,
+        IM,
+        lastNNF,
       })
 
       return {
@@ -68,6 +86,9 @@ class CreateOrUpdateNfeDataUseCase {
         certificatePasswordEncrypt: newNfeData.certificatePasswordEncrypt,
         idCSC: newNfeData.idCSC,
         CSC: newNfeData.CSC,
+        IE: newNfeData.IE,
+        IM: newNfeData.IM,
+        lastNNF: newNfeData.lastNNF,
       }
     }
   }

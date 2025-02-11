@@ -138,6 +138,7 @@ describe.skip('Get Orders - (e2e)', () => {
           discount: orderData.orderItems[0].discount || null,
           productId: orderData.orderItems[0].productId,
           registeredProductPrice: newProductObject.price,
+          registeredProductCost: newProductObject.cost,
           quantity: orderData.orderItems[0].quantity,
           initialQuantity: newProductObject.quantity,
           service: null,

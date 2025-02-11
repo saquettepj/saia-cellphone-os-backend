@@ -5,7 +5,7 @@ import { EmailAlreadyExistsError } from '@/errors/emailAlreadyExistsError'
 interface ICreateClientUseCaseRequest {
   name: string
   CPF: string
-  email: string
+  email?: string | null
   phone?: string
   companyId: string
   address?: {
@@ -39,12 +39,14 @@ class CreateClientUseCase {
       throw new CPFAlreadyExistsError()
     }
 
-    const searchedEmail = await this.clientRepository.findByEmailAndCompanyId(
-      email,
-      companyId,
-    )
-    if (searchedEmail) {
-      throw new EmailAlreadyExistsError()
+    if (email) {
+      const searchedEmail = await this.clientRepository.findByEmailAndCompanyId(
+        email,
+        companyId,
+      )
+      if (searchedEmail) {
+        throw new EmailAlreadyExistsError()
+      }
     }
 
     const newClient = await this.clientRepository.create({

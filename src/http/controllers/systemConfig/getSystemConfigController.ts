@@ -6,6 +6,7 @@ import { setupGetSystemConfigUseCase } from '@/useCases/systemConfig/factory/set
 interface IGetSystemConfigControllerResponse {
   terms: string
   termsUpdateAt: Date
+  subscriptionAgreement: string
   updatedAt: Date
 }
 
@@ -21,6 +22,7 @@ async function getSystemConfigController(
     const responseBody: IGetSystemConfigControllerResponse = {
       terms: systemConfig.terms,
       termsUpdateAt: systemConfig.termsUpdateAt,
+      subscriptionAgreement: systemConfig.subscriptionAgreement,
       updatedAt: systemConfig.updatedAt,
     }
 

@@ -13,6 +13,7 @@ interface IUpdateCompanyControllerResponse {
   name: string
   emailChecked: boolean
   payType: string | null
+  withNfe: boolean | null
   payDate: Date | null
 }
 
@@ -21,7 +22,7 @@ async function superUpdateCompanyController(
   reply: FastifyReply,
 ) {
   const { id } = ISimpleCompanyDTO.parse(request.params)
-  const { CNPJ, email, name, emailChecked, payType, payDate } =
+  const { CNPJ, email, name, emailChecked, payType, payDate, withNfe } =
     ISuperUpdateCompanyDTO.parse(request.body)
 
   try {
@@ -34,6 +35,7 @@ async function superUpdateCompanyController(
       name,
       emailChecked,
       payType,
+      withNfe,
       payDate,
     })
 
@@ -43,6 +45,7 @@ async function superUpdateCompanyController(
       name: updateCompanyUseCaseReturn.name,
       emailChecked: updateCompanyUseCaseReturn.emailChecked,
       payType: updateCompanyUseCaseReturn?.payType,
+      withNfe: updateCompanyUseCaseReturn?.withNfe,
       payDate: updateCompanyUseCaseReturn?.payDate,
     }
 

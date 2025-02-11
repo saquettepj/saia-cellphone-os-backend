@@ -110,6 +110,7 @@ describe.skip('Get OrderItems - (e2e)', () => {
       orderId,
       productId,
       registeredProductPrice: newProductObject.price,
+      registeredProductCost: newProductObject.cost,
       discount: 0.5,
       quantity: 2,
       initialQuantity: initialProductQuantity,

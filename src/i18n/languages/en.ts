@@ -39,7 +39,6 @@ export const en = {
     'File not uploaded or file is invalid. Please provide a valid file!',
   [TranslationKeysEnum.ERROR_INVALID_EMAIL_CONFIRMATION_CODE]:
     'Invalid email confirmation code!',
-  [TranslationKeysEnum.ERROR_NFE_DATA_NOT_FOUND]: 'NFe data not found!',
   [TranslationKeysEnum.ERROR_ONLY_ONE_ENTITY]:
     'Only one entity is allowed to be created!',
   [TranslationKeysEnum.ERROR_ORDER_ITEM_NOT_FOUND]: 'OrderItem not found!',
@@ -76,6 +75,22 @@ export const en = {
     'Deletion is not allowed after 24 hours from the creation date!',
   [TranslationKeysEnum.ERROR_INVALID_FILE]:
     'Invalid file. It must be a .pfx certificate!',
+  [TranslationKeysEnum.ERROR_INVOICE_CONFIGURATION_REQUIRED]:
+    'Invoice configuration is required. Need help? Go to the help tab!',
+  [TranslationKeysEnum.ERROR_FETCHING_COMPANY_DATA]:
+    'Error fetching company data, please try again later!',
+  [TranslationKeysEnum.ERROR_CLIENT_ADDRESS_NOT_FOUND]:
+    'Client address not found!',
+  [TranslationKeysEnum.ERROR_INVALID_CERTIFICATE]:
+    'Invalid certificate or incorrect password!',
+  [TranslationKeysEnum.ERROR_SEFAZ_UNSTABLE]:
+    'SEFAZ system is unstable, please try again later!',
+  [TranslationKeysEnum.ERROR_NFE_CONFIGURATION_NOT_FOUND]:
+    'No NF-e configuration found for the company!',
+  [TranslationKeysEnum.ERROR_SEFAZ_INSTABILITY]: 'Instability in SEFAZ',
+  [TranslationKeysEnum.ERROR_INVOICE_DATA_NOT_FOUND]: 'Invoice data not found!',
+  [TranslationKeysEnum.ERROR_ORDER_ALREADY_HAS_INVOICE]:
+    'Order already has an invoice!',
 
   // #################### GLOBALS #######################
   [TranslationKeysEnum.PAYMENT_DESCRIPTION_MONTHLY_PLAN]:

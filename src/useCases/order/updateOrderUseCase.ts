@@ -250,6 +250,7 @@ class UpdateOrderUseCase {
               orderId: id,
               productId: newItem.productId!,
               registeredProductPrice: product.price,
+              registeredProductCost: product.cost,
               quantity: newItem.quantity || 1,
               initialQuantity: product.quantity,
               discount: newItem.discount,

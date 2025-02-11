@@ -62,6 +62,7 @@ class CreateOrderItemUseCase {
       orderId,
       productId,
       registeredProductPrice: product.price,
+      registeredProductCost: product.cost,
       quantity,
       initialQuantity: product.quantity,
       discount,
