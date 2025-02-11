@@ -10,14 +10,15 @@ RUN apk add --no-cache \
 
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
-COPY . .
+COPY package.json pnpm-lock.yaml ./
 
 RUN pnpm install
+
+COPY . .
 
 RUN pnpm run erd
 
 RUN pnpm run build
 
 EXPOSE 3000
-
 CMD ["pnpm", "run", "start"]
