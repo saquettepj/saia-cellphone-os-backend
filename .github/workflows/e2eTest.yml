@@ -3,7 +3,7 @@ name: Run E2E Tests
 on:
   pull_request:
     branches:
-      - development
+      - develop
 
 jobs:
   run-e2e-tests:
