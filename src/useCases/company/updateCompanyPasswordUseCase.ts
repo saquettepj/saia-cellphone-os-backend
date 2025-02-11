@@ -1,4 +1,4 @@
-import { compare, hash } from 'bcrypt'
+import { hash, verify } from 'argon2'
 
 import { ICompanyRepository } from '@/repositories/company/ICompanyRepository'
 import { PasswordConfirmationIsDifferentError } from '@/errors/passwordConfirmationIsDifferentError'
@@ -30,16 +30,16 @@ class UpdateCompanyPasswordUseCase {
       throw new CompanyCredentialsError()
     }
 
-    const passwordMatch = await compare(
-      currentPassword.trim(),
+    const passwordMatch = await verify(
       searchedCompany.passwordHash,
+      currentPassword.trim(),
     )
 
     if (!passwordMatch) {
       throw new CompanyCredentialsError()
     }
 
-    const newPasswordHash = await hash(newPassword.trim(), 8)
+    const newPasswordHash = await hash(newPassword.trim())
 
     await this.companyRepository.updatePasswordByCNPJ(CNPJ, newPasswordHash)
 

@@ -1,4 +1,4 @@
-import { compare } from 'bcrypt'
+import { verify } from 'argon2'
 import { sign } from 'jsonwebtoken'
 
 import { CompanyCredentialsError } from '@/errors/companyCredentialsError'
@@ -34,7 +34,7 @@ class AuthenticateCompanyUseCase {
       throw new CompanyCredentialsError()
     }
 
-    const passwordMatch = await compare(password, searchedCompany.passwordHash)
+    const passwordMatch = await verify(searchedCompany.passwordHash, password)
 
     if (!passwordMatch) {
       throw new CompanyCredentialsError()

@@ -1,4 +1,4 @@
-import { hash } from 'bcrypt'
+import { hash } from 'argon2'
 
 import { generateRandomNumber } from '@/utils/randomNumberGenerator'
 import { ICompanyRepository } from '@/repositories/company/ICompanyRepository'
@@ -66,7 +66,7 @@ class CreateCompanyUseCase {
       throw new EmailAlreadyExistsError()
     }
 
-    const passwordHash = await hash(password.trim(), 8)
+    const passwordHash = await hash(password.trim())
 
     const emailConfirmationCode = generateRandomNumber(6)
 

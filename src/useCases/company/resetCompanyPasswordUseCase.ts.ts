@@ -1,4 +1,4 @@
-import { hash } from 'bcrypt'
+import { hash } from 'argon2'
 import { verify } from 'jsonwebtoken'
 
 import { ICompanyRepository } from '@/repositories/company/ICompanyRepository'
@@ -39,7 +39,7 @@ class ResetCompanyPasswordUseCase {
       throw new NotFoundError()
     }
 
-    const hashedPassword = await hash(decodedToken.password.trim(), 8)
+    const hashedPassword = await hash(decodedToken.password.trim())
 
     await this.companyRepository.updatePasswordById(
       decodedToken.id,
