@@ -1,4 +1,4 @@
-FROM node:18-alpine3.17
+FROM node:18-bullseye
 
 WORKDIR /usr/src/app
 
@@ -22,5 +22,5 @@ RUN pnpm run build
 
 EXPOSE 3000
 
-RUN pnpm run start
+CMD ["pnpm", "run", "start"]
 
