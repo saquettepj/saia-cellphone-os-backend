@@ -1,14 +1,12 @@
-FROM node:18-bullseye
+FROM node:18-alpine3.17
 
 WORKDIR /usr/src/app
 
-RUN apt-get update && apt-get install -y \
+RUN apk add --no-cache \
     python3 \
-    build-essential \
-    openjdk-17-jre-headless \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN ln -sf /usr/bin/python3 /usr/bin/python
+    build-base \
+    openjdk17 \
+    && ln -sf python3 /usr/bin/python
 
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
@@ -25,3 +23,4 @@ RUN pnpm run build
 EXPOSE 3000
 
 CMD ["pnpm", "run", "start"]
+
