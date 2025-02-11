@@ -5,6 +5,7 @@ on:
     branches:
       - develop
       - master
+  workflow_dispatch:
 
 jobs:
   run-e2e-tests:
@@ -30,14 +31,17 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Clear NPM Cache
+        run: npm cache clean --force
+
+      - name: Remove PNPM Globally (se existir)
+        run: npm uninstall -g pnpm || true
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
           cache: 'npm'
-
-      - name: Clear NPM Cache (Para evitar conflitos)
-        run: npm cache clean --force
 
       - name: Install Dependencies
         run: npm install
