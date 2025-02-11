@@ -29,7 +29,7 @@ app.setErrorHandler(
   (error: Error, _request: FastifyRequest, reply: FastifyReply) => {
     if (error instanceof MiddlewareError) {
       env.NODE_ENV !== 'production' &&
-        console.error(`🔴 Middleware - ${error} 🔴`) // Usar um log externo: Datadog||NewRelic||Sentry
+        console.error(`🔴 Middleware - ${error} 🔴`) // Usar um log externo: Datadog||NewRelic||Sentry - teste workflow
 
       return reply
         .status(error.statusCode)
