@@ -8,7 +8,6 @@ prisma/ERD.svg
 
 # Environment
 .env
-.env.test
 .env.dev
 .env.prod
 
