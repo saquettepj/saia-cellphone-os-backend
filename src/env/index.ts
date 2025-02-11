@@ -17,6 +17,7 @@ const envSchema = z.object({
   AUTOMATIC_EMAIL_USER: z.string().email(),
   AUTOMATIC_EMAIL_PASS: z.string(),
   SUPPORT_EMAIL_USER: z.string().email(),
+  ADMIN_EMAIL_USER: z.string().email(),
   ADMIN_ACCOUNT_CNPJ: z.string().optional(),
   ADMIN_ACCOUNT_PASSWORD: z.string().optional(),
   ADMIN_DELETE_PASSWORD: z.string(),
