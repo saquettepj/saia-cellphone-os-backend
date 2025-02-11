@@ -5,12 +5,12 @@ on:
     branches:
       - develop
       - master
-  workflow_dispatch:
 
 jobs:
   run-e2e-tests:
     name: Run E2E Tests
     runs-on: ubuntu-latest
+
     services:
       postgres:
         image: postgres:15
@@ -34,10 +34,15 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: 'npm'
+          cache: 'pnpm'
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8 
 
       - name: Install Dependencies
-        run: npm install
+        run: pnpm install
 
       - name: Wait for PostgreSQL to be Ready
         run: |
@@ -46,7 +51,7 @@ jobs:
           done
 
       - name: Run E2E Tests
-        run: npm run test:e2e
+        run: pnpm run test:e2e
         env:
           NODE_ENV: "test"
           DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/test-database"
