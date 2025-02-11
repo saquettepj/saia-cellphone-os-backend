@@ -54,7 +54,7 @@ jobs:
           done
 
       - name: Run E2E Tests
-        run: pnpm run git:test:e2e
+        run: pnpm run test:e2e
         env:
           NODE_ENV: "test"
           DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/test-database"
