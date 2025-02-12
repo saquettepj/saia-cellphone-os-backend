@@ -59,6 +59,7 @@
     "mercadopago": "^2.2.0",
     "node-nfe-nfce": "^1.0.94",
     "nodemailer": "^6.9.16",
+    "path": "^0.12.7",
     "prisma": "^6.3.1",
     "puppeteer": "^24.1.0",
     "sharp": "^0.33.5",
