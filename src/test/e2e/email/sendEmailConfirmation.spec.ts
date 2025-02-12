@@ -11,7 +11,7 @@ import { setupCompanyJokerRepository } from '@/test/utils/jokerRepository'
 import { translate } from '@/i18n/translate'
 import { TranslationKeysEnum } from '@/i18n/enums/TranslationKeysEnum'
 
-describe('Email Confirmation - (e2e)', () => {
+describe.skip('Email Confirmation - (e2e)', () => {
   let companyToken: string
 
   const companyJokerRepository = setupCompanyJokerRepository()

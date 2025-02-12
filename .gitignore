@@ -3,11 +3,11 @@ node_modules
 
 # Database 
 prisma/*.db
-prisma/migrations
 prisma/ERD.svg
 
 # Environment
 .env
+.env.test
 .env.dev
 .env.prod
 
