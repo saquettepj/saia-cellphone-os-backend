@@ -51,23 +51,25 @@ jobs:
             sleep 2
           done
 
+      - name: Create .env.test File
+        run: |
+          echo "NODE_ENV=test" > .env.test
+          echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/test-database" >> .env.test
+          echo "FRONTEND_URL=http://localhost:3001" >> .env.test
+          echo "PORT=3000" >> .env.test
+          echo "SESSION_TOKEN=a6971c1133893760ffee00b8b0ecb0d2" >> .env.test
+          echo "RESET_PASSWORD_TOKEN=c6e24e395ddc7799c009a33efae320ca" >> .env.test
+          echo "AUTOMATIC_EMAIL_USER=email@email.com" >> .env.test
+          echo "AUTOMATIC_EMAIL_PASS=xx" >> .env.test
+          echo "SUPPORT_EMAIL_USER=email@email.com" >> .env.test
+          echo "ADMIN_EMAIL_USER=email@email.com" >> .env.test
+          echo "ADMIN_ACCOUNT_CNPJ=10000000000001" >> .env.test
+          echo "ADMIN_ACCOUNT_PASSWORD=xxxxxx" >> .env.test
+          echo "ADMIN_DELETE_PASSWORD=xxxxxx" >> .env.test
+          echo "ADMIN_UPDATE_PASSWORD=xxxxxx" >> .env.test
+          echo "SYSTEM_ID=acd1e1de-11e1-10a1-1abd-11e1e11111aa" >> .env.test
+          echo "ENCRYPT_KEY=5bddb0f063633d227838091dc0466dafb31696f43e8a04706e65f92308488fc0" >> .env.test
+          echo "MERCADO_PAGO_KEY=xx" >> .env.test
+
       - name: Run E2E Tests
         run: pnpm run test:e2e
-        env:
-          NODE_ENV: "test"
-          DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/test-database"
-          FRONTEND_URL: "http://localhost:3001"
-          PORT: 3000
-          SESSION_TOKEN: "a6971c1133893760ffee00b8b0ecb0d2"
-          RESET_PASSWORD_TOKEN: "c6e24e395ddc7799c009a33efae320ca"
-          AUTOMATIC_EMAIL_USER: "email@email.com"
-          AUTOMATIC_EMAIL_PASS: "xx"
-          SUPPORT_EMAIL_USER: "email@email.com"
-          ADMIN_EMAIL_USER: "email@email.com"
-          ADMIN_ACCOUNT_CNPJ: "10000000000001"
-          ADMIN_ACCOUNT_PASSWORD: "xxxxxx"
-          ADMIN_DELETE_PASSWORD: "xxxxxx"
-          ADMIN_UPDATE_PASSWORD: "xxxxxx"
-          SYSTEM_ID: "acd1e1de-11e1-10a1-1abd-11e1e11111aa"
-          ENCRYPT_KEY: "5bddb0f063633d227838091dc0466dafb31696f43e8a04706e65f92308488fc0"
-          MERCADO_PAGO_KEY: "xx"
