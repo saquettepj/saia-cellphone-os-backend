@@ -1,3 +1,4 @@
+import { env } from '@/env'
 import { UpdatingError } from '@/errors/updatingError'
 import { ISystemConfigRepository } from '@/repositories/systemConfig/ISystemConfigRepository'
 
@@ -20,7 +21,7 @@ class UpdateSystemConfigUseCase {
     }
 
     const updatedSystemConfig = await this.systemConfigRepository.update(
-      'acd7e9de-75e8-40a9-8abd-26e5e00661aa',
+      env.SYSTEM_ID,
       {
         ...(terms && { terms, termsUpdateAt: new Date() }),
         ...(subscriptionAgreement && { subscriptionAgreement }),
