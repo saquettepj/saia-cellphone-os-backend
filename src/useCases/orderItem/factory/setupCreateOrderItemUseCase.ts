@@ -1,8 +1,8 @@
 import { CreateOrderItemUseCase } from '../createOrderItemUseCase'
 
 import { ProductRepository } from '@/repositories/product/productRepository'
-import { OrderItemRepository } from '@/repositories/orderItem/orderItemRepository'
 import { EmployeeRepository } from '@/repositories/employee/employeeRepository'
+import { OrderItemRepository } from '@/repositories/orderItem/orderItemRepository'
 
 function setupCreateOrderItemUseCase() {
   const orderItemRepository = new OrderItemRepository()
