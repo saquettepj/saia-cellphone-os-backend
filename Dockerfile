@@ -2,7 +2,7 @@ FROM node:18-alpine3.17
 
 WORKDIR /usr/src/app
 
-RUN apk add --no-cache openjdk17
+RUN apk add --no-cache openjdk17 curl
 
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
