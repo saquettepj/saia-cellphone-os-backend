@@ -1,5 +1,6 @@
 import { FastifyInstance } from 'fastify'
 
+import { healthCheckRoutes } from './routes/healthCheck.routes'
 import { companyRoutes } from './routes/company.routes'
 import { emailRoutes } from './routes/email.routes'
 import { productRoutes } from './routes/product.routes'
@@ -26,6 +27,7 @@ async function appRoutes(app: FastifyInstance) {
     })
   }
 
+  healthCheckRoutes(app)
   companyRoutes(app)
   emailRoutes(app)
   employeeRoutes(app)
