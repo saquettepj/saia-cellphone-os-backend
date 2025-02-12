@@ -44,7 +44,7 @@ const orderItemCheckerByCompanyMiddleware = async (
   }
 
   const searchedEmployee = await employeeRepository.findById(
-    searchedOrder.employeeId,
+    searchedOrder.employeeId || '',
   )
 
   if (!searchedEmployee) {
