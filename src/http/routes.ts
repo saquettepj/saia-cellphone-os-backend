@@ -23,7 +23,9 @@ import { env } from '@/env'
 async function appRoutes(app: FastifyInstance) {
   if (env.NODE_ENV !== 'production') {
     app.addHook('preHandler', async (request, _reply) => {
-      console.log(`🔵 [${request.method}] ${request.url} 🔵`)
+      if (request.url !== '/health-check') {
+        console.log(`🔵 [${request.method}] ${request.url} 🔵`)
+      }
     })
   }
 
