@@ -293,9 +293,6 @@ export function buildNfcePayload(
     vTotTrib: totalTributos.toFixed(2),
   }
 
-  console.log((Number(nfeData.lastNNF) + 1).toString())
-  console.log(env.NODE_ENV !== 'production' ? '2' : '1')
-
   const nfe = {
     ide: {
       cUF: returnStateCode(externalCNPJResponseData.address.state),
