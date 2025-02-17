@@ -12,6 +12,7 @@ const envSchema = z.object({
   DATABASE_URL: z.string(),
   FRONTEND_URL: z.string(),
   PORT: z.coerce.number().default(3333),
+  SENTRY_DSN: z.string(),
   SESSION_TOKEN: z.string(),
   RESET_PASSWORD_TOKEN: z.string(),
   AUTOMATIC_EMAIL_USER: z.string().email(),

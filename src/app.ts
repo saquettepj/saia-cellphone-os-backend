@@ -1,3 +1,4 @@
+import { Sentry } from 'instrument'
 import Fastify, { FastifyReply, FastifyRequest } from 'fastify'
 import cors from '@fastify/cors'
 import { PrismaClient } from '@prisma/client'
@@ -16,6 +17,8 @@ export const prisma = new PrismaClient()
 
 const app = Fastify()
 
+Sentry.setupFastifyErrorHandler(app)
+
 app.register(cors)
 app.register(multer.contentParser)
 app.addContentTypeParser('multipart/form-data', (request, payload, done) => {
@@ -27,9 +30,12 @@ app.register(appRoutes)
 
 app.setErrorHandler(
   (error: Error, _request: FastifyRequest, reply: FastifyReply) => {
+    Sentry.captureException(error)
+
     if (error instanceof MiddlewareError) {
-      env.NODE_ENV !== 'production' &&
-        console.error(`🔴 Middleware - ${error} 🔴`) // Usar um log externo: Datadog||NewRelic||Sentry - test workflow 2
+      if (env.NODE_ENV !== 'production') {
+        console.error(`🔴 Middleware - ${error} 🔴`)
+      }
 
       return reply
         .status(error.statusCode)
@@ -37,8 +43,9 @@ app.setErrorHandler(
     }
 
     if (error instanceof ZodError) {
-      env.NODE_ENV !== 'production' &&
+      if (env.NODE_ENV !== 'production') {
         console.error(`❌ Validation - ${error} ❌`)
+      }
 
       return reply.status(400).send({
         name: TranslationKeysEnum.ERROR_VALIDATION,
@@ -50,7 +57,11 @@ app.setErrorHandler(
     return reply.status(500).send({
       name: TranslationKeysEnum.ERROR_ON_SERVER,
       status: 'error',
-      message: `Internal server error ${env.NODE_ENV !== 'test' ? filterErrorContent(error.message) : error.message}`,
+      message: `Internal server error ${
+        env.NODE_ENV !== 'test'
+          ? filterErrorContent(error.message)
+          : error.message
+      }`,
     })
   },
 )
