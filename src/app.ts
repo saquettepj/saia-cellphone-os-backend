@@ -19,7 +19,10 @@ const app = Fastify()
 
 Sentry.setupFastifyErrorHandler(app)
 
-app.register(cors)
+app.register(cors, {
+  origin: env.CORS_ORIGIN,
+})
+
 app.register(multer.contentParser)
 app.addContentTypeParser('multipart/form-data', (request, payload, done) => {
   done(null)

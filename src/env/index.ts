@@ -26,6 +26,7 @@ const envSchema = z.object({
   SYSTEM_ID: z.string().uuid(),
   ENCRYPT_KEY: z.string(),
   MERCADO_PAGO_KEY: z.string(),
+  CORS_ORIGIN: z.string(),
 })
 
 const _env = envSchema.safeParse(process.env)
