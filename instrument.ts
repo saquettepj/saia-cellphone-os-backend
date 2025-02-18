@@ -3,15 +3,18 @@ import { nodeProfilingIntegration } from '@sentry/profiling-node'
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
-  beforeSend(event) {
-    if (event.request?.url?.includes('/health-check')) {
-      return null
-    }
-
-    return event
-  },
   integrations: [nodeProfilingIntegration()],
   tracesSampleRate: 1.0,
+  tracesSampler: (samplingContext) => {
+    const requestUrl =
+      samplingContext?.normalizedRequest?.url || samplingContext?.name || ''
+
+    if (requestUrl?.includes('/health-check')) {
+      return 0.0
+    }
+
+    return 1.0
+  },
 })
 
 Sentry.profiler.startProfiler()
