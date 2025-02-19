@@ -33,6 +33,7 @@ app.register(appRoutes)
 
 app.setErrorHandler(
   (error: Error, _request: FastifyRequest, reply: FastifyReply) => {
+    Sentry.setExtra('error', error)
     Sentry.captureException(error)
 
     if (error instanceof MiddlewareError) {
