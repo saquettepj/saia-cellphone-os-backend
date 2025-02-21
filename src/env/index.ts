@@ -27,6 +27,8 @@ const envSchema = z.object({
   ENCRYPT_KEY: z.string(),
   MERCADO_PAGO_KEY: z.string(),
   CORS_ORIGIN: z.string(),
+  GOOGLE_CLOUD_BUCKET_KEY: z.string(),
+  GOOGLE_CLOUD_BUCKET: z.string(),
 })
 
 const _env = envSchema.safeParse(process.env)

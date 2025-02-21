@@ -6,6 +6,7 @@ import { CompanyRepository } from '@/repositories/company/companyRepository'
 import { ClientRepository } from '@/repositories/client/clientRepository'
 import { OrderRepository } from '@/repositories/order/orderRepository'
 import { AddressRepository } from '@/repositories/address/addressRepository'
+import { BucketRepository } from '@/repositories/bucket/bucketRepository'
 
 function setupCreateNfceUseCase() {
   const nfceRepository = new NfceRepository()
@@ -14,6 +15,7 @@ function setupCreateNfceUseCase() {
   const clientRepository = new ClientRepository()
   const addressRepository = new AddressRepository()
   const orderRepository = new OrderRepository()
+  const bucketRepository = new BucketRepository()
 
   const createNfceUseCase = new CreateNfceUseCase(
     nfceRepository,
@@ -22,6 +24,7 @@ function setupCreateNfceUseCase() {
     clientRepository,
     addressRepository,
     orderRepository,
+    bucketRepository,
   )
 
   return createNfceUseCase

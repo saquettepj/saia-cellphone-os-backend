@@ -17,6 +17,7 @@ import { buildNfcePayload } from '@/utils/buildNfePayload'
 import { ICertificate } from '@/interfaces/ICertificate'
 import { SendNfceSefazError } from '@/errors/sendNfceSefazError'
 import { OrderAlreadyHasInvoiceError } from '@/errors/orderAlreadyHasInvoiceError'
+import { IBucketRepository } from '@/repositories/bucket/IBucketRepository'
 
 const { emitir, carregaCertificadoBase64 } = require('node-nfe-nfce')
 
@@ -34,6 +35,7 @@ class CreateNfceUseCase {
     private clientRepository: IClientRepository,
     private addressRepository: IAddressRepository,
     private orderRepository: IOrderRepository,
+    private bucketRepository: IBucketRepository,
   ) {}
 
   async execute({
@@ -154,8 +156,16 @@ class CreateNfceUseCase {
 
         const lastNNFInt = Number(nfeData.lastNNF)
         const nextNNF = lastNNFInt + 1
+        const fileName = `${company.CNPJ}_${nextNNF}.xml`
 
-        const createdNfce = await this.nfceRepository.create({
+        console.log(lastNNFInt, nextNNF, fileName)
+
+        await this.bucketRepository.create(
+          fileName,
+          sendNfceResponse.xml_completo,
+        )
+
+        /* const createdNfce = await this.nfceRepository.create({
           companyId,
           clientId: order.clientId,
           orderId,
@@ -171,7 +181,7 @@ class CreateNfceUseCase {
           })
         }
 
-        return createdNfce
+        return createdNfce */
       } catch (error) {
         if (error instanceof CNPJDataNotFoundError) {
           throw error
