@@ -19,8 +19,10 @@ const app = Fastify()
 
 Sentry.setupFastifyErrorHandler(app)
 
+const allowedOrigins = env.CORS_ORIGIN.split(',')
+
 app.register(cors, {
-  origin: env.CORS_ORIGIN,
+  origin: allowedOrigins,
 })
 
 app.register(multer.contentParser)
