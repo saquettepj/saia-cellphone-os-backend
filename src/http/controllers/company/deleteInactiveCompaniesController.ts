@@ -3,6 +3,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { setupDeleteInactiveCompaniesUseCase } from '@/useCases/company/factory/setupDeleteInactiveCompaniesUseCase'
 import { DeletingError } from '@/errors/deletingError'
 import { IDeleteCompanyDTO } from '@/dtos/company/IDeleteCompanyDTO'
+import { NotFoundError } from '@/errors/notFoundError'
 
 async function deleteInactiveCompaniesController(
   request: FastifyRequest,
@@ -18,6 +19,11 @@ async function deleteInactiveCompaniesController(
     return reply.status(200).send()
   } catch (error) {
     if (error instanceof DeletingError) {
+      return reply
+        .status(500)
+        .send({ message: error.message, name: error.name })
+    }
+    if (error instanceof NotFoundError) {
       return reply
         .status(500)
         .send({ message: error.message, name: error.name })
