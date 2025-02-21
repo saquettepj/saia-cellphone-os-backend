@@ -117,7 +117,6 @@ CREATE TABLE "nfce" (
     "chNFe" TEXT NOT NULL,
     "nProt" TEXT NOT NULL,
     "number" TEXT NOT NULL,
-    "xml" TEXT NOT NULL,
     "companyId" TEXT NOT NULL,
     "clientId" TEXT,
     "orderId" TEXT,

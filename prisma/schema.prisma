@@ -143,7 +143,6 @@ model Nfce {
   chNFe     String   @id @unique
   nProt     String   @unique
   number    String
-  xml       String
   companyId String
   company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
   clientId  String?

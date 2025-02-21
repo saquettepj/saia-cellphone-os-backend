@@ -12,6 +12,7 @@
     "migrate:dev:status": "dotenv -e .env.dev -- pnpx prisma migrate status",
     "migrate:dev:reset": "dotenv -e .env.dev -- pnpx prisma migrate reset",
     "migrate:dev:rollback": "dotenv -e .env.dev -- pnpx prisma migrate resolve --rolled-back",
+    "migrate:dev:deploy": "dotenv -e .env.dev -- pnpx prisma migrate deploy",
     "migrate:deploy": "pnpx prisma migrate deploy",
     "start": "node build/server.js",
     "build": "tsup src --out-dir build",

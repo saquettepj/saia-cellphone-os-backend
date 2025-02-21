@@ -14,7 +14,6 @@ interface ICreateNfceControllerResponse {
   number?: string | null
   chNFe?: string | null
   nProt?: string | null
-  xml?: string | null
   companyId?: string | null
   clientId?: string | null
   orderId?: string | null
@@ -42,7 +41,6 @@ async function createNfceController(
       number: createNfceUseCaseReturn?.number,
       chNFe: createNfceUseCaseReturn?.chNFe,
       nProt: createNfceUseCaseReturn?.nProt,
-      xml: createNfceUseCaseReturn?.xml,
       companyId: createNfceUseCaseReturn?.companyId,
       clientId: createNfceUseCaseReturn?.clientId,
       orderId: createNfceUseCaseReturn?.orderId,

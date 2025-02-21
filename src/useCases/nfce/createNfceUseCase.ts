@@ -158,20 +158,17 @@ class CreateNfceUseCase {
         const nextNNF = lastNNFInt + 1
         const fileName = `${company.CNPJ}_${nextNNF}.xml`
 
-        console.log(lastNNFInt, nextNNF, fileName)
-
         await this.bucketRepository.create(
           fileName,
           sendNfceResponse.xml_completo,
         )
 
-        /* const createdNfce = await this.nfceRepository.create({
+        const createdNfce = await this.nfceRepository.create({
           companyId,
           clientId: order.clientId,
           orderId,
           chNFe: sendNfceResponse.nfeProc.protNFe.infProt.chNFe,
           nProt: sendNfceResponse.nfeProc.protNFe.infProt.nProt,
-          xml: sendNfceResponse?.xml_completo,
           number: nextNNF.toString(),
         })
 
@@ -181,7 +178,7 @@ class CreateNfceUseCase {
           })
         }
 
-        return createdNfce */
+        return createdNfce
       } catch (error) {
         if (error instanceof CNPJDataNotFoundError) {
           throw error
