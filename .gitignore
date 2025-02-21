@@ -26,3 +26,4 @@ coverage
 # Temp files
 nfe.js
 testBucket.js
+convert-to-base64.js
