@@ -38,14 +38,16 @@ async function appRoutes(app: FastifyInstance) {
   productRoutes(app)
   orderRoutes(app)
   addressRoutes(app)
-  nfeDataRoutes(app)
   orderItemRoutes(app)
   accessTokenRoutes(app)
   serviceRoutes(app)
   systemConfigRoutes(app)
   paymentRoutes(app)
   externalRoutes(app)
-  nfceRoutes(app)
+
+  // DISABLED ROUTES
+  /*   nfceRoutes(app) */
+  /*   nfeDataRoutes(app) */
 }
 
 export { appRoutes }

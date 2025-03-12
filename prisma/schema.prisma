@@ -29,7 +29,7 @@ model Company {
   passwordHash          String
   payId                 String?
   payType               String?
-  withNfe               Boolean?     @default(true)
+  withNfe               Boolean?     @default(false)
   payDate               DateTime?
   termsDate             DateTime?
   companyTerms          String?

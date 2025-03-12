@@ -8,6 +8,7 @@
     "erd": "pnpx prisma generate",
     "migrate:dev": "dotenv -e .env.dev -- pnpx prisma migrate deploy",
     "migrate:test:create": "dotenv -e .env.dev -- pnpx prisma migrate dev --name",
+    "migrate:test:reset": "dotenv -e .env.test -- pnpx prisma migrate reset",
     "migrate:dev:create": "dotenv -e .env.dev -- pnpx prisma migrate dev --name",
     "migrate:dev:status": "dotenv -e .env.dev -- pnpx prisma migrate status",
     "migrate:dev:reset": "dotenv -e .env.dev -- pnpx prisma migrate reset",

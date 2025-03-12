@@ -17,7 +17,9 @@ export const prisma = new PrismaClient()
 
 const app = Fastify()
 
-Sentry.setupFastifyErrorHandler(app)
+if (Sentry) {
+  Sentry.setupFastifyErrorHandler(app)
+}
 
 const allowedOrigins = env.CORS_ORIGIN.split(',')
 
@@ -35,7 +37,9 @@ app.register(appRoutes)
 
 app.setErrorHandler(
   (error: Error, _request: FastifyRequest, reply: FastifyReply) => {
-    Sentry.captureException(error)
+    if (Sentry) {
+      Sentry.captureException(error)
+    }
 
     if (error instanceof MiddlewareError) {
       if (env.NODE_ENV !== 'production') {

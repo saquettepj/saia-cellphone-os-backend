@@ -1,23 +1,32 @@
-import * as Sentry from '@sentry/node'
-import { nodeProfilingIntegration } from '@sentry/profiling-node'
+/* eslint-disable @typescript-eslint/no-var-requires */
+import type * as SentryNodeTypes from '@sentry/node'
 
-Sentry.init({
-  dsn: process.env.SENTRY_DSN,
-  integrations: [nodeProfilingIntegration()],
-  tracesSampleRate: 1.0,
-  tracesSampler: (samplingContext) => {
-    const requestUrl =
-      samplingContext?.normalizedRequest?.url || samplingContext?.name || ''
+let Sentry: typeof SentryNodeTypes | null = null
 
-    if (requestUrl?.includes('/health-check')) {
-      return 0.0
-    }
+if (process.env.NODE_ENV !== 'test') {
+  const SentryNode = require('@sentry/node') as typeof SentryNodeTypes
+  const { nodeProfilingIntegration } = require('@sentry/profiling-node')
 
-    return 1.0
-  },
-})
+  SentryNode.init({
+    dsn: process.env.SENTRY_DSN,
+    integrations: [nodeProfilingIntegration()],
+    tracesSampleRate: 1.0,
+    tracesSampler: (samplingContext) => {
+      const requestUrl =
+        samplingContext?.normalizedRequest?.url || samplingContext?.name || ''
 
-Sentry.profiler.startProfiler()
-Sentry.profiler.stopProfiler()
+      if (requestUrl.includes('/health-check')) {
+        return 0.0
+      }
+
+      return 1.0
+    },
+  })
+
+  SentryNode.profiler.startProfiler()
+  SentryNode.profiler.stopProfiler()
+
+  Sentry = SentryNode
+}
 
 export { Sentry }

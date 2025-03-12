@@ -33,7 +33,7 @@ async function getCompanyByIdController(
         hasCost: getCompanyByIdUseCaseReturn.hasCost,
         textMessage: getCompanyByIdUseCaseReturn.textMessage,
         payDate: getCompanyByIdUseCaseReturn.payDate || null,
-        withNfe: getCompanyByIdUseCaseReturn.withNfe || null,
+        withNfe: getCompanyByIdUseCaseReturn.withNfe,
         termsDate: getCompanyByIdUseCaseReturn.termsDate || null,
         companyTerms: getCompanyByIdUseCaseReturn.companyTerms || null,
         accessToken: getCompanyByIdUseCaseReturn.accessToken || null,
