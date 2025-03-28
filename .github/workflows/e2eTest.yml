@@ -57,6 +57,7 @@ jobs:
           echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/test-database" >> .env.test
           echo "FRONTEND_URL=http://localhost:3001" >> .env.test
           echo "PORT=3000" >> .env.test
+          echo "SENTRY_DSN=https://09dae5cc3f414f8aff41f95a8b88f4a3@o4508834668609536.ingest.de.sentry.io/4508840033517648" >> .env.test
           echo "SESSION_TOKEN=a6971c1133893760ffee00b8b0ecb0d2" >> .env.test
           echo "RESET_PASSWORD_TOKEN=c6e24e395ddc7799c009a33efae320ca" >> .env.test
           echo "AUTOMATIC_EMAIL_USER=email@email.com" >> .env.test
@@ -70,6 +71,9 @@ jobs:
           echo "SYSTEM_ID=acd1e1de-11e1-10a1-1abd-11e1e11111aa" >> .env.test
           echo "ENCRYPT_KEY=5bddb0f063633d227838091dc0466dafb31696f43e8a04706e65f92308488fc0" >> .env.test
           echo "MERCADO_PAGO_KEY=xx" >> .env.test
+          echo "CORS_ORIGIN=xx" >> .env.test
+          echo "GOOGLE_CLOUD_BUCKET=xx" >> .env.test
+          echo "GOOGLE_CLOUD_BUCKET_KEY=xx" >> .env.test
 
       - name: Run E2E Tests
         run: pnpm run test:e2e
