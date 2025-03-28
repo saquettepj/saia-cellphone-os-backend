@@ -26,8 +26,7 @@
     "test:e2e:watch": "dotenv -e .env.test vitest --dir src/test/e2e"
   },
   "prisma": {
-    "seed": "tsx prisma/seed.ts",
-    "seed:dev": "dotenv -e .env.dev tsx prisma/seed.ts"
+    "seed": "tsx prisma/seed.ts"
   },
   "keywords": [],
   "author": "",
