@@ -17,4 +17,4 @@ RUN pnpm run build
 
 EXPOSE 3000
 
-CMD ["sh", "-c", "pnpm run migrate:deploy && pnpm run start"]
+CMD ["pnpm", "run", "start"]
