@@ -51,13 +51,15 @@ class SuperUpdateCompanyUseCase {
       }
     }
 
+    // DISABLED_CODE withNfe to withNfe: false
+
     const result = await this.companyRepository.updateById(searchedCompany.id, {
       CNPJ,
       email,
       name,
       emailChecked,
       payType,
-      withNfe,
+      withNfe: false,
       payDate,
     })
 

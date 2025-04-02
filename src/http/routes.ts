@@ -45,7 +45,7 @@ async function appRoutes(app: FastifyInstance) {
   paymentRoutes(app)
   externalRoutes(app)
 
-  // DISABLED ROUTES
+  // DISABLED_CODE
   /*   nfceRoutes(app) */
   /*   nfeDataRoutes(app) */
 }
