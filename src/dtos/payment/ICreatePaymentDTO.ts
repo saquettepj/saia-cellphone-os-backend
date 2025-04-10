@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 export const ICreatePaymentDTO = z.object({
-  transaction_amount: z.number().max(20),
+  transaction_amount: z.number(),
   payment_method_id: z.string(),
   installments: z.number().optional(),
   token: z.string().optional(),
