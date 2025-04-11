@@ -170,7 +170,7 @@ function generateChangePasswordEmailObject(token: string): IEmailMessageConfig {
                                                             <tbody>
                                                               <tr style="border-collapse:collapse">
                                                                   <td align="left" style="padding:0;Margin:0">
-                                                                    <p style="Margin:0;font-family:arial,'helvetica neue',helvetica,sans-serif;line-height:18px;letter-spacing:0;color:#333333;font-size:12px"><a href="http://www.saiasolutions.info" target="_blank" data-saferedirecturl="https://www.google.com/url?q=http://www.saiasolutions.info&amp;source=gmail&amp;ust=1736024104560000&amp;usg=AOvVaw1f05hrucW7YUb5UYbC1rg3">www.saiasolutions.info</a></p>
+                                                                    <p style="Margin:0;font-family:arial,'helvetica neue',helvetica,sans-serif;line-height:18px;letter-spacing:0;color:#333333;font-size:12px"><a href="https://www.saiacelulares.com" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://www.saiacelulares.com&amp;source=gmail&amp;ust=1736024104560000&amp;usg=AOvVaw1f05hrucW7YUb5UYbC1rg3">www.saiasolutions.info</a></p>
                                                                   </td>
                                                               </tr>
                                                             </tbody>
