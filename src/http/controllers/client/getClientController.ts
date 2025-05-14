@@ -8,7 +8,7 @@ interface IGetClientControllerResponse {
   companyId: string
   name: string
   CPF: string
-  email: string
+  email: string | null
   phone: string | null
   address?: {
     country: string
