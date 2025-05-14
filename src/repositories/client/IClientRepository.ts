@@ -4,6 +4,16 @@ interface IClient extends Client {
   address?: Address | null
 }
 
+export interface FindManyByCPFInput {
+  companyId: string
+  CPFs: string[]
+}
+
+export interface FindManyByEmailInput {
+  companyId: string
+  emails: string[]
+}
+
 interface IClientRepository {
   findById(id: string): Promise<Client | null>
   findByCPF(CPF: string): Promise<Client | null>
@@ -22,6 +32,9 @@ interface IClientRepository {
       address?: Prisma.AddressUncheckedCreateInput | null
     },
   ): Promise<IClient>
+  findManyByCPF(data: FindManyByCPFInput): Promise<Client[]>
+  findManyByEmail(data: FindManyByEmailInput): Promise<Client[]>
+  createMany(data: Prisma.ClientUncheckedCreateInput[]): Promise<Client[]>
   updateById(id: string, data: Prisma.ClientUpdateInput): Promise<Client>
   delete(id: string): Promise<Client | null>
   deleteMany(ids: string[]): Promise<number>

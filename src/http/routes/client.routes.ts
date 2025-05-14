@@ -6,6 +6,10 @@ import { updateClientController } from '../controllers/client/updateClientContro
 import { deleteClientController } from '../controllers/client/deleteClientController'
 import { getClientController } from '../controllers/client/getClientController'
 import { clientCheckerByCompanyMiddleware } from '../middlewares/clientCheckerByCompanyMiddleware'
+import {
+  importClientsController,
+  upload,
+} from '../controllers/client/importClientsController'
 
 async function clientRoutes(app: FastifyInstance) {
   app.post(
@@ -14,6 +18,14 @@ async function clientRoutes(app: FastifyInstance) {
       preHandler: [companyAuthenticatorMiddleware],
     },
     createClientController,
+  )
+
+  app.post(
+    '/clients/import',
+    {
+      preHandler: [companyAuthenticatorMiddleware, upload.single('file')],
+    },
+    importClientsController,
   )
 
   /*   app.post(

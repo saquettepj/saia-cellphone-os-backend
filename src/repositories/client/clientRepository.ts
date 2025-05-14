@@ -1,6 +1,10 @@
 import { Prisma } from '@prisma/client'
 
-import { IClientRepository } from './IClientRepository'
+import {
+  FindManyByCPFInput,
+  FindManyByEmailInput,
+  IClientRepository,
+} from './IClientRepository'
 
 import { prisma } from '@/app'
 
@@ -30,6 +34,32 @@ class ClientRepository implements IClientRepository {
     })
 
     return createdClient
+  }
+
+  async findManyByCPF({ companyId, CPFs }: FindManyByCPFInput) {
+    return prisma.client.findMany({
+      where: {
+        companyId,
+        CPF: { in: CPFs },
+      },
+    })
+  }
+
+  async findManyByEmail({ companyId, emails }: FindManyByEmailInput) {
+    return prisma.client.findMany({
+      where: {
+        companyId,
+        email: { in: emails },
+      },
+    })
+  }
+
+  async createMany(data: Prisma.ClientUncheckedCreateInput[]) {
+    const clientsCreated = await prisma.$transaction(
+      data.map((client) => prisma.client.create({ data: client })),
+    )
+
+    return clientsCreated
   }
 
   async updateById(id: string, data: Prisma.ClientUpdateInput) {

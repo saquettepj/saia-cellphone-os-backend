@@ -91,6 +91,11 @@ export const en = {
   [TranslationKeysEnum.ERROR_INVOICE_DATA_NOT_FOUND]: 'Invoice data not found!',
   [TranslationKeysEnum.ERROR_ORDER_ALREADY_HAS_INVOICE]:
     'Order already has an invoice!',
+  [TranslationKeysEnum.ERROR_EMPTY_EXCEL]: 'Empty table!',
+  [TranslationKeysEnum.ERROR_INVALID_EXCEL_FORMAT]:
+    'File must be in .XLSX format!',
+  [TranslationKeysEnum.ERROR_INVALID_EXCEL_HEADERS]:
+    'Table columns do not match the required format!',
 
   // #################### GLOBALS #######################
   [TranslationKeysEnum.PAYMENT_DESCRIPTION_MONTHLY_PLAN]:

@@ -8,6 +8,10 @@ import { emailConfirmationCheckerMiddleware } from '../middlewares/emailConfirma
 import { updateProductController } from '../controllers/product/updateProductController'
 import { deleteManyProductController } from '../controllers/product/deleteManyProductController'
 import { productCheckerByCompanyMiddleware } from '../middlewares/productCheckerByCompanyMiddleware'
+import {
+  importProductsController,
+  upload as uploadProducts,
+} from '../controllers/product/importProductsController'
 
 async function productRoutes(app: FastifyInstance) {
   app.post(
@@ -19,6 +23,17 @@ async function productRoutes(app: FastifyInstance) {
       ],
     },
     createProductController,
+  )
+
+  app.post(
+    '/products/import',
+    {
+      preHandler: [
+        companyAuthenticatorMiddleware,
+        uploadProducts.single('file'),
+      ],
+    },
+    importProductsController,
   )
 
   /*   app.post(

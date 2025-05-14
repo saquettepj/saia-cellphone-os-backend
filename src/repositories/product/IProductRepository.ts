@@ -19,6 +19,7 @@ interface IProductRepository {
   delete(id: string): Promise<Product | null>
   deleteMany(ids: string[]): Promise<number>
   create(data: Prisma.ProductUncheckedCreateInput): Promise<Product>
+  createMany(data: Prisma.ProductUncheckedCreateInput[]): Promise<Product[]>
 }
 
 export { IProductRepository }

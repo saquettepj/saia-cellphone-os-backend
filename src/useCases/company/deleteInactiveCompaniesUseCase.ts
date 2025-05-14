@@ -65,7 +65,7 @@ class DeleteInactiveCompaniesUseCase {
       throw new NotFoundError()
     }
 
-    /*     await this.companyRepository.deleteManyByIds(companyIdsToDelete); */
+    await this.companyRepository.deleteManyByIds(companyIdsToDelete)
   }
 }
 

@@ -94,6 +94,11 @@ export const ptBR = {
     'Dados da nota fiscal não encontrados!',
   [TranslationKeysEnum.ERROR_ORDER_ALREADY_HAS_INVOICE]:
     'Pedido já possui nota fiscal!',
+  [TranslationKeysEnum.ERROR_EMPTY_EXCEL]: 'Tabela vazia!',
+  [TranslationKeysEnum.ERROR_INVALID_EXCEL_FORMAT]:
+    'Arquivo precisa ser um formato .XLSX !',
+  [TranslationKeysEnum.ERROR_INVALID_EXCEL_HEADERS]:
+    'As colunas da tabela não estão no padrão especificado!',
 
   // #################### GLOBALS #######################
   [TranslationKeysEnum.PAYMENT_DESCRIPTION_MONTHLY_PLAN]:

@@ -87,6 +87,14 @@ class ProductRepository implements IProductRepository {
 
     return createdProduct
   }
+
+  async createMany(data: Prisma.ProductUncheckedCreateInput[]) {
+    const createdProducts = await prisma.$transaction(
+      data.map((product) => prisma.product.create({ data: product })),
+    )
+
+    return createdProducts
+  }
 }
 
 export { ProductRepository }
