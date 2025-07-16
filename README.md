@@ -176,14 +176,14 @@ Run the test suite using the following command:
 ---
 ## Project Roadmap
 
-- [X] **`Terms of Use`**: <strike>Draft and structure the Webservice Terms of Use in accordance with LGPD and best contractual practices.</strike>
-- [X] **`Adhesion Agreement`**: <strike>Draft the Adhesion Agreement with plans, terms, payment methods, and data protection clauses.</strike>
-- [X] **`Customer, Employee, and Supplier Registration`**: <strike>Implement registration modules with required and optional fields.</strike>
-- [X] **`Secure Data Storage`**: <strike>Set up storage with security measures and LGPD compliance.</strike>
-- [X] **`External APIs`**: <strike>Integrate automatic queries via APIs (CNPJ, postal code, and public data services).</strike>
-- [X] **`Password Recovery`**: <strike>Implement password recovery exclusively via the registered email address.</strike>
-- [X] **`Subscription Plans`**: <strike>Create Monthly, Semiannual, and Annual subscription plans.</strike>
-- [X] **`Free Trial Period`**: <strike>Provide 7 days of free access for new users.</strike>
+- [X] **`Terms of Use`**: Draft and structure the Webservice Terms of Use in accordance with LGPD and best contractual practices.
+- [X] **`Adhesion Agreement`**: Draft the Adhesion Agreement with plans, terms, payment methods, and data protection clauses.
+- [X] **`Customer, Employee, and Supplier Registration`**: Implement registration modules with required and optional fields.
+- [X] **`Secure Data Storage`**: Set up storage with security measures and LGPD compliance.
+- [X] **`External APIs`**: Integrate automatic queries via APIs (CNPJ, postal code, and public data services).
+- [X] **`Password Recovery`**: Implement password recovery exclusively via the registered email address.
+- [X] **`Subscription Plans`**: Create Monthly, Semiannual, and Annual subscription plans.
+- [X] **`Free Trial Period`**: Provide 7 days of free access for new users.
 - [X] **`Multilingual Support`**: Make the interface available in other languages.
 - [X] **`Data Visualization`**: Create views to display company data in tables and generate graphical reports.
 - [X] **`Advanced Reporting`**: Implement customizable dashboards with charts and filters.
