@@ -50,10 +50,10 @@
 
 ## Features
 
-<code>- Complete Management: Registration, updating, and secure storage of information about customers, employees, and suppliers.
-- Order and Product Control: Management of sales and service orders, order printing, inventory control, and status tracking.
-- Security and Compliance: Implementation of security best practices, sensitive data encryption, and consent management in compliance with LGPD.
-- Flexible Subscription Models: Monthly, semiannual, and annual plans with integrated payment via Mercado Pago.</code>
+<code>-> Complete Management: Registration, updating, and secure storage of information about customers, employees, and suppliers.
+-> Order and Product Control: Management of sales and service orders, order printing, inventory control, and status tracking.
+-> Security and Compliance: Implementation of security best practices, sensitive data encryption, and consent management in compliance with LGPD.
+-> Flexible Subscription Models: Monthly, semiannual, and annual plans with integrated payment via Mercado Pago.</code>
 
 ---
 
