@@ -3,7 +3,7 @@
 </p>
 <p align="center"><h1 align="center">SAIA-CELLPHONE-OS-BACKEND</h1></p>
 <p align="center">
-	<em><code>❯ BY THIAGO SAQUETTE</code></em>
+	<em><code>BY THIAGO SAQUETTE</code></em>
 </p>
 <p align="center">
 	<img src="https://img.shields.io/github/license/saquettepj/saia-cellphone-os-backend?style=flat&logo=opensourceinitiative&logoColor=white&color=0080ff" alt="license">
@@ -45,16 +45,20 @@
 
 ## Overview
 
-<code>❯ SAIASYSTEM is a comprehensive web service for managing companies in the services and retail sectors. It allows you to register, manage, and securely store essential information about customers, employees, suppliers, orders, products, and services in a secure environment compliant with the Brazilian General Data Protection Law (LGPD). Designed to optimize processes and centralize operations, it offers flexible subscription plans and integration with Mercado Pago.</code>
+<code>
+SAIASYSTEM is a comprehensive web service for managing companies in the services and retail sectors. It allows you to register, manage, and securely store essential information about customers, employees, suppliers, orders, products, and services in a secure environment compliant with the Brazilian General Data Protection Law (LGPD). Designed to optimize processes and centralize operations, it offers flexible subscription plans and integration with Mercado Pago.
+</code>
 
 ---
 
 ## Features
 
-<code>❯ Complete Management: Registration, updating, and secure storage of information about customers, employees, and suppliers.
-❯ Order and Product Control: Management of sales and service orders, order printing, inventory control, and status tracking.
-❯ Security and Compliance: Implementation of security best practices, sensitive data encryption, and consent management in compliance with LGPD.
-❯ Flexible Subscription Models: Monthly, semiannual, and annual plans with integrated payment via Mercado Pago.</code>
+<code>
+- Complete Management: Registration, updating, and secure storage of information about customers, employees, and suppliers.
+- Order and Product Control: Management of sales and service orders, order printing, inventory control, and status tracking.
+- Security and Compliance: Implementation of security best practices, sensitive data encryption, and consent management in compliance with LGPD.
+- Flexible Subscription Models: Monthly, semiannual, and annual plans with integrated payment via Mercado Pago.
+</code>
 
 ---
 
@@ -173,16 +177,17 @@ Run the test suite using the following command:
 ---
 ## Project Roadmap
 
-- [X] **`Termos de Uso`**: <strike>Redigir e estruturar os Termos de Uso do Webservice conforme LGPD e boas práticas contratuais.</strike>
-- [X] **`Contrato de Adesão`**: <strike>Redigir o Contrato de Adesão com planos, prazos, formas de pagamento e cláusulas de proteção de dados.</strike>
-- [X] **`Cadastro de Clientes, Funcionários e Fornecedores`**: <strike>Implementar módulos de cadastro com campos obrigatórios e opcionais.</strike>
-- [X] **`Armazenamento Seguro de Dados`**: <strike>Configurar armazenamento com medidas de segurança e conformidade LGPD.</strike>
-- [X] **`APIs Externas`**: <strike>Integrar consultas automáticas via APIs (CNPJ, CEP e sites de consulta).</strike>
-- [X] **`Recuperação de Senha`**: <strike>Implementar recuperação de senha exclusiva por e-mail cadastrado.</strike>
-- [X] **`Sistema de Planos`**: <strike>Criar planos de assinatura Mensal, Semestral e Anual.</strike>
-- [X] **`Período de Teste Gratuito`**: <strike>Disponibilizar 7 dias gratuitos para novos usuários.</strike>
-- [ ] **`Painel de Relatórios Gerenciais`**: Implementar relatórios e dashboards com filtros avançados.
-- [ ] **`Histórico de Alterações de Dados`**: Registrar logs de edição e exclusão de registros.
-- [ ] **`Notificações Automáticas`**: Enviar alertas por e-mail sobre vencimento de planos e outras ações.
-- [ ] **`Backup Automático`**: Configurar backups recorrentes dos dados armazenados.
-- [ ] **`Suporte Multilíngue`**: Disponibilizar interface em outros idiomas.
+- [X] **`Terms of Use`**: <strike>Draft and structure the Webservice Terms of Use in accordance with LGPD and best contractual practices.</strike>
+- [X] **`Adhesion Agreement`**: <strike>Draft the Adhesion Agreement with plans, terms, payment methods, and data protection clauses.</strike>
+- [X] **`Customer, Employee, and Supplier Registration`**: <strike>Implement registration modules with required and optional fields.</strike>
+- [X] **`Secure Data Storage`**: <strike>Set up storage with security measures and LGPD compliance.</strike>
+- [X] **`External APIs`**: <strike>Integrate automatic queries via APIs (CNPJ, postal code, and public data services).</strike>
+- [X] **`Password Recovery`**: <strike>Implement password recovery exclusively via the registered email address.</strike>
+- [X] **`Subscription Plans`**: <strike>Create Monthly, Semiannual, and Annual subscription plans.</strike>
+- [X] **`Free Trial Period`**: <strike>Provide 7 days of free access for new users.</strike>
+- [X] **`Multilingual Support`**: Make the interface available in other languages.
+- [X] **`Data Visualization`**: Create views to display company data in tables and generate graphical reports.
+- [X] **`Advanced Reporting`**: Implement customizable dashboards with charts and filters.
+- [X] **`Requested Features by Store Owners`**: Develop a list management system tailored to retail workflows.
+- [X] **`Payment System via PIX and Credit Card`**: Enable integrated payment processing using PIX and credit card transactions.
+
