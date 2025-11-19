@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 
-import { prisma } from '@/app'
+import { prisma } from '@/lib/prisma'
 
 interface ITransactionClient {
   order: typeof prisma.order

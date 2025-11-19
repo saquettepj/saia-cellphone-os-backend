@@ -2,7 +2,7 @@ import { Prisma } from '@prisma/client'
 
 import { IServiceRepository } from './IServiceRepository'
 
-import { prisma } from '@/app'
+import { prisma } from '@/lib/prisma'
 
 class ServiceRepository implements IServiceRepository {
   async findById(id: string) {

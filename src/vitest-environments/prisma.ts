@@ -3,9 +3,7 @@ import { randomUUID } from 'crypto'
 import { execSync } from 'child_process'
 
 import type { Environment } from 'vitest/environments'
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
+import { prisma } from '../lib/prisma'
 
 function generateDatabaseURL() {
   if (process.env.NODE_ENV !== 'test') {

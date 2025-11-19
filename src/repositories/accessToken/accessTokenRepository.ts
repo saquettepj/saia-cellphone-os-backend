@@ -1,6 +1,6 @@
 import { IAccessTokenRepository } from './IAccessTokenRepository'
 
-import { prisma } from '@/app'
+import { prisma } from '@/lib/prisma'
 
 class AccessTokenRepository implements IAccessTokenRepository {
   async create(data: { companyId?: string; activatedAt?: Date }) {

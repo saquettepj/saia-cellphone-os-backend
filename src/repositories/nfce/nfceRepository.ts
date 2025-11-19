@@ -2,7 +2,7 @@ import { Prisma } from '@prisma/client'
 
 import { INfceRepository } from './INfceRepository'
 
-import { prisma } from '@/app'
+import { prisma } from '@/lib/prisma'
 
 class NfceRepository implements INfceRepository {
   async findByChNFe(chNFe: string) {

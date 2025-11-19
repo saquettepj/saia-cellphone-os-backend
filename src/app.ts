@@ -1,7 +1,6 @@
 import { Sentry } from 'instrument'
 import Fastify, { FastifyReply, FastifyRequest } from 'fastify'
 import cors from '@fastify/cors'
-import { PrismaClient } from '@prisma/client'
 import { ZodError } from 'zod'
 import multer from 'fastify-multer'
 
@@ -12,8 +11,9 @@ import { filterErrorContent } from './utils/filterErrorContent'
 import { translate } from './i18n/translate'
 import { TranslationKeysEnum } from './i18n/enums/TranslationKeysEnum'
 import { localeMiddleware } from './http/middlewares/global/localeMiddleware'
+import { prisma } from './lib/prisma'
 
-export const prisma = new PrismaClient()
+export { prisma }
 
 const app = Fastify()
 

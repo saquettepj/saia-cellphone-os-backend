@@ -4,6 +4,7 @@ node_modules
 # Database 
 prisma/*.db
 prisma/ERD.svg
+prisma/generated
 
 # Environment
 .env

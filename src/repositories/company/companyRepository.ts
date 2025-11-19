@@ -2,7 +2,7 @@ import { Prisma } from '@prisma/client'
 
 import { ICompanyRepository } from './ICompanyRepository'
 
-import { prisma } from '@/app'
+import { prisma } from '@/lib/prisma'
 import { AccountTypeEnum } from '@/enums/all.enum'
 
 class CompanyRepository implements ICompanyRepository {

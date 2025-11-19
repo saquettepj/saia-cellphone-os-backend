@@ -2,7 +2,7 @@ import { Prisma, SystemConfig } from '@prisma/client'
 
 import { ISystemConfigRepository } from './ISystemConfigRepository'
 
-import { prisma } from '@/app'
+import { prisma } from '@/lib/prisma'
 
 class SystemConfigRepository implements ISystemConfigRepository {
   async create(data: Prisma.SystemConfigCreateInput): Promise<SystemConfig> {

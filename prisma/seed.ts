@@ -1,6 +1,6 @@
 import { hash } from 'argon2'
 
-import { prisma } from '@/app'
+import { prisma } from '@/lib/prisma'
 import { env } from '@/env'
 
 async function main() {

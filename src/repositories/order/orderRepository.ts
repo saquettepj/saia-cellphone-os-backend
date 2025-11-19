@@ -2,7 +2,7 @@ import { Prisma } from '@prisma/client'
 
 import { ICreateOrder, IOrder, IOrderRepository } from './IOrderRepository'
 
-import { prisma } from '@/app'
+import { prisma } from '@/lib/prisma'
 
 class OrderRepository implements IOrderRepository {
   async findById(id: string): Promise<IOrder | null> {

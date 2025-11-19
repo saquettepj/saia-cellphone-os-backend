@@ -1,6 +1,6 @@
 import { Product } from '@prisma/client'
 
-import { prisma } from '@/app'
+import { prisma } from '@/lib/prisma'
 import { ICompany } from '@/repositories/company/ICompanyRepository'
 import { IOrder } from '@/repositories/order/IOrderRepository'
 

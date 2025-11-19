@@ -2,7 +2,7 @@ import { Prisma } from '@prisma/client'
 
 import { INfeDataRepository } from './INfeDataRepository'
 
-import { prisma } from '@/app'
+import { prisma } from '@/lib/prisma'
 
 class NfeDataRepository implements INfeDataRepository {
   async findById(id: string) {

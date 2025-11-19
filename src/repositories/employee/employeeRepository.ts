@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client'
 
 import { IEmployeeRepository } from '@/repositories/employee/IEmployeeRepository'
-import { prisma } from '@/app'
+import { prisma } from '@/lib/prisma'
 
 class EmployeeRepository implements IEmployeeRepository {
   async findById(id: string) {
