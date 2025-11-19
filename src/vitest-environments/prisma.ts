@@ -34,8 +34,8 @@ export default <Environment>{
   setup() {
     const schema = generateDatabaseURL()
 
-    execSync('dotenv -e .env.test -- pnpx prisma migrate deploy')
-    execSync('dotenv -e .env.test -- pnpx prisma db seed')
+    execSync('dotenv -e .env.test -- pnpm exec prisma migrate deploy')
+    execSync('dotenv -e .env.test -- pnpm exec prisma db seed')
 
     console.log('🟨 Setup test environment! 🟨')
 
